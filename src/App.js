@@ -1,8 +1,17 @@
 import React from 'react';
-import AppRoutes from './routes'; // Importando as rotas configuradas
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Menu from './components/Menu';
+import BancodeDados from './components/BancodeDados';
 
-const App = () => {
-    return <AppRoutes />; // Renderizando o componente de rotas
-};
+function App() {
+    return (
+        <Router>
+            <Menu />
+            <Routes>
+                <Route path="/database" element={<BancodeDados />} />
+            </Routes>
+        </Router>
+    );
+}
 
 export default App;

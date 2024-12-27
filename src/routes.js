@@ -1,19 +1,18 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Transactions from './components/Transactions';
 import Dashboard from './components/Dashboard';
-import Transactions from './components/Transactions'; // Importando Transactions
+import Statistics from './components/Statistics'; // Adicionado aqui também
 
 const AppRoutes = () => {
     return (
         <Router>
-            <Navbar /> {/* Navbar presente em todas as páginas */}
             <Routes>
-                <Route path="/dashboard" element={<Dashboard />} /> {/* Página do Dashboard */}
-                <Route path="/transactions" element={<Transactions />} /> {/* Página de Transações */}
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/transactions" element={<Transactions />} />
+                <Route path="/statistics" element={<Statistics />} /> {/* Certifique-se de incluir Statistics */}
+                <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
-            <Footer /> {/* Footer presente em todas as páginas */}
         </Router>
     );
 };

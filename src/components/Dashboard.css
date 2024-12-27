@@ -1,0 +1,24 @@
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.dashboard-data {
+    font-family: monospace;
+    background: #eee;
+    padding: 10px;
+    border-radius: 4px;
+    overflow: auto;
+}

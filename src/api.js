@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8084/api', // URL base do backend
+    baseURL: 'http://localhost:8080/api', // Endpoint do FuncionarioProject
 });
 
 export default api;

@@ -1,0 +1,2328 @@
+Uma linguagem de alto nível está mto longe do que o Computador consegue entender. 
+sequencia 
+Código que faço(fonte) --- Compilador ---Computador [código executável] (1)
+*A linguagem C se destacou pq foi a primeira a ter compiladores  de diferentes plataformas. 
+C++- Diz Respeito a Orientação ao Objeto. 
+c(++++) -> CSharp
+1990 - Uma Empresa queria utilizando C++(nao rufou) Criar um dispositivo que interligasse vários dispositivos. 
+Foi criada uma nova linguagem o Oak e foi criado um aparelho chamado Star7 - Projeto nao rufou 
+Surge o Projeto WebRunner - 
+Obs* Javascript nao tem nada haver com JAVA 
+Código ABerto - sao softwares com codigo liberado, onde qualquer um pode ter acesso. - vários softwares
+
+  
+   ATRIBUTOS - SÃO CARACTERÍSTICAS QUE IDENTIFICAM UMA CLASSE - Propriedades
+   MÉTODOS - SÃO AÇÕES QUE PODEM SER EXERCÍDAS POR ESSA CLASSE - Comportamento/Função
+   OBJETO - É UM TIPO ESPECÍFICAMENTE PARTICULAR DE UMA CLASSE
+   CLASSE - É UMA ESTRUTURA QUE DEFINE UM TIPO DE DADO, E SERVE DE MOLDE OU MODELO, PRA CRIAR OBJETOS -    ex: A classe Scanner é utilizada na Entrada de Dados 
+      (que pode ocorrer de diferentes maneiras, não apenas pelo teclado) pelo usuário. 
+                     nextInt() - é um método da classe Scanner utilizado para ler os valores inteiros 
+
+        Ex: Class Carro {        
+               String cor;
+               String modelo;
+               int velocidade 
+
+                   void acelerar()
+                   void frear
+
+        //
+     Carro(Classe) meuCarro(Objeto) = new Carro();
+            meuCarro.cor = "Vermelho";   - Atributo
+           meuCaroo.modelo="Sedan";   - Atributo
+           meuCarro.acelerar();     - Método
+           
+     
+
+Surge o Java 
+Código Fonte ---- Compilador(JAVAc) --- Bytecode(funciona em qualquer JVM) ---JavaVirtualMachine(Existem JVM para cada sistema Operacional) --- Executável
+Write Once Run Aniwhere - WORA 
+
+    Uma Classe define um tipo de Objeto --> Representa uma estrutura de dados, atributos e construtores. 
+
+
+-JRE - Java Runtime Envyroment - Utilização e Execução 
+**JVM   Loader/Verificador
+             Interpretador/Gerenciador de memória
+             Compilador JIT
+
+**Bibliotecas - API's, tornando mais atrativo 
+
+JDK - Java development Kit
+JRE (IMBUTIDA)
+**Javalang (linguagem de programação)
+**JavaTools 
+JavaC
+Debugger - VERIFICA COMO TA O PROGRAMA
+APIs - Bibliotecas de desenvolvimento
+**IDE Ambiente de Desenvolvimento - Utilizaremos NetBeans
+
+--IDE (Integrate Development Enviroment) - NetBeans/RAD(Desenvolvimento Rapido Aplicacoes)
+**Editor Completo
+**Compilador Linker Debuger
+**Gerador de Código
+**Ambiente de Testes
+**Distribuição - depois de desenvolver é facil distribuir 
+
+Qual JDK eu Devo Baixar 
+SE - Construir Aplicaivos em Janelas - Standart Edition
+EE - Banco de Dados e Uso Remoto - Empresarial Edition
+ME - Aplicações Portártil - MicroEdition
+
+cabeçalho do programa
+
+*pacote - tudo minusculo 
+*classe - primeiras letras maiusculas  - tudo que tem .java refere-se a minha classe
+*método principal - Primeira Letra Maiuscula  - Public static void main
+
+Método do Camelo, 
+sempre que a primeira letra for maiscula, ela indica uma classe ou interface - e as outras ? CameloCase
+sempre que a primeira for minuscula e o resto CameloCase - Indica atributo, variável, método ou parâmetro 
+TODAS AS LETRAS MAIUSCULAS REFEREM-SE A CONSTANTES 
+
+Ex: 
+
+alunocursoemvideo - Pacote 
+AlunoCursoEmVideo - Classe
+nomeAluno - Atributo
+mediaAluno - Variável 
+lançarNota - Método
+VALOR_PI - Constante 
+
+Awt - Primeira Geração de interfaces gráficas - usa o sistema operacional
+Swing - Segunda geração de interfaces gráficas 
+Java FX - terceira geração de interface gráficas, cria coisas absais 
+
+Construção do Código
+
+1 - Cabeçalho  - Swing Usa a Herança de JaFrame 
+2 - Declaração dos Controles - Label/Botao
+3 - Uso do Método - (setText)
+
+1 - Cabeçalho  - JavaFX importa fxml
+2 - Declaração dos Controles
+3 - Uso do Método  - (setText)
+
+________
+Tipos Primitivos e Manipulação de Dados 
+
+*dados básicos 
+inteiro, básico, caractere e lógicos. 
+
+*no Java Cada Tipo irão virar 4 familias 
+
+Inteiros em Java terão 4 SubTipos 
+
+comentarios //- /* */ - /** */ (Documentação)
+
+declarando variáveis 
+   int idade = 3; 
+   float sal = 1825.54f; ou (float) 1825.52;
+   char Letra = 'G';
+   boolean casado = false; 
+
+*especificando tipo de valores especificos - typecast - int idade é o mesmo que 
+  (int) 3;  
+  (float) 1825.54;
+  (char) 'G';
+  (boolean) false;
+
+* utilizando classe - WRAPER
+
+   Integer idade = new Integer(3); 
+   Float sal = new Float(1825.54);
+   Character letra = new Character('G');
+   Boolean cassado = new boolean(false);
+
+Sempre que utilizarmos a Palavra New Dentro de uma declaração, esse New estará Criando 
+um Objeto, então tenho que ter uma classe referenciando  -
+ Integer (classe - Wraper Classe) idade = new (indica que idade é um objeto) Integer(3) 
+
+OBS* Qual será a diferença entre Variável e Objeto ? - Mais pra frente
+
+Relacionando Os Tipos Primitivos Com as Classes Involcruos 
+
+            Família 	Tipo Primitivo      Classe Invólucruo	Tamanho                 Exemplo 
+            Lógico	 boolean	            Boolean	                1 byte 	                  true
+            Literais	 Char 	            Character	                1 byte	                  ‘A’
+	                    -	            String 	                1 byte/cada	 “JAVA”
+             	                byte	            Byte	                1 byte	                127
+	                short	            Short	                2 bytes	                32 727
+            INTEIROS   Int	            Integer	                4 bytes	                2 147 483
+	                long	            Long	                8 bytes	                2e63
+            REAIS	float	            Float	                4 bytes	                3.4e+38
+	               double	            Double	                8 bytes	                1.8e+308
+
+Saída de Dados em Java 
+sout e tab
+
+Entradad de Dados 
+ 
+   o Escreval --- > System.out.print
+   leia -----> Classe nomedavariavel = teclado.nextClassemod();
+
+
+
+   Operadores Aritméticos 
+    int     n               =    Interger.parseInt(txtNum.getText())          //comoétexto e vou entrar com números, fica incompatível
+    tipo  nomevar         nomedacaixa.pegueotexto
+ ____________________
+  Stringx = "22";              
+  int x = Integer.parseInt(Stringx) - int x = Integer.parseInt([txtNum].getValue()toString())
+  PARA PEGAR UM VALOR NÚMERICO DE UMA CAIXA E COLOCAR EM STRING - [txtNum].getValue()toString()
+Para partes gráficas 
+
+____________________________________
+revisando -  *String para Inteiro ---- Integer.parseInt(String)
+                    *Inteiro para String ---- integer.toString(Inteiro)
+                    *valor para texto ------ lbl.setText.(IntegertoString(slighter.getValue()))
+                    *valor(de string) para Inteiro ------integer.parseInt.([txtNum].getValue().toString()) - 
+                    *(SLIGHTER) para int--->slighter.getvalue()
+                    *(SLIGHTER) para texto ------>  lbl.setText.(Integer.toString(Slighter.getValue())
+___________________________________
+
+se eu tenho uma caixa de texto e quiser inteiro-------integer.parseInt(txtNum.gettext())
+nao posso transformar valor numerico(de String) de caixa em INT -----------integer.parseInt.([txtNum].getValue().toString())
+pra pegar valor de uma Slghter e mandar como texto(lbl)----------lbl.setText.(IntegertoString(slighter.getValue()))
+
+______________________________________
+Slighters - recebem valor ---> propriedades do JFrame 
+Lbl - recebem texto ----->  lbl.setText.(Integer.toString(Slighter.getValue()))
+Int x - recebem numericos(string) ----> Integer.parseInt(lbl.setText()) 
+se eu tiver passando (slighter) para o lbl --->        lbl.setText(Integer.toSring(getvalue()) valor para - string
+se eu tiver transformando(TEXTO/LBL) em int --->int= Integer.parseInt(lbl.gettext())   
+se eu tiver transformando(SLIGHTER) em int--->slighter.getvalue()
+_______________
+declaração de vetor int n[] = new int [4]; 
+int  n[] = {3,5,8,2};
+int v[] = new int[20];
+tipo variavel [] = new tipo[índice]
+tipo varável[] = new tipo[indice] 
+int v[] = new int[5]
+vetor[c] = teclado[nome dado a classe].nextFloat() = Double.parseDouble(teclado.nextline())
+
+SELECIONADO - É A VARIÁVEL(índice ou posição) QUE EU ME REFIRO DENTRO DO VETOR. 
+
+    Operador ++ da um incremento. a posição do incremento influencia, se o ++ vem depois do número ele primeiro soma depois incrementa
+     se o ++ vem antes do número, ele primeiro incrementa depois soma  
+ 
+     a +=b é a = a + b 
+     a -=b  é a = a - b 
+     a *=b é a = a * b 
+     a \=b é a = a \ b
+    a %= b é a = a % b 
+
+
+   Classe Math 
+   Math.PI = 3.14
+   Math.pow(5,2) = 25
+   Math.sqrt(25) = 5
+   Math.cbrt(27) = 3 
+
+  Math.abs(-10) - 10 - valor absoluto 
+  Math.floor(3.9) - 3 - Arredonda para baixo 
+  Math.ceil(4.2) - 5 - Arredonda pra cima 
+  Math.round(5.6) - Arredonda Aritméticamente.
+
+ Math.random() - Irá gerar um número aleatório 
+if ? funcao (nomes[c].equals(nomeprocurado)) {
+string fones[] = new String[x] = String fones = new String[x];
+
+   == igual 
+   != diferente de 
+   && - E
+   | |   - OU
+   ^    - VERDADEIRO OU EXCLUSIVAMENTE VERDADEIRO 
+  !    -  NÃO
+
+JOptionPane.ShowImputDialog.
+
+     nextInt() - é um método da classe Scanner utilizado para ler os valores inteiros 
+     Integer.parseInt() - Converte um valor de String Para Inteiro 
+
+
+
+     Resumo Entrada de Dados em Java - 
+     nextInt - ENTRADA
+     sout - SAIDA
+     NO SWING 
+     getText - Entrada pegue o valor digitado
+     setText - Coloque esse valor la 
+
+    Comando aos Botões - Variávelquerecebe.Ordem(variavelqueenvia.pegueovalor.transformeemtexto);
+i                                         [ int b = Integer].parseInt(txtA.
+                                           lblA.setText(txtA.getValue().toString())
+                                           lblB.setText(txtB.getValue()toString())
+
+    Estrutura do Escolha em Java                                            Estrutura Escolha em VisualG
+        System.out.print(" O que vc quer ? ")              -              Escreval(" O que vc quer ")
+        int perna = tec.nextInt();                                                  Leia(variável)
+        switch - (variável) {                                                          Escolha(variável)
+        case - 1,2,3,4:                                                                 case - 1,2,3,4:
+        tipo  = "resultado da escolha"                                         resposta <- resultado da escolha                   
+        break;                                                                              -nao tem break
+       case - 1...;
+      tipo = "resposta"
+      break;
+       }
+
+      Só pra lembrar, o enquanto testa antes, enquanto o repita testa no fim e o PARA/FACA?????? - EM JAVA não tem repita, apenas coloco o While 
+no final para testar 
+ o para/faça vem agora. 
+     for -  for{`int variável = valor, condição(>= ou <=), incremento c++, c<= ou c>=)
+
+         **** PARA COLOCAR O VALOR DE UMA VARIÁVEL DECLARADA OU COM EXPRESSÕES ATRIBUIDAS DENTRO DE UM LABEL 
+               variavelquerecebe.ordem.(string.valueOf(variavel))
+              Ex: lblIdade.setText(string.valueOf(i)) -  Sendo que i era a idade. 
+
+            1 - DÚVIDA - PQ AS VEZES EU USO setText e as Vezes eu Uso System.out.print - 
+            * setText - tem a função de alterar o texto exibido em componentes gráficos como o Swing e o JavaFX
+           * System.out.print - é a saída padrão do console, para interação com o desenvolvedor.  
+*          
+           2 - PQ QUANDO TRABALHO COM A "Interface" Swing, eu nao preciso Importar a Classe Scanner ? Scanner teclado = new Scanner(System.in)
+*      Resumindo, o setText tem funções estritamente gráficas e tem o propósito de interação com o Usuário através de caixas de textos e afins, não havendo
+       qualquer alteração no funcionamento do programa.
+       Enquanto o System.out.print, serve para a interação com o desenvolvedor que está trabalhando no programa.  
+
+         3 - O QUE É MÉTODO CONSTRUTOR 
+         SEMPRE USO Integer.parseInt - pra converter de string pra número
+  
+        3** CURSO DE Orientação ao Objeto em JAVA 
+
+=*=*=*=*=*=*
+
+
+       4 - PQ EU DECLAREI O VETOR ABAIXO DA CLASSE PRINCIPAL E NÃO DO MÉTODO PRINCIPAL 
+ 5 - Exercicios de Java - Criar um vetor com 5 elementos de forma aleatoria, e um vetor B com os mesmos valores
+estrutura de declaração
+tipo do Objeto (instancia) - Nome da Variável = new tipo do Objeto(instancia)
+programa que leia um conjunto de notas, cuja quantidade seja determinada pelo usuário. calcuar média e exibir notas maiores que a média e menores.
+- Programa de Consulta de Telefones a partir de um nome informado, primeiro ler o nome das pessoas com seus respectivos telefones sendo a quantidade
+determinada pelo usuario, em seguida pergunte ao usuario   qual nome ele deseja consultar, depois exiba o telefone procurado e informe se for inexistente.
+
+  ________
+teste Aninhado 
+QUANDO EU TENHO UM LAÇO DENTRO DO OUTRO EU SEMPRE RETORNO PRO LAÇO DE DENTRO 
+I indo de 1 até 3 - passo 1
+J indo de 0 até 2 - passo 2 
+ I  - J
+1 -  0
+   -  2
+     /4                        
+2 - 0
+  - 2
+ - /4
+3-0
+____
+1 - 0
+1 - 2
+2 - 0
+2 - 2
+3 - 0
+3 - 2 
+______
+Public Class - onde são definidas(por atributos e métodos) as classes que modelam o meu programa. __
+
+Public Static void - Onde são criados os objetos(instancias de classe) e invocados os métodos do programa 
+
+
+DE UMA VEZ POR TODAS 
+
+NAO Existe Repita em Java, apenas Coloco o whILE NO FINAL . 
+
+o ELSE IF - fala pro programa parar se a primeira condição for satisfeita, pq se eu fizer outro If else(normal), mandando para o mesmo 
+destino, ele vai provar a primeira condicao certa, vai mandar, só que a segunda condição certa irá se sobrepor. 
+
+(Escolha/Switch) 
+escreva   - sout
+leia         - .nextInt()
+escolha -  Switch (variavel) {}
+caso  - Case (1,2,3,4) :
+gerlmnt string  tipo = "resposta que quer"
+         - break;
+sout/.nextInt/switch()/case:/tipo="";break   - O Switch relaciona os números do caso, com a String que tipo(variável String) irá receber.
+
+ se eu tiver transformando(TEXTO/LBL) em int --->int = Integer.parseInt(lbl.gettext())   
+se eu tiver transformando(TEXTO/LBL) em double --> double = Double.parseDouble(lbl.gettext())   
+se eu tiver transformando inteiro em String -----> lbl.setText(Integer.toString(inteiro)
+LENDO VALORES DIGITADOS NO TECLADO >  Double.parseDouble(teclado.nextline()) ou Integer.parseInt(teclado.nextline()) 
+entrada quando há operadores lógicos - teclado.next()
+
+PEGANDO VALORES NA CAIXA GIRATÓRIA -        [nomedacaixa.getValue()toString()] - Enviando pra outra Caixa - lblX.setText
+------------.> lblX.setTest(getValue()toString()) -           PEGO NA CAIXA giratória, TRANSFORMO EM STRING, E MANDO APRESENTAR EM 01 LABEL
+
+------------>  lblInicio.setText(Integer.toString(slgd1.getValue())); - Pego no Slighder(Porque o Sligder retorna ints, que são tipos primitivos
+eu nao posso usar toString em tipos primitivos.), transformo em String e mando aparecer no Label. 
+(Mando pro Label(transformo em String(pego o valor do sligder)))
+Resumindo - se o Mecanismo(caixa de numero, giratorio e afins) me der inteiro ---> 
+Integer.toString(faininha.getValue()) - se nao - faininha.getValue().toString
+
+
+Ordenando vetores em ordem crescente --> Arrays.sort (v)
+para enxer um vetor com os mesmos valores ---> Arrays.fill(vetor, indice)
+* Ao se fazer manipulação com vetores, como nos casos de ordenação e preenchimento, é interessante utilizar alguma variável temporária 
+utilizando o for-each, para que os valores manipulados(são diferentes dos declarados) sejam impressos nesse laço. Se quiser, utilizar o mesmo
+nome nas variáveis temporarias, utilizar (int element : nome).
+if(vetor[c].equals(nomesearch))
+
+Quando eu trabalho com Listas - lista.addElements. 
+                                                      lista.removeAllElements.
+
+ item que eu cliquei(numero que me refiro no vetor) ----> [nomedaJlist]getSelectedIndex(); - cuidado pra não colocar o nome da Default list. 
+O Mouse clicked não é um método de enxer o vetor, é um método de se referir aos vetores. 
+
+Procedimentos(Não Retorna Valor) em JAVA -     [static void soma (intA, intB) { ]     - int s = a + b; - sout(s) - Para Chamar soma(5,2);
+em VisualG  [ soma (A,B : inteiro) ] função soma(A,B : inteiro) : inteiro. a diferença da função para o procedimento em Java, é que eu tenho um retorno
+inteiro tal que [int soma(intA, intB)] e mandar retornar um valor, que ness caso será s. na função eu tbm só posso mandar fazer o calculo na area onde
+eu declarei minha funcao, mandando retornar um velor e exibir onde eu quiser (ficando desengessado)
+
+se eu chamar uma função dentro do Main(método estático) esse outro método tbm tem que ser declarado como estático(nao precisa ser trasnformado
+em objeto para funcionar).
+
+O Atributo tem valor global, enquanto o parâmetro só tem valor local em funções e procedimentos. 
+
+
+public static void(procedimento que nao retorna valores) main(método) (String []  args)[parametro]
+apertar o play coloca o método que está no main para funcionar.
+qual a diferença entre variável comum e atributo ? 
+construção das funcoes em java, declarar/relacionar/retornar. 
+String s = "" (ESPAÇO VAZIO DE STRING)
+s+= c+"" = s = s+c +*s+"" = (espaço vazio adicionado ao [contador + espaço da interação anterior] + *espaço vazio +espaço de concatenar. esse + é de concatenado)
+
+
+ IT Consulting - Advsising Companings
+ Program Management - Planing, executing, Project 
+ Program Management Process
+  Strong Profile, skills and experiences, network 
+  linkedin glassdor 
+  expecialiatins worth 
+  Temporary Contratcs
+  CSS, React, 
+  1 Build Portifolio, showcase skilss, how do you contribute
+   
+  3 - Network - Connect with people that are there 
+  4 - freelancer 
+  
+
+algoritmo [x]
+java básico [x]
+_______________________________________________________________________________     
+          PARABENS POR TER CHEGADO ATÉ AQUI NEMIN, AGORA INICIAREMOS O CURSO DE PROGRAMAÇÃO 
+          ORIENTADA  A OBJETO. 
+Sequencia de Eventos 
+Programação Baixo Nível(binária, linguagem de máquinas)- programação linear- programação estruturada-programação modular- 
+programação orientada a Objeto (POO)
+primeira linguagem - Smaltalk 
+Princípios 
+C - onfiavel
+O - Oportuno (As partes podem ser desenvolvidas de forma separada, de acordo com a conveniencia)
+M- manutenivel 
+E - extensível (posso incrementar e ter novas funcionalidades)
+R - reutilisável. 
+N - vc se preocupa com a funcionalidade natural 
+a
+d
+a
+
+Um objeto é algo material ou abstrato - que pode ser definido por suas características(atributos), comportamento e  estado atual. 
+Exemplo: 
+
+Caneta  - Objeto
+Molde da caneta - Classe -----  Perguntas - [ATRIBUTOS]Coisas que eu tenho(modelo, cor, carga,tampada) - [MÉTODOS]Coisas que eu faço (escrever,rabiscar,pintar
+tampar, destampar) - [ESTADO]Como estou agora  (50% de carga, azul, destampada).
+
+relacionando :
+atributos - propriedades, características,  dados.
+comportamentos - métodos, procedimentos, rotrinas internas. 
+estado - características atuais no momento da análise. 
+
+Resumindo - Objeto = atributos + métodos + estado atual. 
+
+Exemplo Caneta: 
+
+ Classe Caneta
+// O QUE TEM ? - (atributos)
+ modelo : caractere      
+ cor : caractere
+ ponta : real
+ tampa : logico
+ carga : inteiro 
+
+//O QUE FAZ ? - (métodos) // Rotinas, Procedimentos ou Funções. 
+Metodo Rabiscar() - // Os parenteses são pq os métodos podem receber  parâmetros
+ se (tampada) entao
+
+ senao
+
+ fimse
+escrever()
+rabiscar()
+tampar()
+partir()
+
+Estado* - Como está agora. 
+Destampada
+Azul
+90% de carga
+
+FimMetodo()
+ FimClasse
+
+QUANDO A PARTIR DE UMA CLASSE (ESTRUTURA/PROTÓTIPO - [atributos e métodos comuns, a serem compartilhados]) 
+EU CRIO UM OBJETO(instancia de classe) , EU ESTOU INSTANCIANDO.
+OU SEJA UM OBJETO É UMA INSTANCIA DE CLASSE. Eu nao transformo uma classe em objeto, eu gero, um objeto(ou mais objetos) a partir da classe. 
+
+Para Instanciar Caneta(CLASSE) = new Caneta. 
+c1 = new caneta 
+c1.color = azul 
+c1.ponta = 0,5
+c1.tampada = falso
+c1.rabiscar()
+
+c2 = nova caneta 
+c2.color = vermeho
+c2.ponta = 1,0 
+c1.tampada = verdadeiro 
+c1.escrever()
+
+**ABASTRAÇÃO** - NÓS somos objetos da classe pessoa, temos os mesmos atributos, porem estados diferentes. Abstrair é o ato 
+de focar nos atributos que irão me importar. 
+
+this é sempre o nome do objeto que chamou ! colocando-se this na frente da linha de um atributo, eu posso altera-lo dentro de uma propria classe.
+
+No exemplo vc pode perceber que c1 e c2, possuem os mesmo métodos e atributos, o que os diferencia é p STATUS (ou estado), o Status tbm
+pode ser referenciado como valor de atributo. 
+ 
+A primeira coisa a se fazer, PASSO 1 É ESTRUTURAR A CLASSE, LOGO APÓS EU INSTANCIO A PORRA DA CLASSE, CRIANDO O OBJETO
+E A PARTIR DISSO VAMOS A T R I B U I R OS V A L O R E S AS CARACTERISTICAS, na forma (objeto.atributo = valor)
+____________________________________________________
+Unifing Modelling Language. 
+Diagrama de Classes. 
+no Diagrama de Classes, toda classe é um retangulo. - Pego uma folha em branco - faço um cabeçalho com o nome da classe, no primeiro bloco coloco todos os atributos
+no retangulo restantes coloco os métodos. Classes começam com letra maiuscula, os atributos com minuscula, e os métodos tem ()
+
+Visibilidade(sempre vem a frente do atributo ou do método) é o nível de acesso que se determina aos componentes de uma classe. 
++ Público - A classe atual e todas as outras Classes tem acesso. 
+-Privado - Somente a Classe Atual tem acesso. 
+ #Protegido - A classe Atual e todas as subclasses tem acesso. 
+_________________________________________________
+METODOS ESPECIAIS.             estuturação.
+
+sendo e o objeto criado a partir da classe estante = e= nova estante()
+métodos acessores ou getters. = t = gettotDoc+1 - pegar suas coisas que estao dentro
+métodos modificadores ou setters =e.settotDoc(doc-tem parametro) modificam coisas que estão dentro - cada atributo terá
+esses métodos
+m = this.modelo = this.getModelo() ---  0.5 =  this.ponta = this.getPonta()   - São protetores do atributo, sem eles nao consigo
+chegar no atributo diretamente. -
+
+private double saldo; //declaração da variavel(saldo) e sua visibilidade
+
+public double getsaldo() { //
+return this.saldo;    // método para obter o valor do saldo - como é pra obter ele retorna valor(FUNÇÃO)
+}//
+
+public void setSaldo(float s) {   - o método SETTER, sempre apresenta parâmetro - COMO NAO RETORNA NDA PRCDMTO
+this.saldo = s ;
+}
+
+*Os métodos acessores servem para controlar o acesso aos atributos de uma classe. Eles permitem ler e modificar atributos
+garantindo o encapsulamento da classe. 
+getter é utilizado para pegar o valor de um atributo
+setter é utulizado para modificar o valor de um atributo
+sao importantes pq permitem o controle do desenvolvedor quanto ao acesso, e possibilita o incremento externo 
+a lógica do programa
+
+métodos construtores, ja trazem com ele toda uma estruturação de arrasto - Ele tem sempre o mesmo nome da classe 
+
+** Os métodos são a evolução, dos procedimentos e das funções. 
+
+os Métodos acessores existem para garantir o encapsulamento, que é um dos 4 pilares da POO, o encapsulamento
+garante a ocultação de detalhes importantes da implementação do programa, garantindo acesso apenas ao que é neces
+sesário. 
+
+Quando um atributo é publico, métodos acessores lhe inferem flexibilidade e controle oportuno dos mesmos, mesmo que 
+nesse caso, o controle de acesso ao atributo nao seja o mais importante. 
+
+variáveis só devem ser chamadas dessa forma quando em escopos locais, quando referenciadas dentro da classe, são chamadas de 
+atributos 
+
+___________________________________________
+Public Class ContanoBanco 
+
+ATRIBUTOS
++numConta
+#tipo - CC OU CP - caractere - ele pode escolher 
+-dono
+-saldo
+-status
+
+getnumConta()
+setnumConta()
+getTipo
+setTipo
+getDono
+setDono
+getSaldo
+setSaldo
+getStatus
+setStatus-
+
+MÉTODOS
++abrirConta() - se a conta nao está aberta o status é falso, se está aberta é verdadeiro
++fecharConta()
++depositar()
++sacar()
++pagarMensal()
+
+this.saldo = this.saldo + v = this.setSaldo(this.getSaldo() + v);
+
+abaixo, exemplo de alteração da variável saldo, usando os setters e getters.
+saldo = saldo + v ou saldo = saldo - v 
+this.setSaldo(this.getSaldo()+v) ou this.setSaldo(this.getSaldo()-v)
+
+o método get sempre retorna um valor 
+e método set sempre recebe um parâmetro. 
+
+o que vai dentro do parenteses do método é o parametro (variável que se refere aquele método), e o 
+valor que eu atribuo a esse parÂmetro é chamado de argumento. 
+
+O método construtor existe, para garantir, que todo programa criado, esteja em um estado válido no ìnício. 
+
+
+Se abrir uma conta corrente ja começa com 50 reais, se for poupança ja começa com 150 reais. 
+para fechar  a conta a mesma deve estar vazia, sem nada dentro 
+sacar dinheiro, a conta tem que estar aberta e tem que ter saldo
+mensalidade da CC é 12 reais e da CP é 20 reais .  
+
+_________________________________________
+PILARES DA POO 
+E - ENCAPSULAMENTO - Restringir o acesso a métodos e atributos, sendo possível, obtelos ou altera-los apenas com a 
+utilização de métodos acessores. (criar getters e setters) - pq eu declarei esses atributos/ou métodos como privates.
+
+Protege o usuário do código e o código do usuário. propósito, ocultar partes independentes da 
+implementação, permitindo construir partes invisíveis ao mundo exterior. - voce pode conversar com a capsula, sem precisar 
+mexer nela. Um bom encapsulamento, faz com que possamos conversar através de uma interface(comunica com o mundo ex
+terno) - quanto mais profundo o encapsulamento, mais padronizado é o produto. 
+*o encapsulamento é uma forma de abstração
+
+Porque encapsular - tornar mudanças invisíveis - facilitar reutilização do código - Reduzir efeitos Colaterais. 
+
+Uma interface, é semelhante ao retangulo branco da classe, mas ela nao tem atributos, apenas métodos. -numa interface
+todos os métodos são publicos.
+o método abstrato, é aquele que não será desenvolvido na interface e sim por trás dos panos
+dentro da interface todos os métodos sao publicos 
+
+0 - Abrimos o Projeto. 
+1 - Abrimos a interface - NOME: CONTROLADOR Após definir a interface(contem apenas  os métodos[todos abstratos])
+2 - Abrimos a Classe(implementa a interface) -  Contendo[ Atributos/método Construtor/Setters e Getters/Métodos Especiais
+*Quanto aos atributos[ao se encapsular, colocamos
+os atributos como privados,  e os métodos[podem ser publicos])
+* métodos abstratos não contem chaves, pq eles são apenas uma declaração, não irao carregar código. 
+* se os meus métodos getters e setters estiverem no modo privado, eu nao consigo usa-los na classe principal 
+
+a interface é criada separada, e tem inicioInterface e FimInterface
+          
+H - HERANÇA
+P - POLIMORFISMO
+Encapsulamento. 
+
+______________________________________________________________________
+
+* Fazer classes se relacionarem !!! - Objetos Compostos ? 
+AGREGAÇÃO -
+diagrama de classes(atributos + métodos públicos), multiplicidade
+diagrama de entidade e relacionamento - contem dados e apenas dados dentro deles. 
+*Tipo abstrato de dados - um Objeto pode se comportar como atributo ? 
+OS MÉTODOS PÚBLICOS SÃO RESULTADOS DA ABSTRAÇÃO. 
+
+o método construtor é utilizado para inicializar objetos. 
+
+
+*um atributo abstrato, é aquele que armazena não apenas uma simples informação e sim um conjunto 
+de dados e comportamentos, por exemplo - Lutador pode ser um atributo de uma classe Luta, e armazenar alem
+de informações referentes a sua altura, envergadura, peso e idade, armazenar tbm, numero de vitórias, derrotas , 
+empates e outros .
+
+*Parametros existem para, passar informações de fora do método, para dentro dele.
+Ex: um método para depositar dinheiro em uma conta, precisa de um parâmetro (V - valor do depósito)
+com parametros damos flexibilidade ao método, para que o valor final varie. 
+se a variação é fixa, devido ah uma condição pré estabelecida, o parametro pode nao ser necessario 
+ex(conta que pagava mensalidade de 15 reais)
+
+brainstorm - 
+principios da POO - classes sao formadas por atributos e métodos - objetos são instancias de classe(filhos)-
+visibilidade (atributos e métodos) - abstração(classes que me interessam)-encapsulamento(independencia de métodos
+em classes, com uma só classe , consigo criar vários objetos) e interfaces (implementadas por classes)- 
+Agregação(comunicação entre Classes)
+
+escreva - leia - escolha - caso 
+sout - nextInt - switch(){ } - case: - break;
+
+__________________
+exercicio -
+ classe pessoa : nome/idade/sexo
+fazeraniversario()
+relacionadas(agregadas ?)
+classe livro: titulo/autor/totalpaginas/paginasatual/aberto/leitor - leitor instancia da classe pessoa
+detalhes()
+*Livro Implementa a Interface: 
+Publicação
+abrir()
+fechar()
+folhear()
+avançarpag()
+voltarpag()
+
+posso sempre substituir os métodos do tipo, apresentação para o toString no NetBeans
+____________
+H E R A N Ç A !
+
+conceito inicial as classes podem gerar filhos, que vão herdar as caracteristicas e/ou comportamento dessa mãe !!!
+definição - permite basear uma classe nas características de uma ja existente. 
+
+A Herança é aplicada tanto para as características - quanto para os Comportamentos. 
+quando tenho diferentes classes, é conveniente separar tudo aquilo(atributos e métodos) 
+que é padrão ou se repete entre as clases. - resumindo uma classe padrão, compartilha seus métodos e atributos com
+outras clases
+
+classe aluno estende pessoa = aluno é filho de pessoa. 
+(acima hierarquicamente) - raiz - classe mãe ou Superclasse
+Classe Pessoa   aluno                  professor                funcionario
+-nome                 -matricula           -especialidade        -setor
+-idade                 -curso                -salario                    -trabalhando
+-sexo            
+fazerniver()       cancel. matri()    receberaumento()     mudarTrabalho()
+filhas - subClasses
+-toda subclasse herda todos o seu conteúdo das suas ancestrais.
+-as clases que não tem filhas, sao chamadas de folhas
+-netos, bisnetos e tataranetos são descendentes. 
+-mãe não é ancestral - apenas avó
+- Percorrer a arvore de cima pra baixo = ESPECIALIZAÇÃO 
+-percorrer a arvore de baixo para cima = generalização 
+
+                                     * Herança de Implementação (herança pobre) - Quando não adiciona nada
+tipos de herança (2)
+                                     * Herança para Diferença - tenho novos atributos e métodos adicionados. 
+
+
+classes abstratas - tbm sao conhecidas como genéricas.
+
+ABSTRATO E FINAL - 
+*Classe Abstrata - não pode ser instanciada, só pode funcionar como progenitora - nao gera objetos.
+Método Abstrato - Declarado, mas não implementado na classe progenitora - só pode ser colocado dentro de uma interface
+
+*Classe Final  - não pode ter filhos, não pode ter herdeiras, tem que ser folha. (estéril)                              [ou classe abstrata. 
+Método Final - não pode ser subrescrito/subreposto(não pode gerar especlzacao) pelas subclasses, é obrgtrmnte herdado. 
+
+novas classes podem herdar coisas de classes abstratas(lembre que nao pode ser instanciada), 
+e funcionarão mesmo assim. 
+
+pessoa(abstrata) - aluno - bolsista (herda tudo de aluno e tudo de pessoa, e ainda pode fazer a mesma coisa de aluno de forma
+diferente - Polimorfismo)
+abstrata - só serve pra que alguem herde dela 
+métodos abstratos - tem que obrigatoriamente está em classes abstratas ? 
+___________________________
+
+P O L I M O R F I S M O - MESMO NOME VÁRIOS COMPORTAMENTOS.  - chamar métodos com mesmos nomes e obter
+respostas diferentes. 
+todo método tem uma assinatura(quantidade e tipos de parametros) -
+                                           *Sobreposição - Substituir um método de uma superclasse na subclasse, usndo a msma assintura
+tipos de polimorfismo           (sobreposição - INCREMENTO REAÇÕES  EM CLASSES DIFERENTES. 
+                                          *SobreCarga - métodos - TENHO  REAÇÕES DIFERENTES NA MESMA CLASSE. . 
+                                             métodos na mesma classe, com assinaturas diferentes. 
+
+* A especialização ocorre, quando a classe herdeira, adiciona novos métodos alem do que foi herdado. 
+* A Sobrescrição acontece quando a subclasse redefine o método que foi herdado da classe pai.
+
+
+lembrando que estender, é se auto adotar, pegando todas as info da mãe 
+sempre que tenho métodos abstratos nos filhos, sou obrigado a sobrepor-los ? - se sobrepor é pegar 
+o método abstrato herdado e desenvolve-lo ? incrementa-lo ? - se sobrepor é adicionar informações em cima 
+do que foi herdado ? - e o que é criar novos métodos extras à herança ?
+
+__________
+Quanto aos niveis de visibilidade - eu tenho o PUBLICO > PROTECTED > PRIVADO
+Existe o conceito de nao poder se descer de nível, o que é publico, nao pode ficar protegido nem privado
+mas posso subir de nivel, o que é privado, pode sim, se transformar em algo protegido e depois publico. 
+
+_______________________
+Exercício - a classe video - implementa AcoesVideo - gafanhoto herda Pessoa.
+lembrando - agregação, é ligar diferentes atributos e métodos de classes diferentes em uma mesma . 
+
+______________
+Lista de exercícios para Refazer !  
+
+POO4-caneta - [x]
+ContanobancoUltimate. [x]
+Controle Remoto. Interface [x]
+AulaSobrecarga- Animais [x]
+Aula 12 - Animais Completo. [x]
+Aula11 - Pessoa, Aluno, Bolsista.[x]
+ProjetoPessoa-AlunoFuncionarioPessoaProfessor.[x]
+Livro--PessoaExercicio. [x]
+NemoFC - Botar pra Lutar. [x]
+Projeto Youtube. - continua, construindo a classe Pessoa. [x]
+
+*Registro de banco de dados 
+*Registro de métodos chamadas e funções 
+*Sistemas de senhas de bancos 
+*manipular coleção de registros 
+*organizar relacionamentos de redes
+
+___________
+VETORES - ARRAYS OU LISTAS !!!!
+vetores sao a estrutura de dados mais simples que existem, armazena, sequencia de valores 
+do mesmo tipo que podem ser acessados pelo seu índice 
+int numeros [] = new int [5];
+insertir/acessar/atualizar/iterar
+
+numero [1] = 50; atualizo/atribuo o valor 
+soutprintln(numero[1]) - Mando imprimir o Valor contido no vetor. 
+Os ArraysList da biblioteca Javautil, sao dinamicos porque eles podem crescer ou encolher de acordo com a necessidade.  
+
+o ArrayList é uma classe Java que implementa a Interface List
+ArrayList<String> ListadeNomes = new ArrayList<String>();
+para adicionar  ListadeNomes.add("Ana"); - para adicionar um produto - ArrayList<classe> relacao === produto.add
+Para Acessar - sout(ListadeNomes.get(2));                                           relacao.add(new classe(conteudo,conteudo));
+Para Atualizar - ListadeNomes.set(posicao, novoNome);
+Para Remover - ListadeNomes.remove(indice-ou o próprioObjeto)
+tamanho do ArrayList - int Tamanho = ListadeNomes.size();
+
+para iterar(varrer) um ArrayList   for(int i) e depois um sout(ListadeNomes.get(i)).
+Usando o for-each for(String nome : ListadeNomes) - sout(nome)
+
+o método contains() - verifica se determinado valor está presente - ListadeNumero.contains("Pembisvaldo")
+o método Collections.sort() - Ordena os valores da lista. 
+
+exercicio- Criar uma lista de Números - ordena-los e verificar se um dos valores está presente. 
+
+a Interface Comparable, define como serão ordenados os objetos. 
+Comparable é uma interface do Javalang, que define o método compareTo() é util quando queremos
+ordenar objetos em uma mesma lista. 
+
+removeIf() - remove termos de um array aplicando condição 
+variavel.remove(p -> p.(variavel)>x); || p.nome.startswith("X")
+
+HashMaps é uma classe que implementa a interface Map; (o método get é utilizado para encontrar o nome rapidamente) e
+ HashSets é uma classe em Java que implemena a interface Set 
+
+promovem buscar rápidas, quando tenho grande quantidade de dados. 
+Passo HashMap
+1 - Criar Classe Produto 
+2 - Instanciar Classe HashMap = HashMap<String, Produto> instancia(mapadeProduto) = new HashMap<>();
+3 - adicionar Elementos - instancia.put(string,new Produto(string,float))
+4 - Criar Variavel para receber quem eu busco - String nomeProduto="nome que eu busco";
+5 - Criar variável do tipo Produto(classe declarada ?) - Produto produtoEncontrado = instancia.get(nomeProduto);
+
+O HashMap é recomendado, quando tenho manipulação da dados(nomevalor) e chaves, ja o Arraylist é recomendado
+quando pretendo retornar valores utilizando índices. 
+
+nesse exercício - nomeproduto era a chave e o valor era o próprio Objeto Produto. 
+
+Sobre Buscas - Simples  - O(n) - tenho que percorrer toda a lista 
+                         Lista Ordenada - Log(n) - Busca Binária - mais eficiente
+                        Tabela Hash - O(1) - Mapea uma String e Retorna 1 valor 
+ver - LinkedList e HashSet
+
+Hash - 
+
+Hashset é uma implementação de um conjunto set, que não permite elementos duplicados. inserção,remoção e verificação 
+de existencia feitas de forma mto rapida, utiliza o conceito  Hashing(mapeia dados de tamanho variavel e valores fixos) .
+
+O dado de entrada será  uma chave em que uma função hash o transformará em um valor Hash, que será posteriormente 
+guardado em uma tabela de indices. 
+
+O Hashset não permite Duplicatas e nao mantem a ordem, o que posibilita respostas mais rapidas. 
+
+EU POSSO CONVERTER UM ARRAYLIST(tem ordem e permite duplicatas) em Hashest, apenas colocando a instancia
+do ArrayList, como parametro do Hashset.  Após isso eu posso converter de volta, para ArrayList para exibição. 
+Notar que qunado a lista volta do Hashet ele nao volta ordenada. 
+
+cebola - crio a Arraylist - transformo na hashset(hashlist vira parametro) - transformo de volta na hashlist(HashsetviraParametro)
+
+O LinkedList(lista encadeada) é recomendado e utilizado em ocasiões onde há constantes inserções e remoções de dados na lista. 
+cada elemento - nó(dado[valor armazenado] e uma referência[para localizar])
+Comparado ao ArrayList, é melhor para inserções e remoções, mas é pior para achar valores por índices. 
+o LinkedList implementa as Interfaces List e deque. 
+
+Importante - 
+
+*Uma Lista encadeada, é formada por nós, que possuem valores e referencias posicionais(PONTEIROS), que ligam 
+os dados seguintes, não estao organizados na memória de forma estruturada, como nos Arrays.
+
+*Arrays e ArraysList - Não sao listas encadeadas e armazenam os dados de forma estruturadas
+pra adicionar um termo em array usando for: variavel.add(indice,i) - Ex:  link.add(0,1)
+
+*HashMaps - Utilizam Chaves(pode ser uma String), um valor correspondente e uma função para relaciona-los. 
+
+Conclusao - acredito que consegui Compreender, os conceitos e utilização de uma HashSet(funciona otimizando um ArrayList
+ retirando nomes duplicados) um HashMap(utilizo para organizar uma lista, e utilizar mecanismos de busca, como Contains e de 
+ordenação como sort, uma LinkedList me parece a mais prática e objetiva, me dando possibilidades de inserir nomes,
+ nas posições iniciais e finais sem maiores problemas, acredito que podemos prosseguir nos nossos estudos. 
+
+______________________________________________
+
+
+
+Pilhas (stacks) - Ultimo a Entrar Primeiro a sair/Primeiro a entrar Ultimo a Sair - FILO
+push() - adiciona o item ao topo(OU AO FIM ?) da lista
+pop() - Remove e retorna um item ao topo da lista
+peek() - Retorna o item ao torno da Pilha sem remove-lo
+isEmpty() - Verifica se a pilha está vazia. 
+
+nas Filas(queue) - O primeiro a Entrar é sempre o Primeiro a sair , ultimo a ENTRAR é o ultimo a sair. FIFO
+add - intuitivo.
+peek- mostrar o valor do topo(o que sairá primeiro. 
+poll - retirar
+
+ÁRVORES
+Uma árvore é uma estrutura hierarquica(não linear, diferente das pilhas e filas) 
+ composta por nós(contem valor ou dados). Os nós podem ter filhos(nós conectados), 
+Excetoo o nó principal(Chamado Raiz), outros nós que não tem filhos sao chamados de folhas.
+
+estrutura -  nó principal 
+                 nós filhos só um nó acima deles
+                 nós folhas - sem filhos 
+                 Sub-arvore(são nós ligados a raiz)- faz parte de uma arvore maior 
+                 Altura é a distancia da raiz até as folhas.
+
+Tipos de arvore: - 
+*Binárias cada nó tem no máximo dois filhos 
+*Arvore binárias de busca(dois nós com o da esquerda sendo menores que o da direita)
+*Arvore Generalizada, cada nó pode ter mais de dois filhos. 
+
+           10  - Raiz
+         /      \
+        5      15 - Filhos 
+       / \    /  \
+      2   7  12   20 - FOlhas
+
+Operações Básicas em Arvores. 
+*Inserção - Adicionar um nó a uma árvore de acordo com suas regras(especificação da árvore). 
+*Busca - Procurar por um nós específico, geralmente utilizando - Recursão ou Iteração. 
+*Remoção - Remover um nós de uma arvore fazendo o ajuste dos seus filhos 
+*Travessia - Percorrer a Arvore (VISITAR SEUS FILHOS) Formas:
+
+Pré Ordem - Visitar o nó Atual, depois o filho esquerdo e depois o Filho Direito. 
+in Ordem - Visitar o filho esquerdo, depois o nó atual e depois o filho direito - garante o percurso em Ordem crescente. 
+Pós Ordem - Visitar o filho esquerdo, depois o direito e por ultimo o nó atual 
+
+Quando eu Crio uma Classe No, ou declaro um método No, ja é subentendido, que terei que declarar os nós da esquerda e da direita. 
+Entao, é conveniente criar um construtor apenas para o Valor do nó, para deixar definido, que os nós da direita e esquerda sejam nulos. 
+Recursividade - inserir elemento em uma posição, se essa posição ja tiver um elemento, seguir para a esquerda ou para a direita. 
+
+duvida, eu nao poderia fazer this.esquerdo e this.direito = 0 ? sim poderia 
+
+PASSO A PASSO - 
+1 - Criar a Classica Publica Nó, contendo os componentes, o construtor geral e o construtor do valor. 
+2 - Criar a Classe Publica Arvore, declarando o No raiz Nulo, o tamanho zero, fazendo a inserção recursiva
+(Public No Inserir (int valor, no posicao) e inserindo a raiz. -
+
+ a Lógica consiste em, Se a posicao for nula ela recebe
+o Novo Nó, e se a raiz for nula ela recebe a posicao(Novo nó), senão, se o valor for menor que a posicao, é inserido no lado esquerdo, 
+se for maior que a posicao é inserido no lado direito. 
+
+retornarmos a posicao em uma arvore recursiva, para que os nós tenham as referências corretas das modificações que ocorreram na 
+arvore ao entrar novos nós. 
+
+Posicao é um parametro do método inserir e não da arvore , porque ele é temporário e só existe a cada chamada recursiva de inserção.  
+
+
+       5     (dsqlibrio 3-6)= -3          *Binárias cada nó tem no máximo dois filhos 
+                                                    *Arvore binárias de busca(dois nós com o da esquerda sendo menores que o da direita)
+     /   \
+    1     7
+     \     \
+      3     13
+     /        \
+    2          21 desequilibrio -1 (2 niveis a esquerda - 3 niveis a direita)
+              /   \
+            19    33
+           /        \
+         14         40
+                   /   \
+                 35     45
+
+Tipos de travessia em Arvores - 
+Em Ordem - Esquerda-Raiz-Direita
+PRÉ Ordem - Raiz-esquerda-direita
+Pós Ordem - Esquerda-direita-Raiz
+Em largura - Nível por nível - da esquerda para a direita
+
+O equilibrio é calculado, subtraindo o numero de niveis da esquerda pelo numero de niveis da direita. 
+
+________________________________________________________
+
+ARVORE AVL - arvores binárias de busca, onde a diferença de altura entre as subarvores não pode ser maior que 1.Busca evitar
+desequilibrio, sendo utilizadas onde o desempenho é importante, principalmente em grandes sistemas de bancos de dados. Se após 
+a inserção, a altura superar 1, deve haver uma rotação, buscando reequilibrar. Podendo haver rotação a direita simples, rotacao a esquerda
+simples, ou as rotações duplas, a direita e a esquerda. 
+
+Na rotação simples, quando eu tenho 3 nós em ordem crescente(na diagonal direita), para equilibrar, o nó do meio vira raiz, e a antiga raiz 
+vira filho da esquerda da agora nova raiz(nó do meio).  Quando esse nó do meio ja tem um filho esquerdo. Com ctza
+esse filho esquerdo será maior que a raiz original. Então a raiz original vira filho da esquerda da nova raiz, e o antigo filho esquerdo do nó do 
+meio, vira filho direito, do filho esquerdo(nova raiz) da nova raiz(nó do meio) 
+
+quando a rotação nao corrige o desequilibrio, devo verificar Desequilibrio da subarvore onde a nova raiz vai vir , completar e girar para equi
+librar. 
+
+quando o desequilibrio é para a esquerda, eu rotaciono a direita, quando o desequilibrio é a direita eu rotaciono a esquerda. 
+todo nó folha tem fator de desbalanceamento zero. 
+
+Decidindo as Rotações - LEMBRAR SEMPRE DE CONTAR OS NIVEIS(ANDARES) -NÃO OS NÓS. e os niveis são contados nó a nó.
+quando eu tenho sinais com o mesmo nó, tenho uma reta, uma rotação geralmente resolve. 
+quando houverem nós desbalanceados, devemos resolver, tratando o primeiro nó desbalanceado de cima para baixo, 
+  
+1 - verificar o desequilibrio - Q=L-R - Tolerancia entre -1 e 1. 
+2 - Se Q>1(desequilibrio) = se a subarvore da direita tem Q<0(pendendo pra a direita), FAREI UMA ROTAÇÃO DUPLA A 
+ESQUERDA(completo a direita e rotaciono a esquerda) se 
+o Q da subarvore da direita for nulo ou positivo, uma simples rotação a esquerda basta 
+3 - se Q<-1(desequilibrio) = se a subarvore da esquerda Q>0(pendendo pra esquerda), rotação dupla a direita ,
+ se o q for nulo ou negativo rotação simples a direita. 
+
+Uma rotação dupla é usada para corrigir desequilíbrios que não podem ser resolvidos com uma única rotação à esquerda ou à direita. Existem dois tipos principais de rotações duplas:
+
+Rotação dupla à direita-esquerda (Right-Left): quando a árvore está desbalanceada para a esquerda de um filho direito.
+Rotação dupla à esquerda-direita (Left-Right): quando a árvore está desbalanceada para a direita de um filho esquerdo.
+
+A Arvore B se diferencia da árvore AVL pelo fato de seus nós poderem ter mais de 2 filhos. 
+todos as folhas estarão no mesmo nível. 
+os nós internos podem ter entre n/2 e n filhos, onde n é a ordem da árvore. 
+as inserções e remoções ocorrem sem que o balanceamento da arvore seja perdido. 
+nós sao sequencia, ordenada de chaves , existem conjuntos de ponteiros,
+
+ ___________
+
+o grau t define o numero minimo e maximo de chaves por nó , minimo t-1 no nós raiz (t-2)? e maximo 2t-1, o numero de filhos 
+sera o numero de chaves + 1 sendo = t ou 2t
+Ex - t =3 ... terá entre 2 e 5 chaves e terá entre 3 e 6 filhos por nó. 
+
+conclusao, t é um fator fundamental, define o numero minimo e maximo de chaves, e o numero minimo e maximo de filhos
+que um nó pode ter. 
+
+
+ordem = numero de filhos.
+cada nó pode ter no máximo m filhos
+numero de chaves do nó = numero de filhos(ordem) - 1 ? - pq cada chave origina no minimo 2 filhos
+tem no minimo m/2 filhos, exceto a raiz. 
+numeros de ponteiros = numero de chaves + 1___________
+todos os caminhos terão o mesmo tamanho. 
+configuração - raiz - nós intermediários - nós folhas. 
+as chaves são valores que servem como referencia, para que o processo de encontrar o valor requerido, seja facilitado. 
+__________
+Arvore B+ - Chaves nos nós internos apenas direcionam para os nós filhos, os dados reais só se armazenam nos nós folha 
+todos os nós folha estao ligados na forma de lista ligada.Os valores só pode ser inseridos nos nós folha. 
+
+a arvore B+ é fundamental quando eu quero buscar uma parcela ordenada de indices, de um determinado conjunto de dados. 
+
+na arvore B+ em vez de transferir o valor para o nó de cima eu apenas copio quando o nó fica cheio ou estoura.
+
+a diferença entre B e B+ reside no fato de B poder armazenar dados(valores?) nas chaves, e na B+ apenas as folhas armazenarem. 
+executando:
+1 declarar o nó/criar o construtor do nó
+2 criar o método para percorrer a arvore(que na verdade será percorrer os nós e seus filhos)
+
+
+Declarando o Nó - 1 - 
+*ele terá um Array para a quantidade de chaves
+*Um Parametro definindo numero máximo de chaves e filhos por nós
+*O numero atual de chaves
+*verificação se é uma folha 
+*ja se pode instanciar esse nó criando seus nós filhos.
+
+importante verificar que nas arvores B, o importante nos nós pais(contem as chaves) nao é simplesmente preenche-los, pois os
+nós pais servem como balizadores dos nós filhos, sendo mais importante a função de guia desses nós pais. 
+
+t-1 - é a quantidade de chaves que podem estar em cada nó após uma divisão. 
+_______
+
+GRAFOS 
+Um grafo é composto por vértices e arestas(tem pesos)
+
+Private TIPO dado - essa linha declara um atributo chamado dado do tipo genérico TIPO - o tibo desse atributo(string,int,float) será 
+declarado no momento do instanciamento da classe, é o dado será o valor atribuido(int 10,20,30 cidade : Natal, Fortaleza etc)
+
+quando eu uso this, me refiro aos atributos da classe(componentes ou variaveis que se manterão durante a classe),
+e sem o this, me refiro as (" valores parametros ") do construtor que são os valores no momento em que a classe inicia. 
+
+Porque quando eu mudo a entrada, o resultado do Grafo da tão diferente ?????
+
+____________
+
+4º Curso Concluído. 
+
+1 - Algorítmo Básico
+2 - Java Básico
+3 - POO 
+4 - Fundamentos de Dados em JAVA.
+
+Proximos Cursos, estruturas de Projeto e Interfaces gráficas e Java. 
+_____________
+
+Relembrando os conceitos de métodos que retornam e que não retornam valores.
+
+métodos Void - realizam ação, mas não retornam valor(não há necessidade de devolver algo), são necessários
+quando eu preciso executar ação ou modificar estado. Ex: alterar valores de variáveis/exibir mensagens. 
+
+public void alterarNome(String Novonome){
+this.nome=novonome;
+SystemoutPrint("Nome alterado para" +this.nome)
+}
+codigo Principal 
+pessoa.alterarNome("joao")
+
+os Métodos de retorno,  devolvem um valor, podendo ser um atributo ou um valor calculado, essa devolução é 
+importante, para que esse valor seja usado em outra parte do código. 
+
+public String getNome() {
+return this.nome;
+}
+código principal 
+String nomeAtual = pessoa.getNome();
+tenho que escrever o 
+System.out.print ("nome da pessoa" +nomeatual) - No código Principal do Programa
+DESIGN PARTNERS - OU Padrão de Projetos: 
+
+no void o Sout ta dentro do método. 
+no retorno o Sout ta no código principal 
+
+SE NAO HOUVER NECESSIDADE DE GUARDAR O VALOR - VOID 
+
+SE EU FOR PRECISAR DAQUELE VALOR POSTERIORMENTE - RETURN
+
+interessante - o método serve pra chamar um procedimento, que recebe uma coisa de fora e retorna outra. 
+
+Classe x(){
+public void brisar () {
+brisares++;
+}
+}
+no código principal posso mandar mostrar:
+system.out.print("" + x.brisares)
+_____________
+
+____________
+*DAO  = Data Acess Object - Produto DAO, abstrai e isola o acesso a um  Banco de dados em uma aplicação. É uma classe componente do Pa
+drão Design DAO e gerencia todas as ações referentes ao Produto(inserir, atualizar,deletar).
+**O Padrão DAO garante e possibilita que a lógica do banco de dados, seja diferente da lógica dos negócios. 
+
+* Cache é uma area de armazenamento temporário(num local mais fácil que na origem),de dados que foram recentemente utilizados 
+ou são frequentemente acessados. *Rápido acesso, tamanho limitado, volatilidade. 
+
+*Método find () - Procura  e retorna um resultado com base em um critério em java importar as bibliotecas 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+e utulizar findFirst()
+
+*Lazy é o Carregamento preguiçoso (Com o objetivo de se carregar apenas o que importa- util quando trabalhamos com grande volume de dados)
+-Proxy ou Getters, que adiam a execução de alguma determinada aplicação, até que ela seja realmente necesária. 
+
+*Injetar instancias - Primeiro DEPENDENCIA(são objetos que a classe precisa para funcionar) são fornecidas(injetadas) sem que a própria
+classe as crie - Melhora a modularidade e facilita testes, porque essas dependências podem ser alteradas, sem se mexer no código principal.
+
+* Pacote RMI(Remote Method Invocation) - Permite a execução de métodos, em objetos localizados remotamente, ou seja, em uma máquina
+diferente da que o programa ta rodando o programa cliente devem ter a  e a biblioteca import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+*endereçador ? - Intuitivo. 
+____________
+PADRÕES DE PROJETO - OU DESIGN PARTNERS.
+São utilizados em problemas estruturais .
+Não é exatamente uma receita, e sim uma estruturação padrão ou procedimento para se fazer bolo 
+
+*São cactegorizando como - 
+
+*Criacionais (Como criar novas instancias) - FACTORYS (visual Constructors)
+---Veremos 2: o Factorys e o Singleton
+*Estruturais - Como iremos compor diferentes classes  - Se vou usar Herança, interface, se vou usar classes complementares
+---Veremos 2: o Adapter e o Decorator. 
+*Comportamentais - Como serão as chamadas de método.
+---Veremos o Strategy e o Observer. 
+CRIACIONAIS -
+
+PPF/PJS/PPADAPTER/PPdecor2/PPSTRATEGY/PPObserver
+___________
+
+Factory Method -
+ Padrão de criação que fornece uma interface para criar objetos em uma superclasse, permitindo que as sublclasses 
+alterem o tipo de objeto que será criado.
+Os Objetos não são criados diretamente na superclasse utilizando o padrão New- O factory Method, delega essa responsabilidade para 
+as SubClasses.
+A intenção é separar o instanciamento de objetos de sua Implementação de fato, ficando esse instanciamento concentrado na interface.
+
+Ex: Aplicação que trabalha com diferentes produtos : fisicos/digitais. - quererei criar produtos, sem especificar como serão criados. 
+
+classes concretas - ou criadores concretos - são aqueles que trazem Retorno !
+
+PASSOS 
+1- Crio uma interface(essa interface terá o nome do tipo do produto final que quero fazer). - produto abstrato
+2 - Crio produtos Concretos[classes] dessa interface(geralmente pra mandar mensagem) - crio quantos produtos forem necessários.
+3 - Crio uma Segunda Interface(ESSA CARREGA O SUCO DO FACTORY METHOD) - criador abstrato
+4 - Crio as classes que implementam essa interface, contendo os métodos que irão PRODUZIR (instanciar o Produto final - lembrando sempre
+que esse produto final é uma instância da interface)- criadores concretos 
+5- Instancio os criadores concretos, instancio novamente o criador resultante(mesmo nome da interface ou produto abstrato inicial 
+na forma - tipoDoMetodoCriadorConcreto nova instancia = instancia(CC).metodoDoCriadorConcreto
+
+xistem 4 classes com um formato padrão: Criador Abstrato/Produto Abstrato - Criador Concreto/Produto Concreto - vet
+
+é muitas vezes interessante criar objetos, sem que a lógica seja exposta para os clientes. 
+
+***FactoryMethod(Visual Constructors)** - é uma ideia de classe, que consegue instanciar vários produtos - TEM(Criacional)
+Static Factory Methods - é interessante utilizar o switchcase
+retorna espécies de instancias sem ser, dando flexibilidade, e podendo ser utilizados em interfaces ou classes abstratas
+________________
+Conclusão de Utilização - é uma interface padrão[não necessariamente a principal], que ao ser implementada pelas classes, permite a 
+criação de varios objetos, com o mesmo tipo da interface, porem essesobjetos são diferentes entre si. 
+________________
+_____________________________
+BOX** - Um atributo estático, é compartilhado, por todas as instâncias de uma classe. ele pertence a classe e não as instâncias, podendo ser 
+chamado, mesmo que a classe não tenha sido instanciada.  
+Todo método de retorno, deve conter o tipo de retorno na declaração do método. 
+a indicação de public quer dizer que o método pode ser acessado em qualquer parte do projeto. 
+
+-Funções Lambda - São uma forma concisa de escrever funções anonimas(Funções que não precisam ser declaradas), são utilizadas 
+quando eu preciso passar uma função como argumento para um método ou uma operação. São escritas de forma compacta
+(parametro) -> expressão
+
+VER DEPOIS SOBRE O USO DE TODAS AS INTERFACES FUNCIONAIS NAS BIBLIOTECAS JAVA 
+_____________________________
+SIngleton - 
+Padrão de Projeto -  garante que uma classe(e o restante das classes ?- R. Só eu terei uma classe Publica) tenha apenas uma
+ instancia durante todo ciclo de vida da Aplicação , sendo fornecido um ponto de acesso global para essa instancia. 
+Passos:
+1 - Criar a classe Singleton com um atributo(pode haver mais)  e um Construtor(método com mesmo nome da classe) Privado(Impede que novas 
+instancias sejam criadas usando o New) e faz com que a instancia só seja acessada pelo getInstance().
+2 - Criar um método estático que RETORNE(getInstance)  instância única, é necessário verificar se ela ja existe, para garantir a não duplicidade. 
+3 -método para Mostrar que está funcionando(apenas uma mensagem)
+4 - Criar instancia pelo getInstance, mostrar que ela funciona, se desejado criar mais uma e verificar se são iguais. 
+
+Funcionando - Instancio a Classe Singleton, uso essa instancia pra mostrar todas as informações que eu quiser, pois todas as informações 
+estarão contidas nela. 
+
+Conclusão de uso - Quando precisarmos que diferentes partes de um sistema, consigam acessar uma mesma sessão(ou parte) do
+ usuário(Ou aplicação). 
+__________
+Estruturais - ****Wraper(Embrulhador) - Conceitos - TEM - Adapter- Estrutural 
+_ _ _
+
+ADAPTER - É um padrão de projeto que permite que interfaces imcompatíveis, trabalhem juntas, ele é literalmente um adaptador de classes que
+normalmente não teriam comunicação. Ex: interfaces com pinos difetentes - redondos(a que temos)!=retangulares. 
+Passos:
+1 - Cria-se uma interface primeira.- Cria-se uma classe para implementar(algum método funcionado) essa interface. 
+2 - Cria-se uma interface segunda -
+3 - Cria-se o Adapter[É UMA CLASSE] - implementa a segunda interface, porem chamou um atributo 
+referente(TIPO) a primeira CLASSE. 
+3.1- Cria-se um construtor para a interface que será modificada(com argumento: interface-classe (implementadas)])) referente a primeira 
+e  cria-se um método implementando a segunda interface, porem chamando-se um método da primeira - atributo.métododaPrimeiraInterface()-(pode se chamar um sout, para confirmar)
+4 - Instancio a Primeira(CLASSE). 
+5 - Instancio a interface(da segunda)  "pois não tenho outra classe e sim class Adapter" - utilizando o adapter( e a instancia da primeira como parâmetro) 
+5.1 - faço a chamada,  utilizando a instancia da segunda e o método da segunda. 
+
+- o Adaptador implementa a classe que recebe a adaptação, mas utiliza as informações da classe adaptada. 
+
+comentario: crio um adaptador(que implementa a segunda classe), mandar  um atributo(que tem o nome da primeira classe e o tipo nome da 
+primeira interface, mas implementa a segunda interface), realizar um método da primeiraclase. Ai eu instancio a primeira classe, instancio o 
+adaptador usando a instancia da primeira classe como argumento, e depois mando a instancia do adaptador realizar o método da segunda.
+
+______
+Conclusão de Uso: Intuitiva, literalmente quando eu tenho classes não iguais e muitas vezes incompatíveis, que precisam trabalhar juntas, é 
+fazer a ação(método) que roda em uma rodar na outra. 
+______ 
+____________________________
+DECORATOR - Padrão de projeto que permite adicionar funcionalidades aos objetos de forma direta, individualmente, sem alterar o código
+da classe principal ou dos outros objetos da mesma classe. 
+1 *Componente - Define a interface que dará origem aos objetos(com métodods comuns) que poderao ser modificados
+2 *Componente Concreto - classe com implementação básica da primeira interface, trazendo algo concreto. 
+3 *Decorator - É uma Classe Abstrata - Cria um atributo(o tipo será o nome da primeira interface), um construtor(dessaclass), retorna os métodos 
+da primeira interface na forma atributo.métodos. 
+4 *Decorator concreto - Implementa a segunda interface, resultando em um objeto concreto final.- Um construtor() que invoca o super(faz referen
+cia a função superior)  e adiciona funcionalidades aos métodos definidos na classe abstrata. 
+5 - FUNCIONANDO -Instancio a 1ª classe(Componente Concreto) - 
+SOMANDO AS AÇÕES - Instancio a 1ª interface - Utilizando o Decorator Concreto e a Instancia da 1ªa classe (Componente Concreto)
+
+*Quando especializo métodos - geralmente só adiciono o Publico(encapsulamento) e mando trazer um retorno. 
+
+Geralmente eu terei uma interface e uma classe abstrata. 
+A interface propõe o método, a concreta realiza, a abstrata adiciona atributo, usa os métodos da interface para retornar algo, e o decorator concreto
+adiciona as coisas com +
+______
+Conclusão de Uso - Quando eu precisar adicionar particularidades há um objeto específico, dentro de um sistema. 
+____
+_____________
+STRATEGY - Padrão comportamental que permite definir uma familia de algorítmos, encapsula-los, torna-los intercambiaveis. Padrão varia
+independente do cliente, responsabilidade de implementar comportamentos são das classes. 
+
+1 - Strategy - Interface ou Classe Abstrata - Define a Interface para um Algorítmo 
+2 - ConcreteStrategy - Implementa o algorítmo de acordo com a interface. 
+3 - context - Mantem uma referencia para um objeto Strategy, e é responsavel por chamar o algorítmo da estratégia Atual. 
+Exemplo de aplicação - Forma de Pagamento. 
+Passos 
+
+1 - Define uma interface com um método que precisa ser executado (Strategy)
+2 - Define as classes que implementarão a interface(com suas diferentes formas) (Concrete Strategy)
+3 - Definir atributo[e seu construtor] com tipo(nome da interface) . Construo um método para escolher a estrategia - 
+Construo um método para se chamar o método definido na interface- na forma de retorno -variavel.métododainterface()
+na forma - atributo.metododainteface() - Context 
+FUNCIONANDO - instancio a classe Context - Chamar o método da classe Context - instancia.metodo(new estragégia escolhida) - Chamar o
+método(como retorno) da primeira interface na forma. instancia.metododainterface()
+
+________
+Conclusão de uso - interessante quando quero dá varias opções de uso pro meu cliente, apresento diferentes Estratégias, cada uma com sua
+particularidade,e deixo que ele escolha.
+_______
+_______
+OBSERVER - Padrão de projeto que se baseia em uma dependência(um/muitos) entre objetos, fazendo que com a mudança de estado de 
+um objeto, os seus dependentes sejam notificados. 
+Observer(monitorado)
+Subject - Contem o estado e notifica os observers sobre mudanças 
+Observers - Observam o Subject e são notificados quando ocorrem mudanças. 
+PASSOS:
+
+1 - Crio 1 interface(Observer chefe) - Com um método(que sofrerá modificações)
+2- Crio o Subject(Classe que será monitorada pelos Observers) - Contendo uma Lista de Possiveis observadores, um atributo com tipo e nome
+da variável, um método para adicionar e um método para remover observadores, um método para notificar[(for eacha[argumentos do adicionar
+e remover : instancia do Arraylist] notificar = ]parametro.métododainterface(variavel)]todos os observadores, um método para entrada da nova variavel,
+e a chamada do método anterior (de notificar).
+3 - Criar os Observers (classes que implementarão o Observerchefe) pode ser criado um atributo com construtor e implementa-se  o método 
+do ObserverChefe.
+4 - FUNCIONANDO - Instacio a classe Subject - instancio os observers - adiciono os observers ao subject -
+ instanciasubject.metododeadicao(instanciaobservers)- para mudar de fato --> instanciasubject.metodoparaentradadanovatemperatura
+
+_________
+Conclusão de uso - Quando eu preciso notificar diferentes clientes, sobre uma atualização importante ocorrida no sistema de interesse deles. 
+________
+Client(quem usa o que eu implementei
+adapter WRAPER ** (classe que ta fazendo a adaptação - unindo os métodos - é uma classe !!!- se eu nao altero as ações, e apenas as  uno vira um twoway(usando herança), pois
+quem fez o programa inicial pode usar meu adpater, sem interferir nos  objetivos dele. Principais vantagens do adapter é o reuso de código. resumindo é rearranjar o que ja existe
+/adaptee(Quem está sendo adaptado. )
+Target - é a interface(API) que resulta disso tudo. 
+
+COMPOSIÇÃO É QUANDO EU TENHO UMA CLASSE, COM OUTRA CLASSE COMO ATRIBUTO. 
+cuidado ao usar extends no wraper, porque pode inutilizar o que foi feito antes ?
+
+o que é .jar
+pesquisar sobre o bithub
+API É INTERFACE. 
+super é chamar, É CHAMAR  o método da classe mae 
+funções lambdas.
+
+________________
+STRATEGY*** -posso encapsular comportamentos. TEM  (Comportamental)
+
+*contexto - quem utiliza - compra - informa os dados.- não é obrigatório, mas posso fornecer dados que alterem a interface.
+*intermediaria - posso criar interfaces, para filtrar os dados informados na compra. 
+*estratégia - interface(contrato de programa) - api ?- chamo o método, 
+que vai encapsular um algoritmo(podendo conter classe). exemplo #PagamentoStrateegy
+*estratégia concreto - implementação
+
+-pode ser uma alternativa a herança
+-desvantagens é criar uma grande quantidade de classes.
+-desvantagem, o cliente precisa saber das classes ?
+
+_______________
+***Padrão Singleton - Quando eu quero ter apenas UMA INSTANCIA, dentro da minha aplicação. - TEM (criacional)
+utilza atributo static(pra que serve mesmo o Static ? - pra dizer que aquele atributo É DA CLASSE e nao do objeto, pode ser chamado sem precisar instanciar a classe,
+ou seja, posso chamar o método, direto no código principal - Variavel = classe.método(parametro)- 
+é interessante colocar a classe criatora(Factory Method) no modo privado, para que ninguem tenha a acesso e possa instancia-la 
+recomendação utilizar enum ---- O que é Multithread ?VERIFICAR 
+utiliza método getInscance assim como no factory method
+classes privadas nao conseguem criar subclasses
+é interessante ter um mapa, com o registro dos singletons. 
+
+vantagem - apenas 1 instancia possível
+vantagem - nao preciso criar varios productsFactorys 
+
+Desvantagem - o singleton pode ser chamado em qualquer lugar, atrapalhando a identificação da hierarquia do programa
+
+*VER O GETINSTANCE. - vi
+______________
+PROXY****- NAO TEM 
+
+cliente - quem usa 
+RealSubject - Implementação
+Proxy - recebe uma chamada e passa pra outro local. - registra o que foi feito e chama a classe original
+subject Interface ?
+
+
+*Não mexemos na classe Original NEM no cliente 
+*Usamos herança
+-Extendemos uma classe que ja existe, acresentamos a funcionalidade que queremos  e usamos que se fosse a classe Original
+a ideia é expandir funcionalidades e comportamentos sem precisar mexer nas classes. 
+*Chamo um método mais lento, deixando o mais pesado, apenas se for necessário. 
+
+ ESCOLHER ENTRE COMPOSIÇÃO X HERANÇA
+vantagem trás bastante flexibilidade
+
+desvantagem - tenho que ter um intermediário
+desvantagem - crio Mais classes. 
+_______________
+DECORATOR ** - Incrementar funcionalidades à uma classe, sem a necessidade de se utilizar Herança - TEM (estrutural)
+* pega uma informção e retorna outra- no caso, recebo informações de endereço e retorno tudo organizado de forma perfeita. 
+pode/deve? haver um endadeiamento de decorators - nesse caso é interessante ter um decorator abstrato
+manipulação de interfaces, decorators e endereçadores. 
+a Diferença para o Proxy, é que no proxy ha uma diferença de importancia no encadeamento das classes. 
+
+ter cuidado, pra nao criar excesso de classes. 
+
+_______________ NAO TEM 
+TEMPLATE METHOD(exemplo ,método read stream).- MODIFICAR O comportamento de um algoritmo utilizando Herança(o que diferencia o template método)
+teremos uma classe abstrata - e teremos implementações complementares dessa classe
+chama outros métodos, algumas etapas podem não ser sobescritas ou alteradas. 
+
+LEMBRAR DE IR NO BITHUB
+Métodos e classes Protected podem ser " desenvolvidas " ou subescritas pelas subclasses. no template alguns serao Private e outros protected
+Verifiacar principais classes ja embutidas no JAVA(ide)
+
+vantagem - poder sobescrever partes do algoritmo
+desvantagem - utiliza herança - pode mudar a hierarquia. 
+
+____________NAO TEM 
+
+Modelos de Instancias - Padrões PROTOTYPES - Interface que define um método de clonagem - esta bem presente em interfaces gráficas.
+gera implementações concretas
+crio um objeto que chamo de protótipo,o qual irei implementa-lo de acordo com o que eu queira. 
+ídeal para ser utilizado quando tenho subclasses muito parecidas com a super-classe e tambem quando necessito criar especializações durante a 
+própria execução. 
+ nao é interessante clonar classes final).  Para que ela nao seja clonada com todos os seus atributos.
+Conceitos 
+Interface Prototype(clonable)
+concrete Prototype(protótipos concretos)
+Cliente quem usa
+
+Clone 
+Registry Estático
+Registry Dinamico
+
+é interessante chamar um clone com o Construtor e com um StaticFactory Method. 
+
+vantagem - menos subclasses
+possibilidade de guardar os prototipos num banco de registro
+posso crar prototipos com pequenas mudanças 
+
+desavantagem - é mais facil subescrever compartamentos em subclasses
+FactoryMethod_1
+mvn exec:java -Dexec.mainClass="FactoryMethod_1"
+
+APENAS OS MÉTODOS TEM ()
+CLASSES TEM APENAS AS CHAVES. interfaces e classes não tem !!!!
+_________________________________
+[X] - Curso de Algorítmos em Visual G 
+[X] - Fundamentos de JAVA  
+[X] - Programação Orientada a Objetos  
+[X] - Introdução Ao Estudo de Dados  
+[X] - Padrões de Projeto (Design Partners)
+[X] - SQL - No WorkBench
+[  ] - SQL COM JAVA
+[  ] - Interfaces gráficas em JAVA
+[  ] - ABAP
+______________________________
+introdução ao Banco de dados 
+fichas - registros 
+Pastas - Tabelas 
+Armarios - Arquivos 
+
+---- Evolução 
+Arquivos sequenciais - 
+Discos e disquetes - não guardam os registros de forma sequencial - são localizados através de índices - Arquivos de acesso direto.
+decada de 60 - CODASYL-COBOL ->BANCO DE DADOS 
+
+*Banco de dados - formado por:
+1 - base de dados 
+2 - SGDB - Sistema gerenciador (DNS)
+3 - Lingagem de Exploração 
+4 - Programas Adicionais 
+
+IBM PROPÕE: 
+1-estrutura Hierarquica** de dados 
+2-rede** dados** inteligentes**(Clientes, serviços, funcionários, empresas e fornecedores)
+3- surge então a ESTRUTURA RELACIONAL DE DADOS - é o foco do nosso estudo - Structural Queary Language (deveria ser universal) 
+                                                                                            obs- Atualmente temos modelos baseados em documentos, e de 
+                                                                                            forma mais recente, modelos orientados a Objeto. 
+- o SQL(Surgiu em 1994 na Suécia e depois foi comprado pela Oracle) foi posteriormente patronizado pela ANSI e pela ISO. 
+
+Composição do MySQL
+*DDL - definição 
+*DML - Manipulação 
+*DQL - Definição
+*DCL - Controle 
+*DTL - transações - (Qualquer Solicitação feita ao banco de dados, que será atendida sob os Principios do DICA)
+-D - urabilidade - todo dado manipulado deve ser duravel tem que permanecer la enquanto eu queira
+-I - solamento - uma alteração não pode interferir na outra 
+-C - onsistencia - qualquer transação não pode aloprar o funcionamento do sistema 
+-A - tomicidade - Ele sempre procura outro estado de equilibrio,que se não for encontrado o sistema regride para o Estado Anterior. 
+
+busco sempre agrupar as instancias(possuem as mesmas classes, porem valores diferentes) 
+Lembrando que Bancos(Navio) guardam tabelas(Conteiners) que guardam registros(Instancias)que guardam campos(suas partes-ou seja
+cada coluna referente a linha)
+
+TIPOS PRIMITIVOS*
+*núméricos - 
+-inteiro-
+-Real-
+-Lógico-
+
+*data/tempo
+
+*literal - CHAR(fixo) - VARCHAR(variavel)
+-Caracteres 
+-textos - diferencia a necessidade de textos grandes
+-coleções - Enum e Set
+
+*espacial
+______________________
+*FUNDAMENTOS SQL -
+
+CREAT DATABASE x - Cria banco de dados
+DROP DATABASE x - remove (irreversivelmente) um Banco de dados existente. 
+USE x - Seleciona banco de dados para utilização
+CRET TABLE - CRIA TABELA
+ALTE TABLE - Modificar estrutura tabela 
+
+Criar Tabela Inteira
+CREATE TABLE Funcionarios(
+ID: INT PRIMARY KEY
+Nome: VARCHAR(50);
+Cargo: VARCHAR(50);
+Salario DECIMAL(10,2)
+DataAdmissao DATE
+);
+
+**adiciona Coluna.
+Alter Table Funcionários ADD
+telefoneVARCHAR(15)
+
+**remover Coluna
+Alter Table Funcionarios DROP
+COLUMN telefone:
+
+**Remover Tabela Inteira 
+DROP TABLE Funcionários
+
+**Alterar Tabela 
+ALTER TABLE Funcionarios ADD
+Telefone VARCHAR(15);
+
+***-----TIPOS DE DADOS:
+INT Numeros Inteiros
+VARCHAR - Texto de comprimento variavel com n caracteres
+DECIMAL(p,s) - Números Décimais, p total de digitos e s casas decimais
+DATE - AAAA-MM-DD
+
+___________
+REALIZANDO NA PRÁTICA : 
+
+*create x - cria tabela ou databases
+*insert into (variaveis) - coloca os valores que eu quero introduzir em uma tabela 
+*values(valores correspondentes - lembrando que, strings devem estar em aspas simples 
+*select * from nomedaTabela(trás as informações contidas na tabela)
+*drop - exclui o que quero excluir - drop table x - drop database y
+*alter table x add nomedacoluna VARCHAR(15);
+
+*alter table y drop column nomedacoluna;
+*update nomedatabela set nomedacoluna = 'valor' where nome = 'nomequequerotrocar';
+*Set sql_safe_updates 0 - permite realizar updates, nas tabelas 
+*alter table nome add column id INT auto_incrementy primary key - ao criar a tabela pode-se  -  ID INT PRIMARY KEY AUTO_INCREMENT,
+*alter table tabelanew add column id int auto_increment primary key; - adiciona indices a tabela
+*select nome, peso, nacionalidade from tabelanew; - retira só o suco, só aquilo que eu quero da minha tabela. 
+*delete from nomedatab where id = x; - remove 1 registro (LINHA INTEIRA)
+**foreign key (nomedacoluna) references tabela1(nomedacoluna)
+
+BOX * SET foreign_key_checks = 0; - remove a restrição de eu só poder adicionar valores, se houver uma chave correspondente na primeira coluna. 
+
+----SET SQL_SAFE_UPDATES = 0; - necessário quando houver proiboção de updates nas tabelas. 
+
+***update tabelanew  - quando quiser
+***set altura = 200 - eu quiser mudar
+***where nome = 'Pururutico';   - determinado lugar. 
+
+ALTER TABLE funcionarios AUTO_INCREMENT = 1; - quando eu precisar excluir dados de uma tabela chaveada, e quiser reinclui-
+los, voltando do inicio, ou da primeira chave. 
+
+****FILTROS E CONDIÇÕES
+--where especifica condições par aque a consulta aconteça: --Select*from funcionários where salarios > 1000;
+--O like é utilizado em Buscas parciais: --Select*from funcionarios where nome like Car%(retorna todos os nomes que iniciar com Car) l
+like _Nemo(retorna tudo que começa com N)
+-- In é utilizado para especificar várias condições em uma única coluna. - filtrar resultados que correspondem a qualquer um dos
+valores dentro de uma lista de especificação, ideal quando eu quero buscar um valor em um conjunto. 
+Exemplo de in: 
+
+-Select nome,cargo
+-From funcionarios
+-where cargo in('analista','desenvolvedor','gerente');
+-
+
+*COMEÇAR AMANHÃ - Adicionando tabela e preenchendo valores,e usando os filtros e condições where. 
+sequencia de passos - abrir o MySQL Shell -\sql - Conecta-lo ao Workbench - use databases - show tables - select*from tables - Agora sim as interfaces estarão
+reacopladas. 
+
+____________________________________________________
+
+LEMBRANDO QUE PRA CRIAR A PORRA DE UMA TABELA EU FAÇO. 
+1 - USE NOMEDAPORRADADATABASE; - RESPEITE A PORRA DA SEQUENCIA DOS PASSOS FILHO DA PUTA 
+2 - create table NOME (coluna TIPO, coluna TIPO, coluna TIPO); 
+3 - insert into NOME(coluna, coluna,coluna)
+4 - values(x,'crocks',y),(z,'teupai,g),(k,fresco,t);
+
+________________________________________________
+
+*****Funções Agregadas:
+SUM() - Select SUM(quantidade) AS total_vendas FROM vendas; - soma dos valores em uma coluna -
+AVG() - select AVG(Preço) AS preço_medio from vendas; - media dos valores de uma coluna
+COUNT() - Select COUNT(produto) AS numeros_produtos From vendas; - numero de linhas ou valores nao nulos em uma coluna
+MAX() * Select Max(preco) as preco_max from vendas.   - valor maximo da coluna
+MIN()* Select Min(preco)as preco_min from vendas. - valor minimo da coluna
+
+COUNT(*) AS contagem - Conta o número de projetos para cada funcionário, criando-se uma coluna "contagem" com o total de
+projetos por funcionários. - ela cria uma lista de projetos por funcionários, que a segunda subconsulta, usa para saber quem é o 
+valor máximo. 
+
+lembrando: Group BY - Agrupa e soma os valores iguais encontrados, após uma consulta -  ex: select sum(peso) as total_tabelanew from tabelanew group 
+by peso - os valores de pesos iguais encontrados serão somados e apresentados a uma. 
+Having(semelhante ao where) - utilizado pra filtrar resultados agregados(OU AGRUPADOS)  - Só deve ser utilizado após agrupame
+
+*****Funções DE TEXTO  
+
+-CONCAT - Faz a concatenação dos valores Globais(os nomes das colunas)
+--SELECT CONCAT(nome, ' ', cargo) AS nome_completo
+FROM funcionarios;
+
+-Uper() e Lower() - Coloca os nomes em maisculo ou minusculo. 
+--select upper(nome) as nome_maisculo, lower(nome) as nome_minusculo
+from funcionarios;
+
+-SUBSTRING() - extrai a quantidade de letras do nome que eu mandar.
+--select substring(nome,1,3) as iniciaIs
+from funcionarios;
+
+-REPLACE() - Substitue uma String INTEIRA. 
+--SELECT REPLACE(cargo, 'Analista', 'Especialista') AS novo_cargo
+FROM funcionarios;
+
+*FUNÇÕES DATA HORA - 
+--now() - RETORNA Data e hora atuais
+*SELECT NOW() AS data_hora_atual;
+
+-- curdate() e curtime() retorna data e hora separados
+
+*SELECT CURDATE() AS data_atual, CURTIME() AS hora_atual;
+
+-- DATEDIFF calcula a diferença em dias entre duas datas
+*select datediff('2024/12/31',curdate()) as dias_ate_reveilon;
+
+date_add() e date_sub()
+
+***** FUNÇÕES MATEMÁTICAS 
+ROUND() - arredonda valor numério.
+SELECT ROUND(salario, 2) FROM funcionarios;
+
+--SELECT CEIL(4.3), FLOOR(4.7);
+
+SELECT ABS(-10) AS valor_absoluto;
+
+--select rand(); -valor aleatório 
+
+--select round(rand(),2) as aleatorio_2; - valor aleatório com duas casas decimais. 
+
+***** Funções de Controle de Fluxo. 
+if - case - when 
+
+--SELECT nome, IF(salario > 3000, 'Alto', 'Baixo') AS faixa_salarial FROM funcionarios; ----- ele aprecia e ja faz juizo de valor 
+para todo mundo. 
+
+-- SELECT nome,
+       CASE
+           WHEN cargo = 'Gerente' THEN 'Nível Alto'
+           WHEN cargo = 'Analista' THEN 'Nível Médio'
+           ELSE 'Nível Baixo'
+       END AS nivel
+FROM funcionarios;             
+
+Select tabela1.coluna, tabela2.coluna - o que eu quero como resultado
+From tabela1
+Inner Join tabela2 ON tabela1.coluna_comum = tabela2.coluna_comum
+_____
+EXERCÍCIO DE REVISÃO
+_________
+select revisao1.nome, revisao2.produto
+From revisao1
+inner join revisao2 ON revisao1.id_cliente = revisao2.id_cliente;
+______________
+QUANDO CRIAR UMA TABELA,É OBRIGATÓRIO COLOCAR A VARIÁVEL DE CADA COLUNA PORRA 
+DUVIDA - QUE FAZER QUANDO ESTIVER COM 1 VALOR A MAIS para corresponder.??????????? - A resposta vem a seguir.
+_____________
+****Left Join - mostra todos os participantes da primeira coluna, mesmo que na segunda coluna não haja correspondentes, trará um null. 
+
+INSERT INTO revisao1 (nome)
+VALUES ('Burinaldo');
+
+SELECT revisao1.nome AS cliente, revisao2.produto
+FROM revisao1
+LEFT JOIN revisao2 ON 
+revisao1.id_cliente = revisao2.id_cliente;
+
+______________
+
+
+****Right Join -mostra todos os participantes da segunda coluna, mesmo que na primeira coluna não haja 1 correspondente,será null. 
+box - Para o Left e Right Join, se eu tentar adicionar um valor que não tem correspondencia, na segunda devido a restrição da correspondencia de
+-chave um SET FOREIGN_KEY_CHECKS = 0; - resolve o meu problema. 
+
+ELE SEMPRE IGULHA OS ID_CLIENTE COMO EM UMA EQUAÇÃO NORMAL. 
+________
+SELECT coluna1, coluna2, ...
+FROM tabela1
+RIGHT JOIN tabela2 ON tabela1.coluna_chave = tabela2.coluna_chave;
+
+exemplo 
+SELECT revisao1.nome AS cliente, revisao2.produto
+FROM revisao1
+RIGHT JOIN revisao2 ON 
+revisao1.id_cliente = revisao2.id_cliente;
+_______________
+*** UNION 
+SELECT nome AS item
+FROM revisao1
+UNION
+SELECT produto AS item
+FROM revisao2;
+
+JUNTA TUDÃO-CLIENTE E PRODUTO. 
+
+SELECT nome as item
+from revisao1
+union
+select produto as item 
+from revisao2;
+________________
+
+****full join ----- *** Lembrar que no full join eu tbm uso UNION, mas para da um left join e 1 right join e fazer a correspondencia geral. 
+**uso um LEFTJOIN
+*UNION
+**uso um right JOIN
+--- me retornará todos os participantes de ambas as colunas, independentemente de haver correspondentes ou não 
+
+
+SELECT revisao1.nome AS cliente, revisao2.produto
+FROM revisao1
+LEFT JOIN revisao2 ON revisao1.id_cliente = revisao2.id_cliente
+
+UNION
+
+SELECT revisao1.nome AS cliente, revisao2.produto
+FROM revisao1
+RIGHT JOIN revisao2 ON revisao1.id_cliente = revisao2.id_cliente;
+_________________
+
+________________
+****Cross Join - simplesmente retorna uma tabela que é o produto da primeira linha pela segunda. Recomendando para quando eu precisar 
+verificar combinações entre todos os participantes das duas tabelas. 
+
+SELECT revisao1.nome AS cliente, revisao2.produto
+FROM revisao1
+CROSS JOIN revisao2;
+______________
+
+****Self Join - no exemplo que ele usou tenho o [id - empregado - NOME - id gerente -] o id gerente de cada funcionário, refere-se ao id empregado
+do gerente dele. - O SelfJoin não é um comando em si, ele é um técnica de manipular a mesma tabela, como se fossem duas, para fins de análises hierarquicas.
+Ele usará os Joins que ja conhecemos - Inner Join(Busca Correspondencia)- (Left Join) - (Righ Join).
+utilizo apelidos(e & g - e.nome & g.nome) para diferenciar o comportamento na mesma tabela 
+e fazemos uma comparação desses comportamentos , buscando para cada comportamento analisado seu equivalente(se houver)
+
+SINTAXE:
+SELECT e.nome AS empregado, g.nome AS gerente.
+from Selfjoin (nome da tabela) e
+Left Join selfjoin g ON 
+e.id_gerente = g.id_empregado;
+
+ALTER TABLE tabela2 AUTO_INCREMENT = 100;
+
+CREATE TABLE tabela2 (
+    id_produto INT PRIMARY KEY AUTO_INCREMENT,
+    id_cliente INT,
+    produto VARCHAR(50),
+    FOREIGN KEY (id_cliente) REFERENCES tabela1(id_cliente)
+);
+
+INSERT INTO tabela2 (id_cliente, produto) VALUES (1, 'Chuteira');
+INSERT INTO tabela2 (id_cliente, produto) VALUES (2, 'Tatame');
+
+________________________
+---CHAVES E RELACIONAMENTOS:- são fundamentais para se manter a integridade e estruturar os dados entre tabelas
+*DUVIDA: é interessante, primeiro se crias as chaves para depois ir preenche-las ?
+
+**Primary Key - identifica de forma única cada registro em uma tabela - 
+A coluna desiginada como chave primaria, normalmente não permite valores nulos 
+
+CREATE TABLE Funcionarios (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(50),
+    cargo VARCHAR(50)
+);
+** Foreign Key - Cria uma relação entre duas tabelas, fazendo-se a referencia á uma chave primária em uma das tabelas, é estabelecido portanto um 
+relacionamento entre elas, garantindo-se a integridade referencial. 
+
+CREATE TABLE Projetos (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100),
+    id_funcionario INT,
+    FOREIGN KEY (id_funcionario) REFERENCES Funcionarios(id)
+);
+
+
+---TIPOS DE RELACIONAMENTOS - 
+1:1 - 01 registro de 01 tabela tem apenas 01 registro correspondente na outra tabela. 
+1: muitos - intuitivo
+muitos:muitos - intuitivo. - normalmente exige 01 tabela intermediaria(tabela de associação), para implementar o relacionamento. 
+
+---INTEGRIDADE REFERENCIAL - defende que chaves estrangeiras sempre apontem para dados válidos em outra tabela 
+
+** EXCLUSÃO  sem o erro referente ao acoplamento das chaves, utilizaremos o ON DELETE CASCADE - Quando eu excluir um
+funcionario, todos os projetos associados a ele serão tambem excluidos. - Isso é importante quando eu quero excluir alguem chave,
+pq haverão outros projetos associados a ele, se eu quisesse apenas excluir um projeto(nao tem ninguem associado), posso
+excluir diretamente. 
+
+-CREATE TABLE projetos (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100),
+    id_funcionario INT,
+    FOREIGN KEY (id_funcionario) REFERENCES funcionarios(id) on delete cascade
+);
+
+-delete from funcionarios where id=1; - vai excluir tambem os projetos associados aquela chave. 
+
+***** ATUALIZAR o projeto , eu sempre devo fazer o update na tabela dependente. usando o where, diretamente no id dela. 
+
+update projetos
+set id_funcionario = 3
+where id = 2;
+update projetos 
+set id_funcionario = 2
+where id = 3;
+
+**** PARA REINCLUIR ALGUEM QUE FOI EXCLUIDO:
+ set sql_safe_updates = 0;
+ ALTER TABLE funcionarios AUTO_INCREMENT = 1;
+ insert into funcionarios (id,nome,cargo)
+ values (1,'alice','desenvolvedora');
+ 
+ SELECT MAX(id) + 1 AS next_id FROM funcionarios;  -- PROXIMO VALOR DA CHAVE. 
+ 
+ ALTER TABLE funcionarios AUTO_INCREMENT = 4;
+  set sql_safe_updates = 1;
+_________________
+BOX - é importante ter a segurança quanto aos updates, pq erros podem ocorrer na forma de um comando, ser compartilhado
+por quem não deveria. 
+_________________
+
+SUBCONSULTAS(consulta interna que retorna um valor) E CONSULTAS COMPLEXAS - Permitem manipular e recuperar 
+dados com mais precisão, especialmente quando eu quero combinar informações de OUTRASSS TABELAS - ou realizar 
+calculos e fitagens avançadas. 
+-subconsultas sao recomendadas como condicionais, de outras consultas. 
+______
+** SubConsultas com Where e IN
+-- Selecionando funcionarios(uma tabela) que estao associados à um  Projeto(outra tabela). 
+
+ select nome,cargo 
+ from funcionarios 
+ where id in (
+ select id_funcionario
+ from projetos
+ where nome = 'Artes'
+ );
+Nesse exemplo a SubConsulta(where id in) - busca o id dos funcionários do projeto Artes. Enquanto a busca principal busca
+o Nome e cargo dos funcionarios desses ids. 
+_____
+** Sub Consultas com Select 
+Pode ser utilizada, para se calcular o total de projetos por funcionários. 
+
+ SELECT nome, cargo, 
+       (SELECT COUNT(*) 
+        FROM projetos 
+        WHERE projetos.id_funcionario = funcionarios.id) AS total_projetos
+FROM funcionarios;
+-- Conta a quantidade de projetos para cada id_funcionario na tabela funcionarios e exibe como total_projetos. 
+
+box - o * é utilizando quando quero retornar tudão. 
+
+_____
+**SubConsultas com Not in
+
+SELECT nome, cargo
+FROM funcionarios
+WHERE id NOT IN (
+    SELECT id_funcionario
+    FROM projetos
+);
+
+busca todos os ids_funcionarios presentes em projetos e retorna apenas os id que nao constam na lista ou seja, os 
+que nao tem projetos. 
+
+SubConsultas são Recomendadas Para : Filtros Avançados, calculos adicionais, condições Complexas.
+
+_______
+Novo exemplo, buscando os funcionários que possuam o maior numero de projetos.
+código: 
+
+**SELECT nome, cargo - [sao alvos principais] sendo que quero os que possuam o maior numero de projetos.
+    FROM funcionarios 
+     WHERE id IN [consulta principal] (
+   
+   1ª - SELECT id_funcionario
+     FROM projetos
+    GROUP BY id_funcionario - [primeira subconsulta, seleciona os id_funcionarios, sendo agrupados]
+   [condicional] HAVING COUNT(*) = (
+          
+       2ª-- SELECT MAX(contagem) - começa aqui e tem o objetivo de encontrar o maior numero de projetos de um funcionario
+           FROM (
+            3ª---SELECT COUNT(*) AS contagem
+                  FROM projetos
+                  GROUP BY id_funcionario
+        ) AS subquery_contagem --2ª termina só aqui. 
+    )
+);
+
+COUNT(*) AS contagem - Conta o número de projetos para cada funcionário, criando-se uma coluna "contagem" com o total de
+projetos por funcionários. - ela cria uma lista de projetos por funcionários, que a segunda subconsulta, usa para saber quem é o 
+valor máximo. 
+
+lembrando: Group BY - Agrupa e soma os valores iguais encontrados, após uma consulta -  ex: select sum(peso) as total_tabelanew from tabelanew group 
+by peso - os valores de pesos iguais encontrados serão somados e apresentados a uma. 
+Having(semelhante ao where) - utilizado pra filtrar resultados agregados(OU AGRUPADOS)  - Só deve ser utilizado após agrupame
+
+____________________________
+*** ÍNDICES **** - SÃO uma estrutura de dados adicional, associada à uma tabela,que permite acelerar buscas e operações de 
+filtragem, sem os índices, obviamente a tabela terá que filtrar todos os seus prórprios dados para achar determinado valor, 
+com os índices essa busca fica mais eficiente.
+--indice primario - (primary key) - define um indice exclusivo em uma coluna ou conjunto de colunas, garantindo que seja exclusivo
+--indice unico - (unique) - similar ao primary key, mas permite apenas um valor null e não define uma chave primária. 
+--indice regular - Indice comum, permite ter valores duplicados, presente geralmente em  where or order by
+--indice compostos - indexam varias colunas - ideais para consultas que filtram mais de 01 coluna ao mesmo tempo. 
+
+** índices sao recomendados, em colunas frequentemente utilizadas em consultas por select, where, join e order by. nao devem
+ser colocados em todas as colunas pois deixam o sistema lento. 
+
+-- se eu tiver uma tabela de nome clientes e quero otimizar a buscar de nome(coluna)
+
+ex: criando indice simples...
+
+**CREATE INDEX idx_produto ON vendas(produto);
+fazendo a busca: select*from vendas where produto = 'mouse';
+
+-- para visualizar todos os índices de uma tabela: 
+
+**SHOW INDEX FROM clientes;
+
+-- Para remover um índice que não está mais sendo usado. 
+
+DROP INDEX idx_nome ON clientes;
+
+--- Quando eu preciso realizar buscas considerando duas colunas diferentes é interessante o indice composto.
+Ex: de indice composto
+
+create index idx_produto_data on (produto,data_venda);
+
+____________________
+
+SQL COM JAVA ---------
+1º - Achar o driver MySQL - JDBC(Java database - conectivity)
+(aprender a mexer no MAVEN(ferramenta de gerenciamento de projetos - configuração, organização e compilação)
+
+O arquivo pom.xml é essencial em um projeto mavel, pois ele gerencia as configurações de um projeto, incluindo as dependencias
+(bibliotecas necessarias) e pluggins. 
+
+____________________
+SQL COM JAVA !!!!
+________
+bibliotecas 
+import java.sql.Connection; - conexão ativa com banco de dados
+import java.sql.PreparedStatement; - permite preparar comandos SQL com parametros - de forma dinamica.
+import java.sql.SQLException; - exceção lançada para se prever e lidar com supostos erros. 
+
+*PreparedStatement; - permite preparar comandos SQL com parametros - de forma dinamica, para inserção, mas tambem 
+para consultas. 
+
+rowinstead - é uma variável que armazena o numero de linhas afetadas após a execução de um comando(insert,update,delete),
+obtido após um executeUpdate(método) de um PreparedStatement.
+
+o método executeUpdate() é utilizado para de fato, realizar alterações no banco de dados(update,delete,insert), retorna um int
+indicando o numero de linhas afetadas após o comando. 
+
+*ResultSet - contem todas as linhas retornadas após uma consulta de dados SQL(select*FROM - por Exemplo)
+- o método next() quando utilizado com um while, permite avançar para a próxima linha dentro daquele while, a fim de se extrair 
+os dados daquela linha 
+
+*rs é uma instancia de ResultSet - ou seja, uma instância de consulta. 
+
+executeQuery() é um método do ResultSet que de fato executa a consulta e retorna os dados.
+
+***Eu crio Strings, para corresponder aos comandos que eu fazia no SQL.
+String sql - insert INTO ()
+String sql - select*FROM 
+---
+String sql = "INSERT INTO Funcionarios (nome, cargo) VALUES (?, ?)"; ----- INSERIR REGISTRO 
+
+String sql = "UPDATE Funcionarios SET cargo = ? WHERE id = ?"; ----- ATUALIZAR REGISTRO 
+
+String sql = "DELETE FROM Funcionarios WHERE id = ?"; ------- DELETAR REGISTRO. 
+
+PreparedStatement stmt = conn.prepareStatement(sql); - INSERINDO registros com segurança 
+stmt.setString(1, "Nome do Funcionario");
+stmt.setString(2, "Cargo do Funcionario");
+
+para consultas do tipo select*from : : : : ResultSet rs = stmt.executeQuery();
+
+para consultas e atualizações : int rowsAffected = stmt.executeUpdate();
+
+Para listar funcionários - 
+String sql = "SELECT * FROM Funcionários - trazendo do sql pro Java
+prepareStatement pst = conn.prepareStatement(sql); - verificando com segurança 
+ResultSet rs = pst.executeQuery(); - verificando a lista de fato. 
+while(rs.next()[houver valores subsequentes]{
+sout("Nome" + rs.getString("nome");
+sout("Cargo" + rs.getString("cargo");
+}
+
+Dissecando os passos :
+1 - Criar uma classe referente a conexão. - contendo os atributos - endereço, loggin(root) e senha /// contendo o método getConec
+tion, que de fato carregará o conector SQL para o NetBeans (e contendo as SQLExceptions) // criar uma subclasse para testar
+a conexão, o que essa subclasse fará é chamar o método getConection da classe mãe criada na 
+forma [classemae.getConnection();
+
+2 - Criar uma classe para inserção dos dados - contendo um método de inserção que trará uma String sql = " Insert into .....", fa
+zendo a correspondencia com o comando do SQL. 
+--sempre que formos fornecer comandos ao NetBeans referente aos nossos  dados haverá a sequencia try (chamar a conexão -
+ [Conection conn = classeMae.getconection] - preparedStatement(pela segurança das informações, na forma  
+conn.preparedStatement(sql declarada)]
+--inserção de fato na forma sttnt.setString(posicao, nome)
+--rowInserted.executeupdate - para verificar quantas linhas foram afetadas e se de fato o dado foi inserido. 
+
+3 - Criar uma classe para listar os dados - Contendo alem da chamada de conecção e do Prepared Statement, uma chamada de 
+Resultado - ResultSet rs = statementeDeclarado.ExecuteQuery - um while com rs.next, para que os próximos valores serjam inse
+ridos de forma automática - tratar da (SQLExcepetion e)
+
+4 - Uma classe Para Alterar a Tabela - Contendo uma chamada para adicionar Coluna (Com String sql, chamada de conexao, Prepa
+red Statement, e statement.executeUpdate e a (SQLExcepetion e). - Uma chamada para excluir registro, contendo(sql, conexao,
+prepared statement, statemente.setInt(posicao, id) - chamada do rowsInstead para informar se o registro foi excluido ou não. 
+
+5 - Uma classe Controlador - para confirmar a conecção ativa e chamar todos os métodos importantes: 
+inserir/listar/alterar/remover
+
+______
+indices no NetBeans -
+ CREATE INDEX idx_nome ON repetefun(nome); - 
+CREATE INDEX idx_nome ON repetefun(nome) - cria um indice na coluna nome, na tabela repetefun. torna
+as buscas por nome mais rápidas,. - INDICE SIMPLES. 
+
+CREATE INDEX idx_nome_cargo ON repetefun(nome, cargo); - Índice Composto. 
+
+_______
+TRANSAÇÕES - Uma série de operações em bancos de dados com uma única unidade lógica, devem ser todas bem sucedidas
+ou todas canceladas. 
+
+-COMMIT - finaliza a transação, confirmando as alterações feitas no banco de dados.
+ ***conn.setAutoCommit(false); // Inicia a transação - colocado após o getConection e a antes do prepareStatement
+
+***conn.commit(); // Confirma todas as operações
+   System.out.println("Transação realizada com sucesso!"); - Colocado após as transações de fato.
+
+--- Rollback - reverte a transação, cancelando as alterações
+ ***conn.rollback(); - colocado após o Catch(SQLExcepetion e)
+
+---Savepoint - um ponto intermediario que permite realizar um Rollback até certo ponto. 
+*** Savepoint savepoint1 = conn.setSavepoint("Savepoint1"); - colocado antes de, de fato se executar uma operação. 
+
+________
+*STORED PROCEDURES E FUNÇÕES SQL.- Um procedimento armazenado, pode conter várias operações de SQL em um
+único bloco executável - recomendando para operações repetitivas e calculos complexos e manipulação de dados.
+
+** FUNÇÕES SQL - Retornam um valor que podem ser utilizados posteriormente em calculos e operações
+
+---- Em blocos de código, de funções e procedimentos, utilizamos DELIMITER, para marcações no lugar do ;
+
+** DEVO CRIAR O PROCEDIMENTO OU A FUNÇÃO NO MYSQL, E CHAMA-LO NO NETBEANS. 
+
+*** uso de deterministic - quando deixo claro que para os mesmos valores de entrada, o mesmo retorno seja esperado
+--- not deterministic - ocorre quando trabalhamos com variaveis aleatorias(random) sendo que pra um mesmo valor de entrada 
+eu posso ter diferentes valores de saída. 
+
+para chamar procedimento no sql - CALL 
+PARA CHAMAR FUNÇÃO - select
+
+CallableStatement - útil quando trabalhamos com funções, que tem valor de retorno, - É mais direto para o retorno da função, mas 
+a sintaxe é mais complexa(tou nem ai)
+
+_____________
+*** FRAMEWORKS. - Simplificam a persistencia de dados e organizam as aplicações. 
+
+Hibernate - é um framework(estrutura/sistema) de mapeamento Objeto Relacional(ORM), que facilita o relacionamento entre
+uma aplicação JAVA e um banco de dados. 
+*O principal objetivo de um hibernate é mapear(identificar?) objetos JAVA para tabelas em um banco de dados relacional e atributos
+de classe para colunas. 
+*** EM vez de se escrever comandos SQL para manipular dados, pode-se usar um objeto JAVA e anotações, para definir como o
+banco armazenará esses objetos. Assim pode-se trabalhar diretamente com objetos (em java claro) e o hibernate traduz para o 
+Sistema SQL. 
+**** - utilizar o hibernate acarreta em nao escrevermos código sql(ele traduz). - ele tem HQL(hibernate Queary lgg) linguagem própria
+
+----Persistência de dados é o conceito de armazenar informações de forma duradoura para que possam ser recuperadas 
+e usadas posteriormente, mesmo após o programa ser fechado ou o sistema ser reiniciado. - é fundamental para a guarda e 
+recuperação de dados. - o hibernate realiza a persistencia de dados no Banco de dados relacional, permitindo o trabalho com
+objetos JAVA. 
+
+box* _____
+-- Uma sessão(HIBERNATE)  é uma conexão(individual) com o banco de dados - uma conversa entre a aplicação 
+e o banco, é criada quando ha uma conexão com o banco e é fechada ao final para liberar recursos. 
+--- Por tanto qualquer ação (inserir, atualizar, deletar, consultar, salvar entidade) é precedida de uma abertura de sessão.É temporá
+ria.
+-- Configuração(HIBERNATE) Sempre que eu inicializo o SessionFactory o arquivo de configuração hibernate.cfg.xml[contem as 
+configurações de conexão : URL, usuario, senha, o dialeto SQL e a estrateria de tabelas] é aberto. 
+---O SessionFactory funciona a partir das configurações inciais, e é responsável por abrir as sessões, mantendo essa abertura 
+
+--- Transação é quando uma operação consiste em uma sequencia de ações, que devem ser todas executadas completamente 
+ou nao serem executadas de jeito nenhum. buscando-se integridade. 
+****Transaction transaction = session.beginTransaction();
+
+-- Exibe o rastreamento de exceção no console. 
+
+centralizada, e mantendo o estado das configurações. 
+__________
+C:\Users\Nemuel Araujo\Documents\NetBeansProjects - localização do projeto Maven. 
+C:\Program Files (x86)\NetBeans 8.0.2\bin
+_________
+
+1 - Primeiro Passo, criar uma classe de entidade que represente a tabela no Banco de Dados. 
+@ENTITY - Informa ao Hibernate que essa classe representa uma entidade, que será mapeada para uma tabela no banco de dados 
+-- @Id e @GeneratedValue - Definem Id como a chave primária, e permitem que o banco gere valores automaticamente. 
+
+2 - para se ter um acesso ao hibernate facilitado, criamos uma classe utilitária. - HibernateUtil
+--A função do hibernate util, é encapsular[*proteger a privacidade do método, tornando possível  o seu acesso apenas por 
+getters e setters] toda a gestão de sessões,conexões e de  configuração  do hibernate em um só lugar,
+de forma que possa ser chamado em qualquer parte do projeto. 
+-métodos *getSession(retorna sessão do Hibernate) - shutdown(fecha a session Factory).
+__________________________________________________________________________________________
+BOX* - DESIGN DE CÓDIGO ----------
+1 - Separação de responsabilidades. 
+2 - Quando reconhecer quem tem responsabilidade global e local. 
+3 - 
+Separação de responsabilidades e design são conceitos fundamentais de desenvolvimento que ajudam a organizar e manter o código limpo, modular e fácil de entender.
+
+1. Separação de Responsabilidades
+A separação de responsabilidades é a prática de organizar o código para que cada parte tenha uma função específica e única. Isso facilita a manutenção, o teste e a expansão do código, porque cada módulo ou classe cuida de uma única responsabilidade.
+
+Exemplo: Em um sistema que usa banco de dados, é uma boa prática separar as classes de dados (entidades) das classes de acesso ao banco (como HibernateUtil). Assim, se precisar alterar a forma de acessar o banco, você só muda a classe de conexão, sem precisar mexer nas classes de dados.
+2. Design de Código
+O design de código abrange as técnicas e práticas que garantem que o código seja bem organizado e fácil de modificar. Algumas boas práticas de design incluem:
+
+Princípio SOLID: São cinco princípios (Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion) que ajudam a criar um design modular e expansível.
+DRY (Don’t Repeat Yourself): Evitar a duplicação de código, criando métodos ou classes reutilizáveis.
+Coesão e Acoplamento: Uma classe deve ter alta coesão (focar em uma única responsabilidade) e baixo acoplamento (não depender muito de outras classes).
+Vantagens de Aplicar esses Conceitos
+Aplicando a separação de responsabilidades e boas práticas de design, você ganha:
+
+Código mais fácil de manter e escalar: Como cada parte do código está organizada com um propósito claro, as alterações são localizadas e não afetam o sistema inteiro.
+Facilidade em localizar e corrigir erros: Problemas em uma função específica serão mais fáceis de resolver sem impactar outras funcionalidades.
+Reutilização de Código: Classes e métodos bem projetados podem ser reutilizados em outras partes do projeto ou em projetos futuros.
+Esses conceitos são essenciais para se tornar um desenvolvedor eficiente e criam uma base sólida para trabalhar em projetos mais complexos.
+
+________
+=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*
+
+Spring - sao aplicações desenvolvidas utilizando-se Spring framework - um framework que simplifica aplicações robustas , escaláveis e bem estruturadas, 
+- injeção de dependencias 
+- gerenciamento de transações
+- integração com banco de dados e API's 
+--- Implementa o padrão de projeto INversão de controle , gerenciando objetos e dependencias, para que o usuario se preocupe com a lógica da aplicação.
+--- Configurações baseadas em anotações e xml's
+
+Dividido em Módulos - 
+spring core - injeção de dependencias 
+Spring MVC - criação de API's e Rest - Ex Aplicações WEB
+Spring boot - Criação de Aplicações mais simples - arquitetura de microserviços 
+Spring data  - integração com banco de dados - JPA - Persistencia de dados 
+
+** Spring Frameworks, exige uma alocação de projetos mais especializadas.
+
+ainda ha o Spring Cloud que nao entraremos no escopo 
+
+* favorece convenções - O que simplifica os processos de configuração. 
+
+* Se crescerem demais, podem se tornar dificeis de manter. 
+
+pasta bin - quando compilamos o projeto e os arquivos.java o compilador os transforma em .class e armazena na pasta bin para depois serem usados pela JVM
+pasta src - main java - guarda os arquivos .java - as classes inicias em si, que serao processadas pelo Maven ou Spring
+pasta build(maven utiliza target) - arquivo ja processado quase pronto para utilização , compilados bin, recursos empacotados, arquivos ,jar e ,war. propeties - CONTROLA COMO SERÁ
+A COMPILAÇÃO. 
+plugins automatizam tarefas, como criação de .jahrs. wars e testes. 
+
+repositorio - local onde sao armazenados arquivos e informações de um projeto. 
+
+***** Spring Simplifica aplicações (injetando dependencias, criando API's , gerenciando bancos e transações, PPinversao de Controle, deixando o usuario apenas com a
+lógica)
+
+***** Hibernate - é um framework(estrutura) que permite que tabelas de banco de dados sejam transformadas em Objetos Java. 
+
+***** API (Aplication Programming Iinterface) - framework(estrutura) que Permite que outros sistemas se comuniquem entre si, trocando dados e funcionalidades.
+
+*****JPA - Java persirstence API - api de banco de dados. 
+
+*****POM - Project Object Model - Arquivo principal(dependencia) usado pelo Maven
+
+****Maven é uma ferramenta de automação e compilação, gerenciamento de dependencias e de bibliotecas
+
+***** Endpoint é uma porta de entrada para se interagir com uma aplicação, geralmente funciona através de uma URL. É onde o cliente (navegador
+Postman ou FrontEnd) faz requisições para interagir com a aplicação. 
+----Algumas das funcionalidades dos Endpoints : 
+1 - GET/USERS - Retorna Lista de usuários 
+2 - Post/USERS - Cria novos usuários 
+3 - Put/Users/1 - Atualiza Usuário com ID-1 
+4 - Delete/Users/1 - Remove Usuários com ID-1 
+
+***** URL - Localizador Uniforme de Recursos - é um endereço utilizado para se encontrar recursos como - Imagens, vídeos, dados. - São utilizados
+para navegação geral na WEB, troca de dados em API's e compartilhamento de recursos. 
+É didivida em partes, sendo : 
+
+1 - http(protocolo de comunicação que será usado, podem ser: https, malto, files) -  
+2 - hostname/dominio -www.nemin.com - indica o nome do servidor onde o recurso será guardado, pode tambem ser um IP (162.115.232)
+3 - Porta(Opcional - Ex :8080 -) - indica a porta do servidor utilizada para localizar o recurso. 
+4 - Pagina -  /nemin - indica o local exato do recurso no servidor, é como um endereço ou pasta. 
+5 - QuerryString ?Busca=Java - fornece parametros adicionais para requisição - nesse exemplo o parametro é Busca e o Valor é Java
+6 - Fragmento #seção02 - Aponta pra uma parte específica dentro do recurso. 
+
+OBS* uma URL só será um endpoint se estiver servindo como porta de entrada para uma aplicação, se estiver exercendo o papel de navegação
+por si só, não será um endpoint. 
+
+****A diferença entre dependencias[são documentos que determinam o que o projeto precisa , fazendo referencia a bibliotecas ou afins, Ex: o pom.xml no Maven]. e
+ bibliotecas[coleções de códigos pré-escritos que fornecem funcionalidades, como classes métodos e frameworks- Spring Hibernate,Apachesão artefatis completos como .jar, 
+sendo utilizadas para adicionar funcionalidades ao projeto.] está no Contexto de Uso.  
+
+**** REPOSITÓRIO - É algo que funcionando junto com Spring JPA(ide?) - gerencia o acesso a um banco de dados , fornecendo métodos prontos para
+ações como , salvar, buscar, atualizar e deletar dados. 
+
+***** Spring Data JPA(Java persistence API) é uma estrutura do Spring que simplifica o acesso e manipulação de bando de dados relacionais - Removen
+do a necessidade de se escrever muitas linhas, automatizando repositórios e utilizando o Hibernate para Mapear banco de dados. 
+
+**** Pluggins são extensões que adicionam funcionalidades ao processo de construção (build) - ajudam a compilar código, empacotar aplicativo, rodar
+teste, copiar arquivos. 
+
+@ENTITY - é quando eu transformo uma tabela de banco de dados em classe 
+
+@id - define chave primaria
+
+@generate - gera valor 
+
+----- No Contexto da Programação, um sistema é algo que ja está pronto pra uso (Estudar Arquitetura e design de sistemas no futuro)
+
+=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*
+
+CRIAR A CLASSE REPETEFUN(TABELA) NO PACOTE APROPRIADO 
+
+cd C:\Users\Nemuel Araujo\Documents\novo-prjt\new\HibernateProject
+
+target/HibernateProject-1.0-SNAPSHOT.jar
+________________
+
+*colocar palavras chaves do que se sabe no linkedin, experiencias, projetos, skills, competencias
+*se conectar com RH e pessoas de TI - pra aparecer nas métricas deles 
+*Responda as mensagens mesmo que as vagas nao sejam pra mim - seja aberto explique o momento 
+
+=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*
+* tecnologias,  ferramentas digitais e redes de aprendizado é mais fácil do que nunca  construir um império empreendedor. 
+*TRILHANDO O CAMINHO CERTO, PRA SER REFERENCIA E IMPACTAR O MUNDO - 
+1 - Manter o foco no aprendizado
+2 - Alinhar paixões e habilidades com ações.
+3 - ja comecei  - musk fundou a Spacex aos 31, entrou na tesla como Investidor aos 33, Ray Krock fundou o McDonalds aos 52, Haland Sanders fundou o KFC aos 60, 
+Donald Trump foi presidente a primeira vez aos 70 e a segunda aos 78, Redi Hofmman Linkedin aos 36, Vera Wang Desing de Moda aos 40, Gordon More fundou a INtel aos 39 anos, 
+Sam Walton fundou o Walmart aos 44 anos, Charles Flint IBM 61 anos, Stan Lee - Universo Marvel aos 39 anos , Henry Ford fundou a Ford aos 45 anos , Huffington Post aos 55 anos , Jack 
+Ma Alibaba 35 anos, Samuel L Jacskon Pulp Fiction após os 40 , Randy Coulture Campeao a Primeira vez aos 34 anos e multiplas categorias campeao aos 40. Robert Downey Jr gravou 
+Homem de ferro aos 42(após uma luta contra o crack) - Tom Hardy(Cavaleiro das Trevas aos 35, Mad Max aos 38, venon aos 38 e 41, peaky Blinders 37 aos 45, Cilian Murhplhy Peaky Blinders
+37 aos 44)
+
+Elon Musk - 53 anos
+Donald Trump - 78 anos 
+Javier Milei - 54 anos 
+
+pérolas - CLAREZA DE VISÃO- CAPACIDADE DE AÇÃO - DISPOSIÇÃO PARA APRENDER COM OS ERROS E CONTINUAR. 
+
+Tenho energia, ideias Brilhantes e um Plano claro.   
+
+box - estudar sobre escalabilidade. --------
+=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*
+A MARINHA é um   GRANDE FREIO DA SUA VIDA !!!!!!!!!!
+
+___________________________
+
+estou usando uma IDE o Spring suit Tool 4 que está localizado em C:\Users\Nemuel Araujo\Desktop\sts-4.26.0.RELEASE, utilizo o Maven que é uma ferramenta de automação
+ e compilação que está localizado em  C:\apache-maven-3.9.9, utilizando uma jdk localizada em C:\Program Files\Java\jdk-17 e utilizando o hibernate que transformará 
+tabelas em objetos java localizado em C:\Users\Nemuel Araujo\.m2\repository\org. Minha pergunta, porque a validação da nossa integração desses sistemas : 
+IDE/Maven/JDK-JRE/Hibernate foi feita no navegador(no meu caso o chrome) ?  
+
+R. A validação foi feita no navegador porque o Spring Boot é um framework(estrutura)  para aplicações WEB(cria servidores embutidos, iniciando
+e configurando automaticamente um servidor)  esse servidor responde a requisições http ou postman. O navegador é a ferramenta mais simples que 
+pode receber endpoints HTTP (no nosso caso http://localhost:8080), podendo assim ser verificado o funcionamento do servidor e da aplicação. 
+A mensagem Bem Vindo ao Hibernate Project significa que:
+
+1 - A IDE  executou o código com sucesso 
+2 - O Maven gerenciou as dependencias e conectou os Plugins 
+3 - a JDK compilou o código JAVA
+4 - o Hibernate foi integrado ao SPring e mapeou as tabelas corretamente. 
+
+O Navegador valida o processo como um todo.
+
+CRUD - Acronimo que resume tudão que deve ser feito ao se manipular dados 
+Create 
+Read - Select*from 
+Update
+Delete 
+_____________________
+COMANDOS 
+@RestControler - marca a classe como um controlador no estilo Rest(Arquitetura de API's que utiliza métodos como HTTP,GET,POST,UP,DELETE). - 
+as respostas dos métodos sao convertidas em JSON ou XML e enviadas ao cliente 
+
+@RequestMaping - Define os caminhos base para os enpoints da classe - ex: @RequestMapping("/api/funcionarios") - faz com que todos os endpoints
+dessa classe comecem com api/funcionarios
+
+@Autowired - injeta automaticamenteuma dependencia 
+
+@PostMaping - Mapeia requisições http do tipo POST para o método. 
+
+@GetMapping - Mapeia requisições http do tipo GET  para o método - Usado para criar um novo recurso (Como Funcionario - enviando dados no 
+corpo da requisição)
+
+@GetMapingId - mapeia requisições utilizando o id(será um parametro da url) Ex: GET /api/funcionarios/1 busca o funcionário com ID 1.
+
+@putMapingID - Mapeia Requisições http do tipo Put - Exemplo: PUT /api/funcionarios/1 atualiza o funcionário com ID 1.
+
+@DeleteMapping("/{id}") - Mapeia requisições do tipo delete - Exemplo: DELETE /api/funcionarios/1 remove o funcionário com ID 1.
+
+*****O QUE É PID ? - (process Identifier) - É um número de identificação atribuido a cada processo em um sistema operacional.
+--Utilizando-se --netstat -ano | findstr :-- e o numero, identificamos o processo que esteja utilizando o PID referente a esse numero. 
+
+
+=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*
+UM sistema de 64 bits(bynary digit - unidade mais básica de informação em computação digital, corresponde a 0 ou 1, pode se entender como ligado
+e desligado referente a circuitos, pode processar e organizar blocos de dados de 64 bits.- os bites serão combinados em Bytes(conjunto de 8 bites) , para
+que informação como texto, imagem, som e vídeo sejam criadas. 1 kylobyte tem 1024 bytes 1 MegaByte tem 1024 Kylobytes
+* 1 Byte -  8 bits 
+*1 Kylobyte tem 1024 Bytes
+* 1 megaByte tem 1024 Kylobytes
+todas as informações computacionais sao combinações de Bites. 
+=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*
+
+http://localhost:8081/api/funcionarios - URL DO MEU PROJETO.
+
+****** POST - é o que cria novos registros no Banco de dadosn enviando dados no formato JSON(estrutura de dados mto utilizada em API's) para 
+o servidor que salva esses dados no Banco. 
+
+*****  GET - REQUISIÇÃO QUE EXTRAI DADOS DE UMA API
+
+*****  -- Minha aplicação Spring Boot esta rodando em um servidor Backend - a porta é o host 8081
+---- as urls seguem o padrão - http://<hostname>:<porta>/<context-path>/<endpoint>
+
+analisando --- http://localhost:8081/api/funcionarios - http://localhost(hostname - significa que roda localmente):8081(porta)/(context-path)api/funcionarios
+(endpoint)
+*** HTTP é o nome do método que utiliza os métodos - GET-POST-PUT-DELETE- 
+
+******Ao enviar os endpoints Post e Put o Postman se comunica diretamente o @RestControler(meu controlador- que tambem fala a lingua http), a partir
+disso o Springboot responde ao Postman, que exibe essa resposta no formato JSON. 
+
+_______________________________________________________________________________________________

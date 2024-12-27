@@ -1,28 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import api from '../api'; // Certifique-se de que isso está configurado no arquivo api.js
+import api from '../api';
 
 const Dashboard = () => {
-    const [data, setData] = useState({}); // Armazena os dados do backend
+    const [dados, setDados] = useState({});
 
     useEffect(() => {
-        // Faz a requisição ao backend
         api.get('/dashboard')
-            .then((response) => {
-                setData(response.data); // Atualiza o estado com os dados recebidos
-            })
-            .catch((error) => {
-                console.error('Erro ao buscar dados do dashboard:', error);
-            });
+            .then((response) => setDados(response.data))
+            .catch((error) => console.error('Erro ao carregar dados do dashboard', error));
     }, []);
 
     return (
         <div>
-            <h1>Dashboard</h1>
-            <p>{data.message}</p>
-            <p>Usuário: {data.user}</p>
-            <p>Saldo: R$ {data.balance}</p>
+            <h1>Dashboard de Funcionários</h1>
+            <pre>{JSON.stringify(dados, null, 2)}</pre>
         </div>
     );
 };
 
 export default Dashboard;
+
