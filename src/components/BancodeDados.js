@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'; 
 import './BancodeDados.css';
+
+// Defina a URL base do backend da AWS
+const API_BASE_URL = 'http://44.211.42.105:8082';
 
 const BancodeDados = () => {
     const [dados, setDados] = useState([]); // Armazena os dados dos funcionários
@@ -7,7 +10,7 @@ const BancodeDados = () => {
     const [erro, setErro] = useState(null); // Armazena erros
 
     useEffect(() => {
-        fetch('http://localhost:8082/api/funcionarios') // Conecta ao endpoint
+        fetch(`${API_BASE_URL}/api/funcionarios`) // Conecta ao endpoint da AWS
             .then((response) => {
                 if (!response.ok) {
                     throw new Error(`Erro na requisição: ${response.status}`);

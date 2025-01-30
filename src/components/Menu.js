@@ -1,6 +1,9 @@
 import React from 'react';
 import './Menu.css';
 
+// Defina a URL base do backend da AWS
+const API_BASE_URL = 'http://44.211.42.105:8082';
+
 const Menu = () => {
     return (
         <div className="menu-container">
@@ -8,7 +11,7 @@ const Menu = () => {
             <div className="menu-grid">
                 {/* Link para Banco de Dados Completo Paginado */}
                 <a
-                    href="http://localhost:8082/funcionarios-html"
+                    href={`${API_BASE_URL}/funcionarios-html`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="menu-item"
@@ -19,7 +22,7 @@ const Menu = () => {
 
                 {/* Link para Dashboard */}
                 <a
-                    href="http://localhost:8082/dashboard"
+                    href={`${API_BASE_URL}/dashboard`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="menu-item"
@@ -30,7 +33,7 @@ const Menu = () => {
 
                 {/* Link para Funcionários/Cargo */}
                 <a
-                    href="http://localhost:8082/exportacao/relatorios/cargos/csv"
+                    href={`${API_BASE_URL}/exportacao/relatorios/cargos/csv`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="menu-item"
@@ -41,7 +44,7 @@ const Menu = () => {
 
                 {/* Link para Total Salários/Departamentos */}
                 <a
-                    href="http://localhost:8082/exportacao/relatorios/departamentos/csv"
+                    href={`${API_BASE_URL}/exportacao/relatorios/departamentos/csv`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="menu-item"
@@ -52,7 +55,7 @@ const Menu = () => {
 
                 {/* Link para Funcionário/Salário Paginado */}
                 <a
-                    href="http://localhost:8082/funcionarios-html/salarios"
+                    href={`${API_BASE_URL}/funcionarios-html/salarios`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="menu-item"
