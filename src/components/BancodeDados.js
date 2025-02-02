@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'; 
 import './BancodeDados.css';
 
-// Defina a URL base do backend da AWS
-const API_BASE_URL = 'http://44.211.42.105:8082';
+// Defina a URL base do backend da AWS com o novo IP Elástico
+const API_BASE_URL = 'http://3.217.55.187:8082';
 
 const BancodeDados = () => {
     const [dados, setDados] = useState([]); // Armazena os dados dos funcionários
