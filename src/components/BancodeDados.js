@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'; 
 import './BancodeDados.css';
 
-// Defina a URL base do backend da AWS com o novo IP Elástico
-const API_BASE_URL = 'http://3.217.55.187:8082';
+// URL base do backend local
+const API_BASE_URL = 'http://localhost:8082';
 
 const BancodeDados = () => {
-    const [dados, setDados] = useState([]); // Armazena os dados dos funcionários
-    const [loading, setLoading] = useState(true); // Estado de carregamento
-    const [erro, setErro] = useState(null); // Armazena erros
+    const [dados, setDados] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [erro, setErro] = useState(null);
 
     useEffect(() => {
-        fetch(`${API_BASE_URL}/api/funcionarios`) // Conecta ao endpoint da AWS
+        fetch(`${API_BASE_URL}/api/funcionarios`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error(`Erro na requisição: ${response.status}`);
@@ -18,22 +18,22 @@ const BancodeDados = () => {
                 return response.json();
             })
             .then((data) => {
-                setDados(data.content); // Acessa os dados em "content"
-                setLoading(false); // Finaliza o carregamento
+                setDados(data.content);
+                setLoading(false);
             })
             .catch((error) => {
                 console.error('Erro ao carregar os dados:', error);
-                setErro(error.message); // Armazena o erro no estado
+                setErro(error.message);
                 setLoading(false);
             });
     }, []);
 
     if (loading) {
-        return <div className="loading">Carregando os dados...</div>; // Indicador de carregamento
+        return <div className="loading">Carregando os dados...</div>;
     }
 
     if (erro) {
-        return <div className="error">Erro ao carregar os dados: {erro}</div>; // Exibe mensagem de erro
+        return <div className="error">Erro ao carregar os dados: {erro}</div>;
     }
 
     return (

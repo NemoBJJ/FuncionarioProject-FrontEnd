@@ -1,0 +1,1373 @@
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\AgendaEventos.js =====
+import React, { useState } from 'react';
+import './AgendaEventos.css';
+
+const AgendaEventos = () => {
+  const [eventos, setEventos] = useState([
+    {
+      id: 1,
+      titulo: '🎉 Aniversário da Empresa',
+      data: '2026-05-20',
+      descricao: 'Comemoração dos 5 anos da GesteX',
+      tipo: 'celebracao'
+    },
+    {
+      id: 2,
+      titulo: '📊 Fechamento do Mês',
+      data: '2026-05-31',
+      descricao: 'Prazo para envio de relatórios financeiros',
+      tipo: 'deadline'
+    },
+    {
+      id: 3,
+      titulo: '👥 Reunião de Equipe',
+      data: '2026-05-19',
+      descricao: 'Alinhamento de metas do trimestre',
+      tipo: 'reuniao'
+    },
+    {
+      id: 4,
+      titulo: '💳 Pagamento de Funcionários',
+      data: '2026-06-05',
+      descricao: 'Processamento da folha de pagamento',
+      tipo: 'financeiro'
+    },
+    {
+      id: 5,
+      titulo: '📝 Envio de Notas Fiscais',
+      data: '2026-05-25',
+      descricao: 'Prazo para envio de NF do mês',
+      tipo: 'deadline'
+    },
+    {
+      id: 6,
+      titulo: '🎓 Treinamento RH',
+      data: '2026-05-22',
+      descricao: 'Atualização sobre LGPD',
+      tipo: 'reuniao'
+    }
+  ]);
+
+  const [novaData, setNovaData] = useState('');
+  const [novoTitulo, setNovoTitulo] = useState('');
+  const [novaDescricao, setNovaDescricao] = useState('');
+  const [showForm, setShowForm] = useState(false);
+  const [mesAtual, setMesAtual] = useState(new Date().getMonth());
+  const [anoAtual, setAnoAtual] = useState(new Date().getFullYear());
+
+  const adicionarEvento = () => {
+    if (!novaData || !novoTitulo) return;
+    const novoEvento = {
+      id: Date.now(),
+      titulo: novoTitulo,
+      data: novaData,
+      descricao: novaDescricao || 'Sem descrição',
+      tipo: 'personalizado'
+    };
+    setEventos([...eventos, novoEvento]);
+    setNovaData('');
+    setNovoTitulo('');
+    setNovaDescricao('');
+    setShowForm(false);
+  };
+
+  const deletarEvento = (id) => {
+    setEventos(eventos.filter(e => e.id !== id));
+  };
+
+  const getTipoIcon = (tipo) => {
+    switch(tipo) {
+      case 'celebracao': return '🎉';
+      case 'deadline': return '⚠️';
+      case 'reuniao': return '👥';
+      case 'financeiro': return '💰';
+      default: return '📌';
+    }
+  };
+
+  const getTipoCor = (tipo) => {
+    switch(tipo) {
+      case 'celebracao': return '#28a745';
+      case 'deadline': return '#dc3545';
+      case 'reuniao': return '#17a2b8';
+      case 'financeiro': return '#ffc107';
+      default: return '#6c757d';
+    }
+  };
+
+  const diasNoMes = new Date(anoAtual, mesAtual + 1, 0).getDate();
+  const primeiroDiaSemana = new Date(anoAtual, mesAtual, 1).getDay();
+  const botoesSemana = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
+  
+  const eventosPorData = {};
+  eventos.forEach(evento => {
+    if (!eventosPorData[evento.data]) {
+      eventosPorData[evento.data] = [];
+    }
+    eventosPorData[evento.data].push(evento);
+  });
+
+  const mesAnterior = () => {
+    if (mesAtual === 0) {
+      setMesAtual(11);
+      setAnoAtual(anoAtual - 1);
+    } else {
+      setMesAtual(mesAtual - 1);
+    }
+  };
+
+  const mesProximo = () => {
+    if (mesAtual === 11) {
+      setMesAtual(0);
+      setAnoAtual(anoAtual + 1);
+    } else {
+      setMesAtual(mesAtual + 1);
+    }
+  };
+
+  const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+
+  const hoje = new Date().toISOString().split('T')[0];
+
+  return (
+    <div className="agenda-container">
+      <div className="agenda-header">
+        <h2>📅 Agenda de Eventos</h2>
+        <button className="btn-add" onClick={() => setShowForm(!showForm)}>
+          {showForm ? '✖ Fechar' : '+ Novo Evento'}
+        </button>
+      </div>
+
+      {showForm && (
+        <div className="evento-form">
+          <input
+            type="text"
+            placeholder="Título do evento"
+            value={novoTitulo}
+            onChange={(e) => setNovoTitulo(e.target.value)}
+          />
+          <input
+            type="date"
+            value={novaData}
+            onChange={(e) => setNovaData(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Descrição (opcional)"
+            value={novaDescricao}
+            onChange={(e) => setNovaDescricao(e.target.value)}
+          />
+          <button onClick={adicionarEvento}>Adicionar Evento</button>
+        </div>
+      )}
+
+      <div className="calendario">
+        <div className="calendario-nav">
+          <button onClick={mesAnterior}>◀ {meses[mesAtual === 0 ? 11 : mesAtual - 1]}</button>
+          <h3>{meses[mesAtual]} {anoAtual}</h3>
+          <button onClick={mesProximo}>{meses[mesAtual === 11 ? 0 : mesAtual + 1]} ▶</button>
+        </div>
+
+        <div className="calendario-semana">
+          {botoesSemana.map((dia, idx) => (
+            <div key={idx} className="semana-dia">{dia}</div>
+          ))}
+        </div>
+
+        <div className="calendario-dias">
+          {Array(primeiroDiaSemana).fill(null).map((_, idx) => (
+            <div key={`empty-${idx}`} className="dia vazio"></div>
+          ))}
+          {Array(diasNoMes).fill(null).map((_, idx) => {
+            const dia = idx + 1;
+            const dataStr = `${anoAtual}-${String(mesAtual + 1).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
+            const eventosDia = eventosPorData[dataStr] || [];
+            const isHoje = dataStr === hoje;
+            
+            return (
+              <div key={dia} className={`dia ${isHoje ? 'hoje' : ''} ${eventosDia.length > 0 ? 'com-evento' : ''}`}>
+                <span className="dia-numero">{dia}</span>
+                {eventosDia.slice(0, 2).map(evento => (
+                  <div 
+                    key={evento.id} 
+                    className="evento-mini" 
+                    style={{ backgroundColor: getTipoCor(evento.tipo) }}
+                    title={evento.descricao}
+                  >
+                    {getTipoIcon(evento.tipo)} {evento.titulo.length > 15 ? evento.titulo.substring(0, 12) + '...' : evento.titulo}
+                  </div>
+                ))}
+                {eventosDia.length > 2 && (
+                  <div className="evento-mini mais">+{eventosDia.length - 2}</div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="lista-eventos">
+        <h3>📌 Próximos Eventos</h3>
+        <div className="eventos-list">
+          {eventos
+            .sort((a, b) => a.data.localeCompare(b.data))
+            .slice(0, 5)
+            .map(evento => (
+              <div key={evento.id} className="evento-card" style={{ borderLeftColor: getTipoCor(evento.tipo) }}>
+                <div className="evento-info">
+                  <div className="evento-data">
+                    <strong>{evento.data.split('-').reverse().join('/')}</strong>
+                  </div>
+                  <div className="evento-titulo">
+                    {getTipoIcon(evento.tipo)} {evento.titulo}
+                  </div>
+                  <div className="evento-descricao">{evento.descricao}</div>
+                </div>
+                <button className="evento-delete" onClick={() => deletarEvento(evento.id)}>🗑️</button>
+              </div>
+            ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AgendaEventos;
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\BancodeDados.js =====
+import React, { useEffect, useState } from 'react'; 
+import './BancodeDados.css';
+
+// URL base do backend local
+const API_BASE_URL = 'http://localhost:8082';
+
+const BancodeDados = () => {
+    const [dados, setDados] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [erro, setErro] = useState(null);
+
+    useEffect(() => {
+        fetch(`${API_BASE_URL}/api/funcionarios`)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`Erro na requisição: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((data) => {
+                setDados(data.content);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error('Erro ao carregar os dados:', error);
+                setErro(error.message);
+                setLoading(false);
+            });
+    }, []);
+
+    if (loading) {
+        return <div className="loading">Carregando os dados...</div>;
+    }
+
+    if (erro) {
+        return <div className="error">Erro ao carregar os dados: {erro}</div>;
+    }
+
+    return (
+        <div className="database-container">
+            <h1 className="database-title">Banco de Dados de Funcionários</h1>
+            <table className="database-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Cargo</th>
+                        <th>Salário</th>
+                        <th>Departamento</th>
+                        <th>Data de Admissão</th>
+                        <th>Cidade</th>
+                        <th>Estado</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {dados.map((funcionario) => (
+                        <tr key={funcionario.id}>
+                            <td>{funcionario.id}</td>
+                            <td>{funcionario.nome}</td>
+                            <td>{funcionario.cargo}</td>
+                            <td>R$ {funcionario.salario.toFixed(2)}</td>
+                            <td>{funcionario.departamento}</td>
+                            <td>{funcionario.dataAdmissao}</td>
+                            <td>{funcionario.cidade}</td>
+                            <td>{funcionario.estado}</td>
+                            <td>{funcionario.statusEmprego}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
+export default BancodeDados;
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\CadastroFacial.js =====
+import React, { useState, useEffect } from 'react';
+import ReconhecimentoFacial from './ReconhecimentoFacial';
+import api from '../api';
+import './CadastroFacial.css';
+
+const CadastroFacial = () => {
+  const [funcionarios, setFuncionarios] = useState([]);
+  const [selectedFuncionario, setSelectedFuncionario] = useState(null);
+  const [showFaceModal, setShowFaceModal] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    carregarFuncionarios();
+  }, []);
+
+  const carregarFuncionarios = async () => {
+    try {
+      const response = await api.get('/funcionarios');
+      setFuncionarios(response.data.content || []);
+    } catch (error) {
+      console.error('Erro ao carregar funcionários:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCadastrarFace = (funcionario) => {
+    setSelectedFuncionario(funcionario);
+    setShowFaceModal(true);
+  };
+
+  const handleFaceCadastrada = () => {
+    alert(`✅ Face cadastrada para ${selectedFuncionario.nome} com sucesso!`);
+    setShowFaceModal(false);
+    setSelectedFuncionario(null);
+    carregarFuncionarios();
+  };
+
+  if (loading) {
+    return <div className="loading">Carregando funcionários...</div>;
+  }
+
+  return (
+    <div className="cadastro-container">
+      <h2>😀 Cadastro Facial de Funcionários</h2>
+      
+      <div className="funcionarios-grid">
+        {funcionarios.map(func => (
+          <div key={func.id} className="funcionario-card">
+            <div className="funcionario-avatar">
+              {func.faceDescriptor ? '😀✅' : '😐❌'}
+            </div>
+            <h3>{func.nome}</h3>
+            <p>{func.cargo || 'Cargo não definido'}</p>
+            <p className="face-status">
+              Status Face: 
+              <span className={func.faceDescriptor ? 'status-cadastrado' : 'status-nao-cadastrado'}>
+                {func.faceDescriptor ? ' Cadastrada' : ' Não cadastrada'}
+              </span>
+            </p>
+            <button 
+              className={func.faceDescriptor ? 'btn-recadastrar' : 'btn-cadastrar'}
+              onClick={() => handleCadastrarFace(func)}
+            >
+              {func.faceDescriptor ? '🔄 Recadastrar Face' : '📸 Cadastrar Face'}
+            </button>
+          </div>
+        ))}
+      </div>
+
+      {showFaceModal && selectedFuncionario && (
+        <ReconhecimentoFacial
+          funcionarioId={selectedFuncionario.id}
+          onClose={() => setShowFaceModal(false)}
+          onSucesso={handleFaceCadastrada}
+        />
+      )}
+    </div>
+  );
+};
+
+export default CadastroFacial;
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\Charts.js =====
+import React, { useEffect, useState } from 'react';
+import {
+    Chart as ChartJS,
+    BarElement,
+    CategoryScale,
+    LinearScale,
+    Tooltip,
+    Legend,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+
+ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
+
+const Charts = () => {
+    const [chartData, setChartData] = useState(null);
+
+    useEffect(() => {
+        const mockData = [
+            { month: '2024-01', type: 'RECEITA', total: 46253.66 },
+            { month: '2024-01', type: 'DESPESA', total: 40098.33 },
+            { month: '2024-02', type: 'RECEITA', total: 41271.2 },
+            { month: '2024-02', type: 'DESPESA', total: 39153.05 },
+            { month: '2024-03', type: 'RECEITA', total: 56421.33 },
+            { month: '2024-03', type: 'DESPESA', total: 49657 },
+            { month: '2024-04', type: 'RECEITA', total: 63993.89 },
+            { month: '2024-04', type: 'DESPESA', total: 38183.55 },
+            { month: '2024-05', type: 'RECEITA', total: 63682.74 },
+            { month: '2024-05', type: 'DESPESA', total: 59412.71 },
+            { month: '2024-06', type: 'RECEITA', total: 63087.86 },
+            { month: '2024-06', type: 'DESPESA', total: 43966.68 },
+            { month: '2024-07', type: 'RECEITA', total: 35646.52 },
+            { month: '2024-07', type: 'DESPESA', total: 58460.26 },
+            { month: '2024-08', type: 'RECEITA', total: 49864.72 },
+            { month: '2024-08', type: 'DESPESA', total: 52514.67 },
+            { month: '2024-09', type: 'RECEITA', total: 47372.66 },
+            { month: '2024-09', type: 'DESPESA', total: 39586.16 },
+            { month: '2024-10', type: 'RECEITA', total: 47766.66 },
+            { month: '2024-10', type: 'DESPESA', total: 66905.28 },
+            { month: '2024-11', type: 'RECEITA', total: 50941.87 },
+            { month: '2024-11', type: 'DESPESA', total: 58949.38 },
+            { month: '2024-12', type: 'RECEITA', total: 69260.05 },
+            { month: '2024-12', type: 'DESPESA', total: 67735.18 },
+        ];
+
+        // Captura todos os meses presentes nos dados
+        const months = [...new Set(mockData.map((d) => d.month))];
+
+        // Calcula receitas e despesas por mês
+        const revenues = months.map((month) =>
+            mockData
+                .filter((d) => d.month === month && d.type === 'RECEITA')
+                .reduce((acc, curr) => acc + curr.total, 0)
+        );
+        const expenses = months.map((month) =>
+            mockData
+                .filter((d) => d.month === month && d.type === 'DESPESA')
+                .reduce((acc, curr) => acc + curr.total, 0)
+        );
+
+        // Atualiza o estado do gráfico
+        setChartData({
+            labels: months,
+            datasets: [
+                {
+                    label: 'Receitas',
+                    data: revenues,
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                },
+                {
+                    label: 'Despesas',
+                    data: expenses,
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                },
+            ],
+        });
+    }, []);
+
+    return (
+        <div style={{ width: '80%', margin: '0 auto', height: '500px' }}>
+            <h2>Receitas e Despesas - 2024</h2>
+            {chartData ? (
+                <Bar
+                    data={chartData}
+                    options={{
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Meses',
+                                },
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Valores (R$)',
+                                },
+                            },
+                        },
+                    }}
+                />
+            ) : (
+                <p>Carregando dados ou nenhum dado disponível.</p>
+            )}
+        </div>
+    );
+};
+
+export default Charts;
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\CRUDTransactions.js =====
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import api from '../api';
+import './CRUDTransactions.css';
+
+const CRUDTransactions = () => {
+    const [transactions, setTransactions] = useState([]);
+    const [selectedTransactionId, setSelectedTransactionId] = useState('');
+    const [newTransaction, setNewTransaction] = useState({
+        description: '',
+        amount: '',
+        date: '',
+        type: '',
+        transactionCategory: '',
+    });
+
+    useEffect(() => {
+        const fetchTransactions = async () => {
+            try {
+                const response = await api.get('/transactions');
+                setTransactions(response.data);
+            } catch (error) {
+                console.error('Erro ao buscar transações:', error);
+            }
+        };
+        fetchTransactions();
+    }, []);
+
+    const handleAddTransaction = async () => {
+        try {
+            const response = await api.post('/transactions', newTransaction);
+            setTransactions([...transactions, response.data]);
+            resetForm();
+        } catch (error) {
+            console.error('Erro ao adicionar transação:', error);
+        }
+    };
+
+    const handleUpdateTransaction = async () => {
+        if (!selectedTransactionId) {
+            alert('Informe um ID válido para atualizar.');
+            return;
+        }
+
+        try {
+            const response = await api.put(`/transactions/${selectedTransactionId}`, newTransaction);
+            setTransactions(
+                transactions.map((t) =>
+                    t.id === parseInt(selectedTransactionId) ? response.data : t
+                )
+            );
+            resetForm();
+            setSelectedTransactionId('');
+        } catch (error) {
+            console.error('Erro ao atualizar transação:', error);
+        }
+    };
+
+    const handleDeleteTransaction = async (id) => {
+        try {
+            await api.delete(`/transactions/${id}`);
+            setTransactions(transactions.filter((t) => t.id !== id));
+        } catch (error) {
+            console.error('Erro ao excluir transação:', error);
+        }
+    };
+
+    const handleFetchTransactionById = async () => {
+        if (!selectedTransactionId) {
+            alert('Informe um ID válido para buscar.');
+            return;
+        }
+
+        try {
+            const response = await api.get(`/transactions/${selectedTransactionId}`);
+            setNewTransaction({
+                description: response.data.description,
+                amount: response.data.amount,
+                date: response.data.date,
+                type: response.data.type,
+                transactionCategory: response.data.transactionCategory,
+            });
+        } catch (error) {
+            console.error('Erro ao buscar transação:', error);
+        }
+    };
+
+    const resetForm = () => {
+        setNewTransaction({
+            description: '',
+            amount: '',
+            date: '',
+            type: '',
+            transactionCategory: '',
+        });
+    };
+
+    return (
+        <div className="crud-container">
+            <h1 className="crud-title">Gerenciar Transações</h1>
+
+            <div className="crud-section">
+                <h3>Adicionar ou Atualizar Transação</h3>
+                <input
+                    type="text"
+                    placeholder="Descrição"
+                    value={newTransaction.description}
+                    onChange={(e) => setNewTransaction({ ...newTransaction, description: e.target.value })}
+                />
+                <input
+                    type="number"
+                    placeholder="Valor"
+                    value={newTransaction.amount}
+                    onChange={(e) => setNewTransaction({ ...newTransaction, amount: e.target.value })}
+                />
+                <input
+                    type="date"
+                    value={newTransaction.date}
+                    onChange={(e) => setNewTransaction({ ...newTransaction, date: e.target.value })}
+                />
+                <select
+                    value={newTransaction.type}
+                    onChange={(e) => setNewTransaction({ ...newTransaction, type: e.target.value })}
+                >
+                    <option value="">Selecione o tipo</option>
+                    <option value="RECEITA">Receita</option>
+                    <option value="DESPESA">Despesa</option>
+                </select>
+                <input
+                    type="text"
+                    placeholder="Categoria"
+                    value={newTransaction.transactionCategory}
+                    onChange={(e) =>
+                        setNewTransaction({ ...newTransaction, transactionCategory: e.target.value })
+                    }
+                />
+                <button onClick={handleAddTransaction}>Adicionar</button>
+                <button onClick={handleUpdateTransaction}>Atualizar</button>
+            </div>
+
+            <div className="crud-section">
+                <h3>Buscar Transação por ID</h3>
+                <input
+                    type="text"
+                    placeholder="Informe o ID"
+                    value={selectedTransactionId}
+                    onChange={(e) => setSelectedTransactionId(e.target.value)}
+                />
+                <button onClick={handleFetchTransactionById}>Buscar</button>
+            </div>
+
+            <div className="transactions-list crud-section">
+                <h3>Lista de Transações</h3>
+                <ul>
+                    {transactions.map((t) => (
+                        <li key={t.id}>
+                            ID: {t.id} - {t.description} - R$
+                            {t.amount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                            <button onClick={() => handleDeleteTransaction(t.id)}>Excluir</button>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+
+            <div className="back-to-menu">
+                <Link to="/">
+                    <button className="back-button">Voltar ao Menu</button>
+                </Link>
+            </div>
+        </div>
+    );
+};
+
+export default CRUDTransactions;
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\Dashboard.js =====
+import React, { useEffect, useState } from 'react';
+import api from '../api';
+
+const Dashboard = () => {
+    const [dados, setDados] = useState({});
+
+    useEffect(() => {
+        api.get('/dashboard')
+            .then((response) => setDados(response.data))
+            .catch((error) => console.error('Erro ao carregar dados do dashboard', error));
+    }, []);
+
+    return (
+        <div>
+            <h1>Dashboard de Funcionários</h1>
+            <pre>{JSON.stringify(dados, null, 2)}</pre>
+        </div>
+    );
+};
+
+export default Dashboard;
+
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\Footer.js =====
+import React from 'react';
+
+const Footer = () => {
+    return (
+        <footer style={{ backgroundColor: '#222', color: '#fff', textAlign: 'center', padding: '1rem' }}>
+            <p>&copy; 2024 Sistema Financeiro. Todos os direitos reservados.</p>
+        </footer>
+    );
+};
+
+export default Footer;
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\Funcionarios.js =====
+import React, { useEffect, useState } from 'react';
+import api from '../api';
+import './Funcionarios.css';
+
+const Funcionarios = () => {
+    const [funcionarios, setFuncionarios] = useState([]);
+    const [page, setPage] = useState(0);
+
+    useEffect(() => {
+        api.get(`/funcionarios?page=${page}&size=10`)
+            .then((response) => setFuncionarios(response.data.content))
+            .catch((error) => console.error('Erro ao carregar funcionários', error));
+    }, [page]);
+
+    return (
+        <div className="funcionarios-container">
+            <h1 className="funcionarios-title">Lista de Funcionários</h1>
+            <ul className="funcionarios-list">
+                {funcionarios.map((func) => (
+                    <li key={func.id}>
+                        <span>{func.nome}</span>
+                        <span>{func.cargo}</span>
+                    </li>
+                ))}
+            </ul>
+            <div className="pagination-buttons">
+                <button onClick={() => setPage(page - 1)} disabled={page === 0}>
+                    Página Anterior
+                </button>
+                <button onClick={() => setPage(page + 1)}>
+                    Próxima Página
+                </button>
+            </div>
+        </div>
+    );
+};
+
+export default Funcionarios;
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\Header.js =====
+import React from 'react';
+
+const Header = () => {
+    return (
+        <header style={{ backgroundColor: '#333', color: '#fff', padding: '10px', textAlign: 'center' }}>
+            <h1>Financeiro Frontend</h1>
+        </header>
+    );
+};
+
+export default Header;
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\HistoricoPonto.js =====
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import api from '../api';
+import './HistoricoPonto.css';
+
+const HistoricoPonto = () => {
+  const [registros, setRegistros] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filtroNome, setFiltroNome] = useState('');
+  const [filtroData, setFiltroData] = useState('');
+
+  useEffect(() => {
+    carregarRegistros();
+  }, []);
+
+  const carregarRegistros = async () => {
+    try {
+      const response = await api.get('/funcionarios/ponto/historico');
+      setRegistros(response.data);
+    } catch (error) {
+      console.error('Erro ao carregar registros:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const registrosFiltrados = registros.filter(reg => {
+    let match = true;
+    if (filtroNome && !reg.funcionarioNome.toLowerCase().includes(filtroNome.toLowerCase())) {
+      match = false;
+    }
+    if (filtroData && !reg.dataHora.startsWith(filtroData)) {
+      match = false;
+    }
+    return match;
+  });
+
+  const formatarData = (dataHora) => {
+    const data = new Date(dataHora);
+    return data.toLocaleString('pt-BR');
+  };
+
+  if (loading) {
+    return <div className="loading">Carregando registros de ponto...</div>;
+  }
+
+  return (
+    <div className="historico-container">
+      <h2>📋 Histórico de Ponto Facial</h2>
+
+      <div className="filtros">
+        <div className="filtro-group">
+          <label>Funcionário:</label>
+          <input
+            type="text"
+            placeholder="Digite o nome"
+            value={filtroNome}
+            onChange={(e) => setFiltroNome(e.target.value)}
+          />
+        </div>
+        <div className="filtro-group">
+          <label>Data:</label>
+          <input
+            type="date"
+            value={filtroData}
+            onChange={(e) => setFiltroData(e.target.value)}
+          />
+        </div>
+        <button className="btn-limpar" onClick={() => { setFiltroNome(''); setFiltroData(''); }}>
+          Limpar Filtros
+        </button>
+        <button className="btn-atualizar" onClick={carregarRegistros}>
+          🔄 Atualizar
+        </button>
+      </div>
+
+      <div className="tabela-container">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Funcionário</th>
+              <th>Data/Hora</th>
+              <th>Tipo</th>
+              <th>Similaridade</th>
+            </tr>
+          </thead>
+          <tbody>
+            {registrosFiltrados.length === 0 ? (
+              <tr className="nenhum-registro">
+                <td colSpan="5">Nenhum registro de ponto encontrado</td>
+              </tr>
+            ) : (
+              registrosFiltrados.map((reg) => (
+                <tr key={reg.id}>
+                  <td>{reg.id}</td>
+                  <td><strong>{reg.funcionarioNome}</strong></td>
+                  <td>{formatarData(reg.dataHora)}</td>
+                  <td className="tipo-entrada">{reg.tipo}</td>
+                  <td>{(reg.similaridade * 100).toFixed(1)}%</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="stats">
+        <p>📊 Total de registros: <strong>{registrosFiltrados.length}</strong></p>
+      </div>
+
+      <div className="back-button-container">
+        <Link to="/">
+          <button className="back-button">← Voltar ao Menu</button>
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export default HistoricoPonto;
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\Menu.js =====
+import React from 'react';
+import { Link } from 'react-router-dom';
+import './Menu.css';
+
+// URL base do backend local
+const API_BASE_URL = 'http://localhost:8082';
+
+const Menu = () => {
+    return (
+        <div className="menu-container">
+            <h1 className="menu-title">Recursos Humanos</h1>
+            <div className="menu-grid">
+                {/* Link para Banco de Dados Completo Paginado */}
+                <a
+                    href={`${API_BASE_URL}/funcionarios-html`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="menu-item"
+                >
+                    <div className="menu-icon">📂</div>
+                    <span>Banco de Dados Completo</span>
+                </a>
+
+                {/* Link para Dashboard */}
+                <a
+                    href={`${API_BASE_URL}/dashboard`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="menu-item"
+                >
+                    <div className="menu-icon">📈</div>
+                    <span>Dashboard</span>
+                </a>
+
+                {/* Link para Funcionários/Cargo */}
+                <a
+                    href={`${API_BASE_URL}/exportacao/relatorios/cargos/csv`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="menu-item"
+                >
+                    <div className="menu-icon">📋</div>
+                    <span>Funcionários/Cargo</span>
+                </a>
+
+                {/* Link para Total Salários/Departamentos */}
+                <a
+                    href={`${API_BASE_URL}/exportacao/relatorios/departamentos/csv`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="menu-item"
+                >
+                    <div className="menu-icon">🏢</div>
+                    <span>Total Salários/Departamentos</span>
+                </a>
+
+                {/* Link para Funcionário/Salário Paginado */}
+                <a
+                    href={`${API_BASE_URL}/funcionarios-html/salarios`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="menu-item"
+                >
+                    <div className="menu-icon">💰</div>
+                    <span>Funcionário/Salário</span>
+                </a>
+
+                {/* Link para Cadastro Facial */}
+                <Link to="/cadastro-facial" className="menu-item">
+                    <div className="menu-icon">😀</div>
+                    <span>Cadastro Facial</span>
+                </Link>
+
+                {/* Link para Histórico de Ponto */}
+                <Link to="/historico-ponto" className="menu-item">
+                    <div className="menu-icon">📋</div>
+                    <span>Histórico de Ponto</span>
+                </Link>
+
+                {/* Link para Agenda de Eventos */}
+                <Link to="/agenda" className="menu-item">
+                    <div className="menu-icon">📅</div>
+                    <span>Agenda de Eventos</span>
+                </Link>
+            </div>
+        </div>
+    );
+};
+
+export default Menu;
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\Navbar.js =====
+import React from 'react';
+
+const Navbar = () => {
+    return (
+        <nav style={styles.navbar}>
+            <ul style={styles.navList}>
+                <li style={styles.navItem}><a href="/" style={styles.navLink}>Dashboard</a></li>
+                <li style={styles.navItem}><a href="/transactions" style={styles.navLink}>Transações</a></li>
+                <li style={styles.navItem}><a href="/settings" style={styles.navLink}>Configurações</a></li>
+            </ul>
+        </nav>
+    );
+};
+
+const styles = {
+    navbar: {
+        backgroundColor: '#333',
+        padding: '10px 20px',
+    },
+    navList: {
+        listStyle: 'none',
+        display: 'flex',
+        justifyContent: 'space-around',
+        margin: 0,
+        padding: 0,
+    },
+    navItem: {
+        fontSize: '18px',
+    },
+    navLink: {
+        color: '#fff',
+        textDecoration: 'none',
+        padding: '8px 16px',
+        borderRadius: '4px',
+        transition: 'background-color 0.3s',
+    },
+    navLinkHover: {
+        backgroundColor: '#555',
+    },
+};
+
+export default Navbar;
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\ReconhecimentoFacial.js =====
+import React, { useRef, useState, useEffect } from 'react';
+import * as faceapi from 'face-api.js';
+import api from '../api';
+import './ReconhecimentoFacial.css';
+
+const ReconhecimentoFacial = ({ funcionarioId, onClose, onSucesso }) => {
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+  const [loading, setLoading] = useState(true);
+  const [status, setStatus] = useState('Inicializando câmera...');
+  const [modelosCarregados, setModelosCarregados] = useState(false);
+
+  useEffect(() => {
+    const carregarModelos = async () => {
+      setStatus('Carregando modelos de detecção facial...');
+      const MODEL_URL = '/models';
+      
+      try {
+        await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
+        await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
+        await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
+        
+        setModelosCarregados(true);
+        setStatus('Modelos carregados. Iniciando câmera...');
+        iniciarCamera();
+      } catch (err) {
+        console.error('Erro ao carregar modelos:', err);
+        setStatus('Erro ao carregar modelos faciais. Verifique a pasta /models.');
+      }
+    };
+    
+    carregarModelos();
+  }, []);
+
+  const iniciarCamera = async () => {
+    try {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const videoDevices = devices.filter(device => device.kind === 'videoinput');
+      
+      console.log('📷 Câmeras disponíveis:', videoDevices.map(d => d.label));
+      
+      let cameraId = null;
+      const iriunCam = videoDevices.find(d => 
+        d.label.toLowerCase().includes('iriun') || 
+        d.label.toLowerCase().includes('mobile') ||
+        d.label.toLowerCase().includes('phone')
+      );
+      
+      if (iriunCam) {
+        console.log('✅ Usando câmera Iriun:', iriunCam.label);
+        cameraId = iriunCam.deviceId;
+      } else {
+        console.log('⚠️ Iriun não encontrado, usando câmera padrão');
+        if (videoDevices.length > 0) {
+          cameraId = videoDevices[videoDevices.length - 1].deviceId;
+        }
+      }
+      
+      const constraints = cameraId 
+        ? { video: { deviceId: { exact: cameraId } } }
+        : { video: true };
+      
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        setStatus('Câmera ativa. Posicione o rosto na tela.');
+      }
+    } catch (err) {
+      console.error('Erro ao acessar a câmera:', err);
+      setStatus('Erro ao acessar a câmera. Verifique as permissões e se o Iriun está conectado.');
+    }
+  };
+
+  const capturarFace = async () => {
+    if (!videoRef.current || !modelosCarregados) return;
+    
+    setStatus('Detectando rosto...');
+    try {
+      const detections = await faceapi.detectSingleFace(
+        videoRef.current, 
+        new faceapi.TinyFaceDetectorOptions()
+      ).withFaceLandmarks().withFaceDescriptor();
+      
+      if (detections) {
+        setStatus('Rosto detectado! Enviando...');
+        const descriptor = Array.from(detections.descriptor);
+        
+        if (funcionarioId) {
+          try {
+            await api.post(`/funcionarios/${funcionarioId}/face`, { descriptor });
+            setStatus('✅ Face cadastrada com sucesso!');
+            setTimeout(() => {
+              if (onSucesso) onSucesso();
+              if (onClose) onClose();
+            }, 1500);
+          } catch (err) {
+            console.error(err);
+            setStatus('Erro ao cadastrar face. Tente novamente.');
+          }
+        } else {
+          try {
+            // 🔥 ÚNICA LINHA CORRIGIDA 🔥
+            const response = await api.post('/funcionarios/reconhecer', { descriptor });
+            setStatus(`✅ Olá ${response.data.nome}! Ponto registrado com sucesso!`);
+            setTimeout(() => {
+              if (onSucesso) onSucesso(response.data);
+              if (onClose) onClose();
+            }, 2000);
+          } catch (err) {
+            console.error(err);
+            setStatus('❌ Face não reconhecida. Tente novamente ou procure o RH.');
+          }
+        }
+      } else {
+        setStatus('Nenhum rosto detectado. Posicione-se melhor.');
+      }
+    } catch (err) {
+      console.error('Erro na detecção facial:', err);
+      setStatus('Erro na detecção. Tente novamente.');
+    }
+  };
+
+  return (
+    <div className="face-modal">
+      <div className="face-content">
+        <div className="face-header">
+          <h3>😀 Reconhecimento Facial</h3>
+          <button className="close-btn" onClick={onClose}>✖</button>
+        </div>
+        <div className="face-body">
+          <div className="video-container">
+            <video 
+              ref={videoRef} 
+              autoPlay 
+              muted 
+              playsInline 
+              style={{ width: '100%', borderRadius: '8px' }}
+            />
+            <canvas ref={canvasRef} style={{ display: 'none' }} />
+          </div>
+          <div className="status-area">
+            <p className="status">{status}</p>
+            {modelosCarregados && (
+              <button className="btn-capture" onClick={capturarFace}>
+                {funcionarioId ? '📸 Cadastrar Face' : '👋 Bater Ponto'}
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ReconhecimentoFacial;
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\Statistics.js =====
+import React, { useEffect, useState } from 'react';
+import api from '../api';
+import './Statistics.css';
+
+const Statistics = () => {
+    const [statistics, setStatistics] = useState(null);
+
+    useEffect(() => {
+        const fetchStatistics = async () => {
+            try {
+                const response = await api.get('/dashboard/statistics'); // Rota correta para estatísticas
+                setStatistics(response.data);
+            } catch (error) {
+                console.error('Erro ao buscar estatísticas:', error);
+            }
+        };
+        fetchStatistics();
+    }, []);
+
+    if (!statistics) {
+        return <p>Carregando estatísticas...</p>;
+    }
+
+    return (
+        <div className="statistics-container">
+            <h2>Estatísticas Financeiras</h2>
+            <div className="statistics-grid">
+                {/* Total de Receitas e Despesas */}
+                <div className="stat-item receita">
+                    <h3>Total de Receitas</h3>
+                    <p>R$ {statistics.totalReceitas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                </div>
+                <div className="stat-item despesa">
+                    <h3>Total de Despesas</h3>
+                    <p>R$ {statistics.totalDespesas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                </div>
+
+                {/* Médias Mensais */}
+                <div className="stat-item receita">
+                    <h3>Média Mensal de Receitas</h3>
+                    <p>R$ {statistics.mediaReceitasMensal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                </div>
+                <div className="stat-item despesa">
+                    <h3>Média Mensal de Despesas</h3>
+                    <p>R$ {statistics.mediaDespesasMensal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                </div>
+
+                {/* Mediana */}
+                <div className="stat-item receita">
+                    <h3>Mediana das Receitas</h3>
+                    <p>R$ {statistics.medianaReceitas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                </div>
+                <div className="stat-item despesa">
+                    <h3>Mediana das Despesas</h3>
+                    <p>R$ {statistics.medianaDespesas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                </div>
+
+                {/* Moda */}
+                <div className="stat-item receita">
+                    <h3>Moda das Receitas</h3>
+                    <p>R$ {statistics.modaReceitas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                </div>
+                <div className="stat-item despesa">
+                    <h3>Moda das Despesas</h3>
+                    <p>R$ {statistics.modaDespesas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                </div>
+
+                {/* Desvio Padrão */}
+                <div className="stat-item receita">
+                    <h3>Desvio Padrão das Receitas</h3>
+                    <p>R$ {statistics.desvioPadraoReceitas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                </div>
+                <div className="stat-item despesa">
+                    <h3>Desvio Padrão das Despesas</h3>
+                    <p>R$ {statistics.desvioPadraoDespesas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                </div>
+            </div>
+
+            {/* Botão de Voltar */}
+            <div className="back-to-menu">
+                <a href="/">
+                    <button className="back-button">Voltar ao Menu</button>
+                </a>
+            </div>
+        </div>
+    );
+};
+
+export default Statistics;
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\services\api.js =====
+import axios from 'axios';
+
+const api = axios.create({
+    baseURL: 'http://44.211.42.105:8082/api', // Substituímos pela URL do backend na AWS
+});
+
+export default api;
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\api.js =====
+import axios from 'axios';
+
+const api = axios.create({
+    baseURL: 'http://localhost:8082/api',
+});
+
+export default api;
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\App.js =====
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Menu from './components/Menu';
+import BancodeDados from './components/BancodeDados';
+import ReconhecimentoFacial from './components/ReconhecimentoFacial';
+import CadastroFacial from './components/CadastroFacial';
+import HistoricoPonto from './components/HistoricoPonto';
+import AgendaEventos from './components/AgendaEventos';
+import './App.css';
+
+function App() {
+  const [showFaceModal, setShowFaceModal] = useState(false);
+
+  return (
+    <Router>
+      <div className="app-container">
+        <button 
+          className="face-float-button"
+          onClick={() => setShowFaceModal(true)}
+          title="Reconhecimento Facial para Ponto"
+        >
+          📸
+        </button>
+
+        <Menu />
+        
+        <Routes>
+          <Route path="/database" element={<BancodeDados />} />
+          <Route path="/cadastro-facial" element={<CadastroFacial />} />
+          <Route path="/historico-ponto" element={<HistoricoPonto />} />
+          <Route path="/agenda" element={<AgendaEventos />} />
+        </Routes>
+
+        {showFaceModal && (
+          <ReconhecimentoFacial 
+            onClose={() => setShowFaceModal(false)}
+            onSucesso={(dados) => {
+              console.log('Ponto registrado:', dados);
+              setShowFaceModal(false);
+            }}
+          />
+        )}
+      </div>
+    </Router>
+  );
+}
+
+export default App;
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\index.js =====
+import React from 'react';
+import ReactDOM from 'react-dom/client'; // Note a mudança aqui
+import './index.css';
+import App from './App'; // Certifique-se de que o componente App está correto
+
+// Atualize para React 18
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\routes.js =====
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Transactions from './components/Transactions';
+import Dashboard from './components/Dashboard';
+import Statistics from './components/Statistics'; // Adicionado aqui também
+
+const AppRoutes = () => {
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/transactions" element={<Transactions />} />
+                <Route path="/statistics" element={<Statistics />} /> {/* Certifique-se de incluir Statistics */}
+                <Route path="/dashboard" element={<Dashboard />} />
+            </Routes>
+        </Router>
+    );
+};
+
+export default AppRoutes;
