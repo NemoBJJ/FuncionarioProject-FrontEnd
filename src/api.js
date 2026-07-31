@@ -6,7 +6,7 @@ const isDevelopment =
 
 const BASE_URL = isDevelopment
   ? 'http://localhost:8082/api'
-  : 'https://employee-container.neemindev.com/api';
+  : 'https://employee-container.neemindev.com/';
 
 const api = axios.create({
   baseURL: BASE_URL,
