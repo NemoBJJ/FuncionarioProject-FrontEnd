@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { 
+  Settings, UserPlus, Search, X, Trash2, Edit, Eye, 
+  Users, Briefcase, DollarSign, Building2, Calendar, 
+  MapPin, Mail, Phone, Award, User, UserCog, 
+  ArrowLeft, Plus, Save, List, UserCheck, UserX,
+  Home, Clock
+} from 'lucide-react';
 import api from '../api';
 
 const GerenciarFuncionarios = () => {
@@ -82,7 +89,7 @@ const GerenciarFuncionarios = () => {
     const abrirModalAdicionar = () => {
         resetForm();
         setEditando(false);
-        setModalTitulo('➕ Adicionar Novo Funcionário');
+        setModalTitulo('Adicionar Novo Funcionário');
         setModalAberto(true);
     };
 
@@ -106,7 +113,7 @@ const GerenciarFuncionarios = () => {
             bonus: funcionario.bonus || ''
         });
         setEditando(true);
-        setModalTitulo(`✏️ Editar Funcionário - ${funcionario.nome}`);
+        setModalTitulo(`Editar Funcionário - ${funcionario.nome}`);
         setModalAberto(true);
     };
 
@@ -194,17 +201,27 @@ const GerenciarFuncionarios = () => {
         <div className="crud-container">
             <div className="crud-header">
                 <Link to="/">
-                    <button className="back-button-crud">← Voltar ao Menu</button>
+                    <button className="back-button-crud">
+                        <ArrowLeft size={18} style={{ marginRight: '6px', verticalAlign: 'middle' }} />
+                        Voltar ao Menu
+                    </button>
                 </Link>
-                <h1>⚙️ Gerenciar Funcionários</h1>
+                <h1>
+                    <Settings size={28} style={{ display: 'inline', marginRight: '10px', verticalAlign: 'middle' }} />
+                    Gerenciar Funcionários
+                </h1>
                 <button className="btn-add-crud" onClick={abrirModalAdicionar}>
-                    ➕ Novo Funcionário
+                    <UserPlus size={18} style={{ marginRight: '6px', verticalAlign: 'middle' }} />
+                    Novo Funcionário
                 </button>
             </div>
 
             {/* Busca por ID */}
             <div className="busca-card">
-                <h3>🔍 Buscar Funcionário por ID</h3>
+                <h3>
+                    <Search size={20} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} />
+                    Buscar Funcionário por ID
+                </h3>
                 <div className="busca-row">
                     <input
                         type="number"
@@ -212,17 +229,29 @@ const GerenciarFuncionarios = () => {
                         value={buscaId}
                         onChange={(e) => setBuscaId(e.target.value)}
                     />
-                    <button className="btn-buscar" onClick={buscarFuncionarioPorId}>Buscar</button>
-                    <button className="btn-limpar-busca" onClick={() => { setBuscaId(''); setFuncionarioEncontrado(null); }}>Limpar</button>
+                    <button className="btn-buscar" onClick={buscarFuncionarioPorId}>
+                        <Search size={16} style={{ marginRight: '4px' }} />
+                        Buscar
+                    </button>
+                    <button className="btn-limpar-busca" onClick={() => { setBuscaId(''); setFuncionarioEncontrado(null); }}>
+                        <X size={16} style={{ marginRight: '4px' }} />
+                        Limpar
+                    </button>
                 </div>
 
                 {funcionarioEncontrado && (
                     <div className="resultado-busca">
                         <div className="resultado-header">
-                            <span>Funcionário encontrado!</span>
+                            <span><User size={16} style={{ marginRight: '4px' }} /> Funcionário encontrado!</span>
                             <div className="resultado-acoes">
-                                <button className="btn-editar" onClick={() => abrirModalEditar(funcionarioEncontrado)}>✏️ Editar</button>
-                                <button className="btn-excluir" onClick={() => excluirFuncionario(funcionarioEncontrado.id, funcionarioEncontrado.nome)}>🗑️ Excluir</button>
+                                <button className="btn-editar" onClick={() => abrirModalEditar(funcionarioEncontrado)}>
+                                    <Edit size={16} style={{ marginRight: '4px' }} />
+                                    Editar
+                                </button>
+                                <button className="btn-excluir" onClick={() => excluirFuncionario(funcionarioEncontrado.id, funcionarioEncontrado.nome)}>
+                                    <Trash2 size={16} style={{ marginRight: '4px' }} />
+                                    Excluir
+                                </button>
                             </div>
                         </div>
                         <div className="resultado-info">
@@ -239,7 +268,10 @@ const GerenciarFuncionarios = () => {
 
             {/* Lista de Funcionários */}
             <div className="lista-card">
-                <h3>📋 Lista de Funcionários</h3>
+                <h3>
+                    <List size={20} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} />
+                    Lista de Funcionários
+                </h3>
                 <div className="tabela-wrapper">
                     <table className="crud-table">
                         <thead>
@@ -263,12 +295,17 @@ const GerenciarFuncionarios = () => {
                                     <td>{f.departamento || '-'}</td>
                                     <td>
                                         <span className={`status-badge ${f.statusEmprego === 'ATIVO' ? 'status-ativo' : 'status-inativo'}`}>
+                                            {f.statusEmprego === 'ATIVO' ? <UserCheck size={14} style={{ marginRight: '4px' }} /> : <UserX size={14} style={{ marginRight: '4px' }} />}
                                             {f.statusEmprego || '-'}
                                         </span>
                                     </td>
                                     <td>
-                                        <button className="btn-editar-mini" onClick={() => abrirModalEditar(f)}>✏️</button>
-                                        <button className="btn-excluir-mini" onClick={() => excluirFuncionario(f.id, f.nome)}>🗑️</button>
+                                        <button className="btn-editar-mini" onClick={() => abrirModalEditar(f)}>
+                                            <Edit size={18} />
+                                        </button>
+                                        <button className="btn-excluir-mini" onClick={() => excluirFuncionario(f.id, f.nome)}>
+                                            <Trash2 size={18} />
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
@@ -287,45 +324,50 @@ const GerenciarFuncionarios = () => {
                 <div className="modal-overlay" onClick={() => resetForm()}>
                     <div className="modal-content modal-crud" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-header">
-                            <h3>{modalTitulo}</h3>
-                            <button className="modal-fechar" onClick={resetForm}>✕</button>
+                            <h3>
+                                {editando ? <Edit size={20} style={{ marginRight: '6px' }} /> : <UserPlus size={20} style={{ marginRight: '6px' }} />}
+                                {modalTitulo}
+                            </h3>
+                            <button className="modal-fechar" onClick={resetForm}>
+                                <X size={20} />
+                            </button>
                         </div>
                         <div className="modal-body modal-body-crud">
                             <div className="form-grid">
                                 <div className="form-group">
-                                    <label>Nome *</label>
+                                    <label><User size={14} style={{ marginRight: '4px' }} /> Nome *</label>
                                     <input type="text" name="nome" value={formData.nome} onChange={handleInputChange} required />
                                 </div>
                                 <div className="form-group">
-                                    <label>Cargo *</label>
+                                    <label><Briefcase size={14} style={{ marginRight: '4px' }} /> Cargo *</label>
                                     <input type="text" name="cargo" value={formData.cargo} onChange={handleInputChange} required />
                                 </div>
                                 <div className="form-group">
-                                    <label>Salário *</label>
+                                    <label><DollarSign size={14} style={{ marginRight: '4px' }} /> Salário *</label>
                                     <input type="number" step="0.01" name="salario" value={formData.salario} onChange={handleInputChange} required />
                                 </div>
                                 <div className="form-group">
-                                    <label>Departamento</label>
+                                    <label><Building2 size={14} style={{ marginRight: '4px' }} /> Departamento</label>
                                     <input type="text" name="departamento" value={formData.departamento} onChange={handleInputChange} />
                                 </div>
                                 <div className="form-group">
-                                    <label>Data de Admissão</label>
+                                    <label><Calendar size={14} style={{ marginRight: '4px' }} /> Data de Admissão</label>
                                     <input type="date" name="dataAdmissao" value={formData.dataAdmissao} onChange={handleInputChange} />
                                 </div>
                                 <div className="form-group">
-                                    <label>Data de Nascimento</label>
+                                    <label><Clock size={14} style={{ marginRight: '4px' }} /> Data de Nascimento</label>
                                     <input type="date" name="dataNascimento" value={formData.dataNascimento} onChange={handleInputChange} />
                                 </div>
                                 <div className="form-group">
-                                    <label>Cidade</label>
+                                    <label><MapPin size={14} style={{ marginRight: '4px' }} /> Cidade</label>
                                     <input type="text" name="cidade" value={formData.cidade} onChange={handleInputChange} />
                                 </div>
                                 <div className="form-group">
-                                    <label>Estado</label>
+                                    <label><MapPin size={14} style={{ marginRight: '4px' }} /> Estado</label>
                                     <input type="text" name="estado" value={formData.estado} onChange={handleInputChange} />
                                 </div>
                                 <div className="form-group">
-                                    <label>Status</label>
+                                    <label><UserCheck size={14} style={{ marginRight: '4px' }} /> Status</label>
                                     <select name="statusEmprego" value={formData.statusEmprego} onChange={handleInputChange}>
                                         <option value="ATIVO">ATIVO</option>
                                         <option value="INATIVO">INATIVO</option>
@@ -333,15 +375,15 @@ const GerenciarFuncionarios = () => {
                                     </select>
                                 </div>
                                 <div className="form-group">
-                                    <label>Email</label>
+                                    <label><Mail size={14} style={{ marginRight: '4px' }} /> Email</label>
                                     <input type="email" name="email" value={formData.email} onChange={handleInputChange} />
                                 </div>
                                 <div className="form-group">
-                                    <label>Telefone</label>
+                                    <label><Phone size={14} style={{ marginRight: '4px' }} /> Telefone</label>
                                     <input type="text" name="telefone" value={formData.telefone} onChange={handleInputChange} />
                                 </div>
                                 <div className="form-group">
-                                    <label>Nível de Experiência</label>
+                                    <label><Award size={14} style={{ marginRight: '4px' }} /> Nível de Experiência</label>
                                     <select name="nivelExperiencia" value={formData.nivelExperiencia} onChange={handleInputChange}>
                                         <option value="">Selecione</option>
                                         <option value="JUNIOR">Júnior</option>
@@ -351,7 +393,7 @@ const GerenciarFuncionarios = () => {
                                     </select>
                                 </div>
                                 <div className="form-group">
-                                    <label>Sexo</label>
+                                    <label><UserCog size={14} style={{ marginRight: '4px' }} /> Sexo</label>
                                     <select name="sexo" value={formData.sexo} onChange={handleInputChange}>
                                         <option value="">Selecione</option>
                                         <option value="MASCULINO">Masculino</option>
@@ -360,17 +402,23 @@ const GerenciarFuncionarios = () => {
                                     </select>
                                 </div>
                                 <div className="form-group">
-                                    <label>Gestor Direto</label>
+                                    <label><UserCog size={14} style={{ marginRight: '4px' }} /> Gestor Direto</label>
                                     <input type="text" name="gestorDireto" value={formData.gestorDireto} onChange={handleInputChange} />
                                 </div>
                                 <div className="form-group">
-                                    <label>Bônus (%)</label>
+                                    <label><DollarSign size={14} style={{ marginRight: '4px' }} /> Bônus (%)</label>
                                     <input type="number" step="0.01" name="bonus" value={formData.bonus} onChange={handleInputChange} />
                                 </div>
                             </div>
                             <div className="form-actions">
-                                <button className="btn-salvar" onClick={salvarFuncionario}>💾 Salvar</button>
-                                <button className="btn-cancelar" onClick={resetForm}>Cancelar</button>
+                                <button className="btn-salvar" onClick={salvarFuncionario}>
+                                    <Save size={18} style={{ marginRight: '6px' }} />
+                                    Salvar
+                                </button>
+                                <button className="btn-cancelar" onClick={resetForm}>
+                                    <X size={18} style={{ marginRight: '6px' }} />
+                                    Cancelar
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -409,6 +457,9 @@ const GerenciarFuncionarios = () => {
                     border-radius: 9999px;
                     cursor: pointer;
                     transition: all 0.2s ease;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 4px;
                 }
 
                 .back-button-crud {
@@ -447,16 +498,20 @@ const GerenciarFuncionarios = () => {
                     color: #f8fafc;
                     font-size: 1.125rem;
                     margin-bottom: 1rem;
+                    display: flex;
+                    align-items: center;
                 }
 
                 .busca-row {
                     display: flex;
                     gap: 1rem;
                     flex-wrap: wrap;
+                    align-items: center;
                 }
 
                 .busca-row input {
                     flex: 1;
+                    min-width: 180px;
                     padding: 0.5rem;
                     background: rgba(30, 41, 59, 0.6);
                     border: 1px solid rgba(255, 193, 7, 0.3);
@@ -469,6 +524,9 @@ const GerenciarFuncionarios = () => {
                     border-radius: 0.5rem;
                     cursor: pointer;
                     font-weight: 600;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 4px;
                 }
 
                 .btn-buscar {
@@ -497,11 +555,36 @@ const GerenciarFuncionarios = () => {
                     margin-bottom: 0.75rem;
                     color: #fbbf24;
                     font-weight: bold;
+                    flex-wrap: wrap;
+                    gap: 0.5rem;
                 }
 
                 .resultado-acoes {
                     display: flex;
                     gap: 0.5rem;
+                }
+
+                .resultado-acoes button {
+                    padding: 0.25rem 0.75rem;
+                    border-radius: 0.5rem;
+                    cursor: pointer;
+                    font-weight: 600;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 4px;
+                    font-size: 0.8rem;
+                }
+
+                .btn-editar {
+                    background: rgba(59, 130, 246, 0.2);
+                    border: 1px solid rgba(59, 130, 246, 0.4);
+                    color: #60a5fa;
+                }
+
+                .btn-excluir {
+                    background: rgba(239, 68, 68, 0.2);
+                    border: 1px solid rgba(239, 68, 68, 0.4);
+                    color: #f87171;
                 }
 
                 .resultado-info {
@@ -540,7 +623,9 @@ const GerenciarFuncionarios = () => {
                 }
 
                 .status-badge {
-                    display: inline-block;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 4px;
                     padding: 0.25rem 0.75rem;
                     border-radius: 9999px;
                     font-size: 0.75rem;
@@ -560,16 +645,17 @@ const GerenciarFuncionarios = () => {
                 .btn-editar-mini, .btn-excluir-mini {
                     background: none;
                     border: none;
-                    font-size: 1.125rem;
                     cursor: pointer;
                     padding: 0.25rem 0.5rem;
+                    color: #94a3b8;
+                    transition: color 0.2s;
                 }
 
-                .btn-editar-mini {
+                .btn-editar-mini:hover {
                     color: #60a5fa;
                 }
 
-                .btn-excluir-mini {
+                .btn-excluir-mini:hover {
                     color: #f87171;
                 }
 
@@ -591,9 +677,40 @@ const GerenciarFuncionarios = () => {
                     max-width: 800px;
                     width: 90%;
                     max-height: 85vh;
+                    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+                    border-radius: 1.5rem;
+                    border: 1px solid rgba(255, 193, 7, 0.3);
+                }
+
+                .modal-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 1rem 1.5rem;
+                    border-bottom: 1px solid rgba(255, 193, 7, 0.2);
+                }
+
+                .modal-header h3 {
+                    color: #fbbf24;
+                    font-size: 1.125rem;
+                    display: flex;
+                    align-items: center;
+                }
+
+                .modal-fechar {
+                    background: none;
+                    border: none;
+                    color: #94a3b8;
+                    cursor: pointer;
+                    padding: 4px;
+                }
+
+                .modal-fechar:hover {
+                    color: #ef4444;
                 }
 
                 .modal-body-crud {
+                    padding: 1.5rem;
                     max-height: calc(85vh - 70px);
                     overflow-y: auto;
                 }
@@ -613,6 +730,9 @@ const GerenciarFuncionarios = () => {
                 .form-group label {
                     font-size: 0.75rem;
                     color: #94a3b8;
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
                 }
 
                 .form-group input, .form-group select {
@@ -621,6 +741,12 @@ const GerenciarFuncionarios = () => {
                     border: 1px solid rgba(255, 193, 7, 0.3);
                     border-radius: 0.5rem;
                     color: #f8fafc;
+                }
+
+                .form-group input:focus, .form-group select:focus {
+                    outline: none;
+                    border-color: #fbbf24;
+                    box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.2);
                 }
 
                 .form-actions {
@@ -635,6 +761,9 @@ const GerenciarFuncionarios = () => {
                     border-radius: 0.5rem;
                     cursor: pointer;
                     font-weight: 600;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 6px;
                 }
 
                 .btn-salvar {
@@ -643,10 +772,20 @@ const GerenciarFuncionarios = () => {
                     color: white;
                 }
 
+                .btn-salvar:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+                }
+
                 .btn-cancelar {
                     background: rgba(100, 116, 139, 0.3);
                     border: 1px solid rgba(255, 193, 7, 0.4);
                     color: #f8fafc;
+                }
+
+                .btn-cancelar:hover {
+                    background: rgba(239, 68, 68, 0.2);
+                    border-color: #ef4444;
                 }
 
                 .sem-dados {
@@ -674,6 +813,14 @@ const GerenciarFuncionarios = () => {
                     }
                     .form-grid {
                         grid-template-columns: 1fr;
+                    }
+                    .busca-row {
+                        flex-direction: column;
+                        align-items: stretch;
+                    }
+                    .resultado-header {
+                        flex-direction: column;
+                        align-items: flex-start;
                     }
                 }
             `}</style>

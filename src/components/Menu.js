@@ -1,49 +1,80 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { 
+  Database, 
+  BarChart3, 
+  DollarSign, 
+  Settings, 
+  Smile, 
+  ClipboardList, 
+  Calendar, 
+  Camera 
+} from 'lucide-react';
+import ReconhecimentoFacial from './ReconhecimentoFacial';
 import './Menu.css';
 
 const Menu = () => {
+  const [showFaceModal, setShowFaceModal] = useState(false);
+
   return (
     <div className="menu-container">
-      <h1 className="menu-title">Recursos Humanos</h1>
+      <div className="menu-header">
+        <h1 className="menu-title">Recursos Humanos</h1>
+        <button 
+          className="camera-button"
+          onClick={() => setShowFaceModal(true)}
+          title="Cadastro Facial / Ponto"
+        >
+          <Camera size={28} />
+        </button>
+      </div>
+
       <div className="menu-grid">
-        
         <Link to="/database" className="menu-item">
-          <div className="menu-icon">🗄️</div>
+          <Database size={32} className="menu-icon" />
           <span>Banco de Dados</span>
         </Link>
 
         <Link to="/dashboard-rh" className="menu-item">
-          <div className="menu-icon">📈</div>
+          <BarChart3 size={32} className="menu-icon" />
           <span>Dashboard RH</span>
         </Link>
 
         <Link to="/gestao-salarial" className="menu-item">
-          <div className="menu-icon">💰</div>
+          <DollarSign size={32} className="menu-icon" />
           <span>Gestão Salarial</span>
         </Link>
 
         <Link to="/gerenciar-funcionarios" className="menu-item">
-          <div className="menu-icon">⚙️</div>
+          <Settings size={32} className="menu-icon" />
           <span>Gerenciar Funcionários</span>
         </Link>
 
         <Link to="/cadastro-facial" className="menu-item">
-          <div className="menu-icon">😀</div>
+          <Smile size={32} className="menu-icon" />
           <span>Cadastro Facial</span>
         </Link>
 
         <Link to="/historico-ponto" className="menu-item">
-          <div className="menu-icon">📋</div>
+          <ClipboardList size={32} className="menu-icon" />
           <span>Histórico de Ponto</span>
         </Link>
 
         <Link to="/agenda" className="menu-item">
-          <div className="menu-icon">📅</div>
+          <Calendar size={32} className="menu-icon" />
           <span>Agenda do RH</span>
         </Link>
-
       </div>
+
+      {showFaceModal && (
+        <ReconhecimentoFacial 
+          onClose={() => setShowFaceModal(false)}
+          onSucesso={(dados) => {
+            console.log('Ponto registrado:', dados);
+            setShowFaceModal(false);
+          }}
+        />
+      )}
     </div>
   );
 };
