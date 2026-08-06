@@ -118,4 +118,4 @@ const HistoricoPonto = () => {
   );
 };
 
-export default HistoricoPonto; - TROCAR OS EMOJIS EM
+export default HistoricoPonto; 

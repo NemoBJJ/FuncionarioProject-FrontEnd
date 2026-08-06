@@ -50,4 +50,4 @@ function App() {
   );
 }
 
-export default App; - trocar os EMOJIS pelo estilo que estamos padronizando no componente do banco de dados - E CENTRALIZAR PADRONIZANDO O TAMANHO DOS COMPONENTES DO FILTROS DE BUSCA - O BOTÃO DA CAMERA NÃO PRECISA ESTAR AI SÓ NA PAGINA PRINCIPAL QUE JA MANDEI ANTES -
+export default App;

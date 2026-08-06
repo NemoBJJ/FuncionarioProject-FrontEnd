@@ -231,5 +231,4 @@ const AgendaEventos = () => {
   );
 };
 
-export default AgendaEventos; - QUERO QUE O BOTÃO QUE FAZ O CADASTRO FACIAL SÓ APAREÇA NA PAGINA PRINCIPAL E NA PAGINA CADASTROFACIAL.JS que efetivamente faz o cadastro. - JA FOI INSTALADO - PS C:\Users\Nemo\Desktop\erp-system\estoque-front> cd C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd
-PS C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd> npm install lucide-react
+export default AgendaEventos; 

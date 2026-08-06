@@ -93,4 +93,3 @@ export default Funcionarios; - ..funcionarios-container {
     background-color: #ccc;
     cursor: not-allowed;
 }
-- CENTRALIZAR O BOTÃO DE +Novo Funcionário - trocar os emojis PELO QUE ESTAMOS PADRONIZANDO em

@@ -664,4 +664,4 @@ const GestaoSalarial = () => {
     );
 };
 
-export default GestaoSalarial; - E POR FIM - TROCAR OS EMOJIS EM
+export default GestaoSalarial; 
