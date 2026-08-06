@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { 
+  Users, DollarSign, BarChart3, Building2, 
+  Gift, PieChart 
+} from 'lucide-react';
 import api from '../api';
 import {
     Chart as ChartJS,
@@ -37,7 +41,6 @@ const DashboardRH = () => {
                 const data = response.data.content || [];
                 setFuncionarios(data);
 
-                // Estatísticas básicas
                 const total = data.length;
                 const salarios = data.map(f => f.salario || 0);
                 const totalSalarios = salarios.reduce((acc, s) => acc + s, 0);
@@ -57,7 +60,6 @@ const DashboardRH = () => {
                     cargos: cargosUnicos.size,
                 });
 
-                // Dados para gráfico de cargos (top 6)
                 const cargoCount = {};
                 data.forEach(f => {
                     if (f.cargo) {
@@ -71,7 +73,6 @@ const DashboardRH = () => {
                     counts: topCargos.map(c => c[1]),
                 });
 
-                // Dados para gráfico de salários por departamento (top 6)
                 const deptSalario = {};
                 data.forEach(f => {
                     if (f.departamento && f.salario) {
@@ -85,7 +86,6 @@ const DashboardRH = () => {
                     salaries: topDepts.map(d => d[1]),
                 });
 
-                // Aniversariantes do mês atual e próximos
                 const hoje = new Date();
                 const mesAtual = hoje.getMonth();
                 const aniversariantesList = data
@@ -120,12 +120,6 @@ const DashboardRH = () => {
         }).format(value || 0);
     };
 
-    const formatDate = (date) => {
-        if (!date) return '-';
-        return new Date(date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
-    };
-
-    // Gráfico de Cargos
     const cargoChartData = {
         labels: cargosData.labels,
         datasets: [
@@ -140,7 +134,6 @@ const DashboardRH = () => {
         ],
     };
 
-    // Gráfico de Salários por Departamento
     const deptChartData = {
         labels: departamentosData.labels,
         datasets: [
@@ -155,7 +148,6 @@ const DashboardRH = () => {
         ],
     };
 
-    // Gráfico de pizza (Homens x Mulheres)
     const genderData = {
         labels: ['Homens', 'Mulheres', 'Não informado'],
         datasets: [
@@ -226,13 +218,15 @@ const DashboardRH = () => {
                 <Link to="/">
                     <button className="back-button-dashboard-rh">← Voltar ao Menu</button>
                 </Link>
-                <h1>🏢 Dashboard RH</h1>
+                <h1>
+                    <Building2 size={28} style={{ display: 'inline', marginRight: '8px', verticalAlign: 'middle' }} />
+                    Dashboard RH
+                </h1>
             </div>
 
-            {/* Cards de métricas */}
             <div className="metrics-grid-rh">
                 <div className="metric-card-rh total-card">
-                    <div className="metric-icon-rh">👥</div>
+                    <div className="metric-icon-rh"><Users size={32} /></div>
                     <div className="metric-info-rh">
                         <span className="metric-label-rh">Total Funcionários</span>
                         <span className="metric-value-rh">{stats.totalFuncionarios}</span>
@@ -240,7 +234,7 @@ const DashboardRH = () => {
                 </div>
 
                 <div className="metric-card-rh salary-card">
-                    <div className="metric-icon-rh">💰</div>
+                    <div className="metric-icon-rh"><DollarSign size={32} /></div>
                     <div className="metric-info-rh">
                         <span className="metric-label-rh">Salário Médio</span>
                         <span className="metric-value-rh">{formatCurrency(stats.salarioMedio)}</span>
@@ -248,7 +242,7 @@ const DashboardRH = () => {
                 </div>
 
                 <div className="metric-card-rh payroll-card">
-                    <div className="metric-icon-rh">📊</div>
+                    <div className="metric-icon-rh"><BarChart3 size={32} /></div>
                     <div className="metric-info-rh">
                         <span className="metric-label-rh">Folha Mensal</span>
                         <span className="metric-value-rh">{formatCurrency(stats.totalSalarios)}</span>
@@ -256,7 +250,7 @@ const DashboardRH = () => {
                 </div>
 
                 <div className="metric-card-rh dept-card">
-                    <div className="metric-icon-rh">🏢</div>
+                    <div className="metric-icon-rh"><Building2 size={32} /></div>
                     <div className="metric-info-rh">
                         <span className="metric-label-rh">Departamentos</span>
                         <span className="metric-value-rh">{stats.departamentos}</span>
@@ -264,10 +258,9 @@ const DashboardRH = () => {
                 </div>
             </div>
 
-            {/* Gráficos principais */}
             <div className="charts-row-rh">
                 <div className="chart-card-rh">
-                    <h3>📊 Funcionários por Cargo</h3>
+                    <h3><BarChart3 size={20} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} /> Funcionários por Cargo</h3>
                     <div className="chart-wrapper-rh">
                         {cargosData.labels.length > 0 ? (
                             <Bar data={cargoChartData} options={chartOptions} />
@@ -278,7 +271,7 @@ const DashboardRH = () => {
                 </div>
 
                 <div className="chart-card-rh">
-                    <h3>💰 Total de Salários por Departamento</h3>
+                    <h3><DollarSign size={20} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} /> Total de Salários por Departamento</h3>
                     <div className="chart-wrapper-rh">
                         {departamentosData.labels.length > 0 ? (
                             <Bar data={deptChartData} options={chartOptions} />
@@ -291,19 +284,19 @@ const DashboardRH = () => {
 
             <div className="charts-row-rh">
                 <div className="chart-card-rh donut-card">
-                    <h3>👫 Proporção por Gênero</h3>
+                    <h3><PieChart size={20} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} /> Proporção por Gênero</h3>
                     <div className="donut-wrapper-rh">
                         <Doughnut data={genderData} options={genderOptions} />
                     </div>
                 </div>
 
                 <div className="chart-card-rh birthday-card">
-                    <h3>🎂 Próximos Aniversariantes</h3>
+                    <h3><Gift size={20} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} /> Próximos Aniversariantes</h3>
                     <div className="birthday-list">
                         {aniversariantes.length > 0 ? (
-                            aniversariantes.map((f, idx) => (
+                            aniversariantes.map((f) => (
                                 <div key={f.id} className="birthday-item">
-                                    <div className="birthday-avatar">🎉</div>
+                                    <div className="birthday-avatar"><Gift size={24} /></div>
                                     <div className="birthday-info">
                                         <span className="birthday-name">{f.nome}</span>
                                         <span className="birthday-date">
@@ -326,7 +319,6 @@ const DashboardRH = () => {
                     background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
                     padding: 2rem;
                 }
-
                 .dashboard-rh-header {
                     display: flex;
                     align-items: center;
@@ -335,7 +327,6 @@ const DashboardRH = () => {
                     flex-wrap: wrap;
                     gap: 1rem;
                 }
-
                 .dashboard-rh-header h1 {
                     font-size: 2rem;
                     font-weight: bold;
@@ -344,7 +335,6 @@ const DashboardRH = () => {
                     background-clip: text;
                     color: transparent;
                 }
-
                 .back-button-dashboard-rh {
                     padding: 0.5rem 1.25rem;
                     font-size: 0.875rem;
@@ -356,21 +346,17 @@ const DashboardRH = () => {
                     cursor: pointer;
                     transition: all 0.2s ease;
                 }
-
                 .back-button-dashboard-rh:hover {
                     background: rgba(255, 193, 7, 0.2);
                     border-color: #fbbf24;
                     transform: translateX(-4px);
                 }
-
-                /* Cards de métricas */
                 .metrics-grid-rh {
                     display: grid;
                     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
                     gap: 1.5rem;
                     margin-bottom: 2rem;
                 }
-
                 .metric-card-rh {
                     background: rgba(15, 23, 42, 0.8);
                     backdrop-filter: blur(10px);
@@ -382,47 +368,24 @@ const DashboardRH = () => {
                     border: 1px solid rgba(255, 193, 7, 0.2);
                     transition: transform 0.2s ease, border-color 0.2s ease;
                 }
-
                 .metric-card-rh:hover {
                     transform: translateY(-4px);
                     border-color: rgba(255, 193, 7, 0.5);
                 }
-
-                .metric-icon-rh {
-                    font-size: 2.5rem;
-                }
-
-                .metric-info-rh {
-                    display: flex;
-                    flex-direction: column;
-                }
-
-                .metric-label-rh {
-                    font-size: 0.875rem;
-                    color: #94a3b8;
-                    text-transform: uppercase;
-                    letter-spacing: 0.05em;
-                }
-
-                .metric-value-rh {
-                    font-size: 1.75rem;
-                    font-weight: bold;
-                    color: #f8fafc;
-                }
-
+                .metric-icon-rh { font-size: 2.5rem; }
+                .metric-info-rh { display: flex; flex-direction: column; }
+                .metric-label-rh { font-size: 0.875rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; }
+                .metric-value-rh { font-size: 1.75rem; font-weight: bold; color: #f8fafc; }
                 .total-card .metric-value-rh { color: #fbbf24; }
                 .salary-card .metric-value-rh { color: #22c55e; }
                 .payroll-card .metric-value-rh { color: #3b82f6; }
                 .dept-card .metric-value-rh { color: #ec4899; }
-
-                /* Gráficos */
                 .charts-row-rh {
                     display: grid;
                     grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
                     gap: 1.5rem;
                     margin-bottom: 1.5rem;
                 }
-
                 .chart-card-rh {
                     background: rgba(15, 23, 42, 0.8);
                     backdrop-filter: blur(10px);
@@ -430,7 +393,6 @@ const DashboardRH = () => {
                     padding: 1.5rem;
                     border: 1px solid rgba(255, 193, 7, 0.2);
                 }
-
                 .chart-card-rh h3 {
                     color: #f8fafc;
                     font-size: 1.125rem;
@@ -438,25 +400,9 @@ const DashboardRH = () => {
                     border-left: 4px solid #fbbf24;
                     padding-left: 0.75rem;
                 }
-
-                .chart-wrapper-rh {
-                    height: 300px;
-                }
-
-                .donut-wrapper-rh {
-                    height: 250px;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                }
-
-                /* Aniversariantes */
-                .birthday-list {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 0.75rem;
-                }
-
+                .chart-wrapper-rh { height: 300px; }
+                .donut-wrapper-rh { height: 250px; display: flex; justify-content: center; align-items: center; }
+                .birthday-list { display: flex; flex-direction: column; gap: 0.75rem; }
                 .birthday-item {
                     display: flex;
                     align-items: center;
@@ -466,46 +412,16 @@ const DashboardRH = () => {
                     border-radius: 0.75rem;
                     transition: all 0.2s ease;
                 }
-
                 .birthday-item:hover {
                     background: rgba(30, 41, 59, 0.6);
                     transform: translateX(4px);
                 }
-
-                .birthday-avatar {
-                    font-size: 1.5rem;
-                }
-
-                .birthday-info {
-                    flex: 1;
-                    display: flex;
-                    flex-direction: column;
-                }
-
-                .birthday-name {
-                    font-weight: 600;
-                    color: #f8fafc;
-                }
-
-                .birthday-date {
-                    font-size: 0.75rem;
-                    color: #94a3b8;
-                }
-
-                .birthday-cargo {
-                    font-size: 0.75rem;
-                    color: #fbbf24;
-                }
-
-                .no-data-rh {
-                    height: 100%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    color: #94a3b8;
-                    font-size: 0.875rem;
-                }
-
+                .birthday-avatar { font-size: 1.5rem; }
+                .birthday-info { flex: 1; display: flex; flex-direction: column; }
+                .birthday-name { font-weight: 600; color: #f8fafc; }
+                .birthday-date { font-size: 0.75rem; color: #94a3b8; }
+                .birthday-cargo { font-size: 0.75rem; color: #fbbf24; }
+                .no-data-rh { height: 100%; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: 0.875rem; }
                 .dashboard-rh-loading {
                     min-height: 100vh;
                     display: flex;
@@ -514,21 +430,11 @@ const DashboardRH = () => {
                     background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
                     color: #f8fafc;
                 }
-
                 @media (max-width: 768px) {
-                    .dashboard-rh-container {
-                        padding: 1rem;
-                    }
-                    .dashboard-rh-header {
-                        flex-direction: column;
-                        align-items: flex-start;
-                    }
-                    .charts-row-rh {
-                        grid-template-columns: 1fr;
-                    }
-                    .chart-wrapper-rh {
-                        height: 250px;
-                    }
+                    .dashboard-rh-container { padding: 1rem; }
+                    .dashboard-rh-header { flex-direction: column; align-items: flex-start; }
+                    .charts-row-rh { grid-template-columns: 1fr; }
+                    .chart-wrapper-rh { height: 250px; }
                 }
             `}</style>
         </div>

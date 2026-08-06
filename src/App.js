@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Menu from './components/Menu';
-import DatabaseRH from './components/DatabaseRH';
+import BancodeDados from './components/BancodeDados';
 import DashboardRH from './components/DashboardRH';
 import GestaoSalarial from './components/GestaoSalarial';
 import GerenciarFuncionarios from './components/GerenciarFuncionarios';
@@ -17,7 +17,7 @@ function App() {
       <div className="app-container">
         <Routes>
           <Route path="/" element={<Menu />} />
-          <Route path="/database" element={<DatabaseRH />} />
+          <Route path="/database" element={<BancodeDados />} />
           <Route path="/dashboard-rh" element={<DashboardRH />} />
           <Route path="/gestao-salarial" element={<GestaoSalarial />} />
           <Route path="/gerenciar-funcionarios" element={<GerenciarFuncionarios />} />

@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  Database, 
-  BarChart3, 
-  DollarSign, 
-  Settings, 
-  Smile, 
-  ClipboardList, 
-  Calendar, 
-  Camera 
+  FolderOpen, BarChart3, ClipboardList, Building2, 
+  DollarSign, Smile, Calendar, Camera 
 } from 'lucide-react';
 import ReconhecimentoFacial from './ReconhecimentoFacial';
 import './Menu.css';
+
+const API_BASE_URL = 'http://localhost:8082';
 
 const Menu = () => {
   const [showFaceModal, setShowFaceModal] = useState(false);
@@ -30,25 +26,55 @@ const Menu = () => {
       </div>
 
       <div className="menu-grid">
-        <Link to="/database" className="menu-item">
-          <Database size={32} className="menu-icon" />
-          <span>Banco de Dados</span>
-        </Link>
+        <a
+          href={`${API_BASE_URL}/funcionarios-html`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="menu-item"
+        >
+          <FolderOpen size={32} className="menu-icon" />
+          <span>Banco de Dados Completo</span>
+        </a>
 
-        <Link to="/dashboard-rh" className="menu-item">
+        <a
+          href={`${API_BASE_URL}/dashboard`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="menu-item"
+        >
           <BarChart3 size={32} className="menu-icon" />
-          <span>Dashboard RH</span>
-        </Link>
+          <span>Dashboard</span>
+        </a>
 
-        <Link to="/gestao-salarial" className="menu-item">
+        <a
+          href={`${API_BASE_URL}/exportacao/relatorios/cargos/csv`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="menu-item"
+        >
+          <ClipboardList size={32} className="menu-icon" />
+          <span>Funcionários/Cargo</span>
+        </a>
+
+        <a
+          href={`${API_BASE_URL}/exportacao/relatorios/departamentos/csv`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="menu-item"
+        >
+          <Building2 size={32} className="menu-icon" />
+          <span>Total Salários/Departamentos</span>
+        </a>
+
+        <a
+          href={`${API_BASE_URL}/funcionarios-html/salarios`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="menu-item"
+        >
           <DollarSign size={32} className="menu-icon" />
-          <span>Gestão Salarial</span>
-        </Link>
-
-        <Link to="/gerenciar-funcionarios" className="menu-item">
-          <Settings size={32} className="menu-icon" />
-          <span>Gerenciar Funcionários</span>
-        </Link>
+          <span>Funcionário/Salário</span>
+        </a>
 
         <Link to="/cadastro-facial" className="menu-item">
           <Smile size={32} className="menu-icon" />
@@ -62,7 +88,7 @@ const Menu = () => {
 
         <Link to="/agenda" className="menu-item">
           <Calendar size={32} className="menu-icon" />
-          <span>Agenda do RH</span>
+          <span>Agenda de Eventos</span>
         </Link>
       </div>
 
