@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  DollarSign, BarChart3, Search, ClipboardList, ArrowLeft, 
-  Eye, X, Bus, Building2, Coffee, Heart, FileText, Info 
-} from 'lucide-react';
 import api from '../api';
 
 const GestaoSalarial = () => {
@@ -69,14 +65,17 @@ const GestaoSalarial = () => {
 
     const aplicarFiltros = () => {
         let filtered = [...funcionarios];
+        
         if (searchNome) {
             filtered = filtered.filter(f => 
                 f.nome?.toLowerCase().includes(searchNome.toLowerCase())
             );
         }
+        
         if (filtroDepartamento) {
             filtered = filtered.filter(f => f.departamento === filtroDepartamento);
         }
+        
         setFilteredFuncionarios(filtered);
     };
 
@@ -124,24 +123,15 @@ const GestaoSalarial = () => {
         <div className="gestao-container">
             <div className="gestao-header">
                 <Link to="/">
-                    <button className="back-button-gestao">
-                        <ArrowLeft size={18} style={{ marginRight: '6px', verticalAlign: 'middle' }} />
-                        Voltar ao Menu
-                    </button>
+                    <button className="back-button-gestao">← Voltar ao Menu</button>
                 </Link>
-                <h1>
-                    <DollarSign size={28} style={{ display: 'inline', marginRight: '8px', verticalAlign: 'middle' }} />
-                    Gestão Salarial
-                </h1>
+                <h1>💰 Gestão Salarial</h1>
             </div>
 
             {/* Cards de Resumo por Departamento */}
             <div className="resumo-cards">
                 <div className="resumo-card">
-                    <h3>
-                        <BarChart3 size={20} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} />
-                        Resumo por Departamento
-                    </h3>
+                    <h3>📊 Resumo por Departamento</h3>
                     <div className="resumo-lista">
                         {relatorioDepartamentos.slice(0, 6).map((item, idx) => (
                             <div key={idx} className="resumo-item">
@@ -153,13 +143,10 @@ const GestaoSalarial = () => {
                 </div>
             </div>
 
-            {/* Filtros - CENTRALIZADO */}
+            {/* Filtros */}
             <div className="filtros-card">
-                <h3>
-                    <Search size={20} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} />
-                    Filtros
-                </h3>
-                <div className="filtros-row" style={{ justifyContent: 'center' }}>
+                <h3>🔍 Filtros</h3>
+                <div className="filtros-row">
                     <div className="filtro-group">
                         <label>Funcionário:</label>
                         <input
@@ -180,12 +167,9 @@ const GestaoSalarial = () => {
                 </div>
             </div>
 
-            {/* Tabela de Funcionários */}
+            {/* Tabela de Funcionários - SEM SALÁRIO LÍQUIDO */}
             <div className="tabela-card">
-                <h3>
-                    <ClipboardList size={20} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} />
-                    Funcionários
-                </h3>
+                <h3>📋 Funcionários</h3>
                 <div className="tabela-wrapper">
                     <table className="tabela-gestao">
                         <thead>
@@ -213,8 +197,7 @@ const GestaoSalarial = () => {
                                             className="btn-detalhar"
                                             onClick={() => abrirModal(f)}
                                         >
-                                            <Eye size={16} style={{ marginRight: '4px', verticalAlign: 'middle' }} />
-                                            Detalhar
+                                            📊 Detalhar
                                         </button>
                                     </td>
                                 </tr>
@@ -229,18 +212,13 @@ const GestaoSalarial = () => {
                 </div>
             </div>
 
-            {/* Modal */}
+            {/* Modal de Detalhamento Salarial - SEM SALÁRIO LÍQUIDO */}
             {modalAberto && funcionarioSelecionado && (
                 <div className="modal-overlay" onClick={fecharModal}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-header">
-                            <h3>
-                                <BarChart3 size={20} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} />
-                                Detalhamento Salarial - {funcionarioSelecionado.nome}
-                            </h3>
-                            <button className="modal-fechar" onClick={fecharModal}>
-                                <X size={20} />
-                            </button>
+                            <h3>📊 Detalhamento Salarial - {funcionarioSelecionado.nome}</h3>
+                            <button className="modal-fechar" onClick={fecharModal}>✕</button>
                         </div>
                         <div className="modal-body">
                             <div className="info-funcionario">
@@ -264,37 +242,37 @@ const GestaoSalarial = () => {
                                                 <span>Valor</span>
                                             </div>
                                             <div className="composicao-linha">
-                                                <span><DollarSign size={16} style={{ display: 'inline', marginRight: '4px' }} /> Salário Bruto</span>
+                                                <span>💰 Salário Bruto</span>
                                                 <span>100%</span>
                                                 <span className="valor-bruto">{formatCurrency(c.salarioBruto)}</span>
                                             </div>
                                             <div className="composicao-linha">
-                                                <span><Bus size={16} style={{ display: 'inline', marginRight: '4px' }} /> Vale Transporte (VT)</span>
+                                                <span>🚌 Vale Transporte (VT)</span>
                                                 <span>10%</span>
                                                 <span>{formatCurrency(c.vt)}</span>
                                             </div>
                                             <div className="composicao-linha">
-                                                <span><Building2 size={16} style={{ display: 'inline', marginRight: '4px' }} /> FGTS (8%)</span>
+                                                <span>🏦 FGTS (8%)</span>
                                                 <span>8%</span>
                                                 <span>{formatCurrency(c.fgts)}</span>
                                             </div>
                                             <div className="composicao-linha">
-                                                <span><Coffee size={16} style={{ display: 'inline', marginRight: '4px' }} /> Vale Alimentação (VA)</span>
+                                                <span>🍽️ Vale Alimentação (VA)</span>
                                                 <span>10%</span>
                                                 <span>{formatCurrency(c.va)}</span>
                                             </div>
                                             <div className="composicao-linha">
-                                                <span><Heart size={16} style={{ display: 'inline', marginRight: '4px' }} /> Plano de Saúde</span>
+                                                <span>🏥 Plano de Saúde</span>
                                                 <span>6%</span>
                                                 <span>{formatCurrency(c.planoSaude)}</span>
                                             </div>
                                             <div className="composicao-linha">
-                                                <span><FileText size={16} style={{ display: 'inline', marginRight: '4px' }} /> INSS</span>
+                                                <span>📄 INSS</span>
                                                 <span>7,5%</span>
                                                 <span>{formatCurrency(c.inss)}</span>
                                             </div>
                                             <div className="composicao-linha total-encargos">
-                                                <span><Info size={16} style={{ display: 'inline', marginRight: '4px' }} /> Total de Encargos</span>
+                                                <span>📊 Total de Encargos</span>
                                                 <span>{((c.totalEncargos / c.salarioBruto) * 100).toFixed(1)}%</span>
                                                 <span>{formatCurrency(c.totalEncargos)}</span>
                                             </div>
@@ -313,6 +291,7 @@ const GestaoSalarial = () => {
                     background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
                     padding: 2rem;
                 }
+
                 .gestao-header {
                     display: flex;
                     align-items: center;
@@ -321,6 +300,7 @@ const GestaoSalarial = () => {
                     flex-wrap: wrap;
                     gap: 1rem;
                 }
+
                 .gestao-header h1 {
                     font-size: 2rem;
                     font-weight: bold;
@@ -329,6 +309,7 @@ const GestaoSalarial = () => {
                     background-clip: text;
                     color: transparent;
                 }
+
                 .back-button-gestao {
                     padding: 0.5rem 1.25rem;
                     font-size: 0.875rem;
@@ -339,15 +320,18 @@ const GestaoSalarial = () => {
                     border-radius: 9999px;
                     cursor: pointer;
                     transition: all 0.2s ease;
-                    display: inline-flex;
-                    align-items: center;
                 }
+
                 .back-button-gestao:hover {
                     background: rgba(255, 193, 7, 0.2);
                     border-color: #fbbf24;
                     transform: translateX(-4px);
                 }
-                .resumo-cards { margin-bottom: 1.5rem; }
+
+                .resumo-cards {
+                    margin-bottom: 1.5rem;
+                }
+
                 .resumo-card {
                     background: rgba(15, 23, 42, 0.8);
                     backdrop-filter: blur(10px);
@@ -355,11 +339,41 @@ const GestaoSalarial = () => {
                     padding: 1.5rem;
                     border: 1px solid rgba(255, 193, 7, 0.2);
                 }
-                .resumo-card h3 { color: #f8fafc; font-size: 1.125rem; margin-bottom: 1rem; border-left: 4px solid #fbbf24; padding-left: 0.75rem; }
-                .resumo-lista { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 0.5rem; }
-                .resumo-item { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: rgba(30, 41, 59, 0.4); border-radius: 0.5rem; }
-                .resumo-nome { color: #94a3b8; font-size: 0.875rem; }
-                .resumo-valor { color: #fbbf24; font-weight: 600; font-size: 0.875rem; }
+
+                .resumo-card h3 {
+                    color: #f8fafc;
+                    font-size: 1.125rem;
+                    margin-bottom: 1rem;
+                    border-left: 4px solid #fbbf24;
+                    padding-left: 0.75rem;
+                }
+
+                .resumo-lista {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                    gap: 0.5rem;
+                }
+
+                .resumo-item {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 0.5rem;
+                    background: rgba(30, 41, 59, 0.4);
+                    border-radius: 0.5rem;
+                }
+
+                .resumo-nome {
+                    color: #94a3b8;
+                    font-size: 0.875rem;
+                }
+
+                .resumo-valor {
+                    color: #fbbf24;
+                    font-weight: 600;
+                    font-size: 0.875rem;
+                }
+
                 .filtros-card {
                     background: rgba(15, 23, 42, 0.8);
                     backdrop-filter: blur(10px);
@@ -368,10 +382,32 @@ const GestaoSalarial = () => {
                     margin-bottom: 1.5rem;
                     border: 1px solid rgba(255, 193, 7, 0.2);
                 }
-                .filtros-card h3 { color: #f8fafc; font-size: 1.125rem; margin-bottom: 1rem; }
-                .filtros-row { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end; justify-content: center; }
-                .filtro-group { flex: 1; min-width: 180px; }
-                .filtro-group label { display: block; font-size: 0.75rem; color: #94a3b8; margin-bottom: 0.25rem; }
+
+                .filtros-card h3 {
+                    color: #f8fafc;
+                    font-size: 1.125rem;
+                    margin-bottom: 1rem;
+                }
+
+                .filtros-row {
+                    display: flex;
+                    gap: 1rem;
+                    flex-wrap: wrap;
+                    align-items: flex-end;
+                }
+
+                .filtro-group {
+                    flex: 1;
+                    min-width: 180px;
+                }
+
+                .filtro-group label {
+                    display: block;
+                    font-size: 0.75rem;
+                    color: #94a3b8;
+                    margin-bottom: 0.25rem;
+                }
+
                 .filtro-group input, .filtro-group select {
                     width: 100%;
                     padding: 0.5rem;
@@ -381,6 +417,7 @@ const GestaoSalarial = () => {
                     color: #f8fafc;
                     font-size: 0.875rem;
                 }
+
                 .btn-limpar {
                     padding: 0.5rem 1rem;
                     background: rgba(239, 68, 68, 0.2);
@@ -391,7 +428,11 @@ const GestaoSalarial = () => {
                     font-weight: 600;
                     height: 38px;
                 }
-                .btn-limpar:hover { background: rgba(239, 68, 68, 0.4); }
+
+                .btn-limpar:hover {
+                    background: rgba(239, 68, 68, 0.4);
+                }
+
                 .tabela-card {
                     background: rgba(15, 23, 42, 0.8);
                     backdrop-filter: blur(10px);
@@ -399,13 +440,46 @@ const GestaoSalarial = () => {
                     padding: 1.5rem;
                     border: 1px solid rgba(255, 193, 7, 0.2);
                 }
-                .tabela-card h3 { color: #f8fafc; font-size: 1.125rem; margin-bottom: 1rem; }
-                .tabela-wrapper { overflow-x: auto; }
-                .tabela-gestao { width: 100%; border-collapse: collapse; }
-                .tabela-gestao th, .tabela-gestao td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid rgba(148, 163, 184, 0.2); }
-                .tabela-gestao th { color: #fbbf24; font-weight: 600; font-size: 0.875rem; }
-                .tabela-gestao td { color: #f8fafc; font-size: 0.875rem; }
-                .tabela-gestao tr:hover td { background: rgba(255, 193, 7, 0.05); }
+
+                .tabela-card h3 {
+                    color: #f8fafc;
+                    font-size: 1.125rem;
+                    margin-bottom: 1rem;
+                }
+
+                .tabela-wrapper {
+                    overflow-x: auto;
+                }
+
+                .tabela-gestao {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+
+                .tabela-gestao th,
+                .tabela-gestao td {
+                    padding: 0.75rem 1rem;
+                    text-align: left;
+                    border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+                }
+
+                .tabela-gestao th {
+                    color: #fbbf24;
+                    font-weight: 600;
+                    font-size: 0.875rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                }
+
+                .tabela-gestao td {
+                    color: #f8fafc;
+                    font-size: 0.875rem;
+                }
+
+                .tabela-gestao tr:hover td {
+                    background: rgba(255, 193, 7, 0.05);
+                }
+
                 .btn-detalhar {
                     padding: 0.25rem 0.75rem;
                     background: rgba(59, 130, 246, 0.2);
@@ -414,11 +488,20 @@ const GestaoSalarial = () => {
                     color: #60a5fa;
                     cursor: pointer;
                     font-size: 0.75rem;
-                    display: inline-flex;
-                    align-items: center;
+                    transition: all 0.2s ease;
                 }
-                .btn-detalhar:hover { background: rgba(59, 130, 246, 0.4); transform: scale(1.02); }
-                .sem-dados { text-align: center; color: #94a3b8; padding: 2rem; }
+
+                .btn-detalhar:hover {
+                    background: rgba(59, 130, 246, 0.4);
+                    transform: scale(1.02);
+                }
+
+                .sem-dados {
+                    text-align: center;
+                    color: #94a3b8;
+                    padding: 2rem;
+                }
+
                 .modal-overlay {
                     position: fixed;
                     top: 0;
@@ -432,6 +515,7 @@ const GestaoSalarial = () => {
                     justify-content: center;
                     z-index: 1000;
                 }
+
                 .modal-content {
                     background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
                     border-radius: 1.5rem;
@@ -442,6 +526,7 @@ const GestaoSalarial = () => {
                     border: 1px solid rgba(255, 193, 7, 0.3);
                     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
                 }
+
                 .modal-header {
                     display: flex;
                     justify-content: space-between;
@@ -449,10 +534,31 @@ const GestaoSalarial = () => {
                     padding: 1rem 1.5rem;
                     border-bottom: 1px solid rgba(255, 193, 7, 0.2);
                 }
-                .modal-header h3 { color: #fbbf24; font-size: 1.125rem; margin: 0; }
-                .modal-fechar { background: none; border: none; color: #94a3b8; font-size: 1.25rem; cursor: pointer; }
-                .modal-fechar:hover { color: #ef4444; }
-                .modal-body { padding: 1.5rem; overflow-y: auto; max-height: calc(80vh - 70px); }
+
+                .modal-header h3 {
+                    color: #fbbf24;
+                    font-size: 1.125rem;
+                    margin: 0;
+                }
+
+                .modal-fechar {
+                    background: none;
+                    border: none;
+                    color: #94a3b8;
+                    font-size: 1.25rem;
+                    cursor: pointer;
+                }
+
+                .modal-fechar:hover {
+                    color: #ef4444;
+                }
+
+                .modal-body {
+                    padding: 1.5rem;
+                    overflow-y: auto;
+                    max-height: calc(80vh - 70px);
+                }
+
                 .info-funcionario {
                     background: rgba(30, 41, 59, 0.4);
                     border-radius: 0.75rem;
@@ -464,9 +570,25 @@ const GestaoSalarial = () => {
                     font-size: 0.875rem;
                     color: #cbd5e1;
                 }
-                .info-funcionario strong { color: #fbbf24; }
-                .composicao h4 { color: #f8fafc; font-size: 1rem; margin-bottom: 1rem; border-left: 4px solid #22c55e; padding-left: 0.75rem; }
-                .composicao-grid { display: flex; flex-direction: column; gap: 0.5rem; }
+
+                .info-funcionario strong {
+                    color: #fbbf24;
+                }
+
+                .composicao h4 {
+                    color: #f8fafc;
+                    font-size: 1rem;
+                    margin-bottom: 1rem;
+                    border-left: 4px solid #22c55e;
+                    padding-left: 0.75rem;
+                }
+
+                .composicao-grid {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.5rem;
+                }
+
                 .composicao-linha {
                     display: grid;
                     grid-template-columns: 1fr 70px 110px;
@@ -475,12 +597,37 @@ const GestaoSalarial = () => {
                     border-radius: 0.5rem;
                     font-size: 0.875rem;
                 }
-                .composicao-linha.header { background: rgba(251, 191, 36, 0.15); color: #fbbf24; font-weight: 600; }
-                .composicao-linha span:first-child { color: #cbd5e1; }
-                .composicao-linha span:nth-child(2) { text-align: center; color: #94a3b8; }
-                .composicao-linha span:last-child { text-align: right; font-weight: 600; }
-                .valor-bruto { color: #fbbf24; }
-                .total-encargos { background: rgba(239, 68, 68, 0.15); border-top: 1px solid rgba(239, 68, 68, 0.3); margin-top: 0.25rem; }
+
+                .composicao-linha.header {
+                    background: rgba(251, 191, 36, 0.15);
+                    color: #fbbf24;
+                    font-weight: 600;
+                }
+
+                .composicao-linha span:first-child {
+                    color: #cbd5e1;
+                }
+
+                .composicao-linha span:nth-child(2) {
+                    text-align: center;
+                    color: #94a3b8;
+                }
+
+                .composicao-linha span:last-child {
+                    text-align: right;
+                    font-weight: 600;
+                }
+
+                .valor-bruto {
+                    color: #fbbf24;
+                }
+
+                .total-encargos {
+                    background: rgba(239, 68, 68, 0.15);
+                    border-top: 1px solid rgba(239, 68, 68, 0.3);
+                    margin-top: 0.25rem;
+                }
+
                 .gestao-loading {
                     min-height: 100vh;
                     display: flex;
@@ -489,17 +636,32 @@ const GestaoSalarial = () => {
                     background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
                     color: #f8fafc;
                 }
+
                 @media (max-width: 768px) {
-                    .gestao-container { padding: 1rem; }
-                    .gestao-header { flex-direction: column; align-items: flex-start; }
-                    .filtros-row { flex-direction: column; }
-                    .btn-limpar { width: 100%; }
-                    .info-funcionario { grid-template-columns: 1fr; }
-                    .composicao-linha { grid-template-columns: 1fr 55px 90px; font-size: 0.7rem; }
+                    .gestao-container {
+                        padding: 1rem;
+                    }
+                    .gestao-header {
+                        flex-direction: column;
+                        align-items: flex-start;
+                    }
+                    .filtros-row {
+                        flex-direction: column;
+                    }
+                    .btn-limpar {
+                        width: 100%;
+                    }
+                    .info-funcionario {
+                        grid-template-columns: 1fr;
+                    }
+                    .composicao-linha {
+                        grid-template-columns: 1fr 55px 90px;
+                        font-size: 0.7rem;
+                    }
                 }
             `}</style>
         </div>
     );
 };
 
-export default GestaoSalarial;
+export default GestaoSalarial; - E POR FIM - TROCAR OS EMOJIS EM

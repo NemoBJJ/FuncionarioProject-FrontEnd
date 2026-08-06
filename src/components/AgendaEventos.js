@@ -1,51 +1,46 @@
 import React, { useState } from 'react';
-import { 
-  Calendar, Pin, PartyPopper, AlertTriangle, Users, 
-  DollarSign, Trash2, ChevronLeft, ChevronRight, 
-  X, Plus, CalendarDays, Clock, ListChecks 
-} from 'lucide-react';
 import './AgendaEventos.css';
 
 const AgendaEventos = () => {
   const [eventos, setEventos] = useState([
     {
       id: 1,
-      titulo: 'Aniversário da Empresa',
+      titulo: '🎉 Aniversário da Empresa',
       data: '2026-05-20',
       descricao: 'Comemoração dos 5 anos da GesteX',
       tipo: 'celebracao'
     },
     {
       id: 2,
-      titulo: 'Fechamento do Mês',
+      titulo: '📊 Fechamento do Mês',
       data: '2026-05-31',
       descricao: 'Prazo para envio de relatórios financeiros',
       tipo: 'deadline'
     },
     {
       id: 3,
-      titulo: 'Reunião de Equipe',
+      titulo: '👥 Reunião de Equipe',
       data: '2026-05-19',
       descricao: 'Alinhamento de metas do trimestre',
       tipo: 'reuniao'
     },
     {
       id: 4,
-      titulo: 'Pagamento de Funcionários',
+      titulo: '💳 Pagamento de Funcionários',
       data: '2026-06-05',
       descricao: 'Processamento da folha de pagamento',
       tipo: 'financeiro'
     },
     {
       id: 5,
-      titulo: 'Envio de Notas Fiscais',
+      titulo: '📝 Envio de Notas Fiscais',
       data: '2026-05-25',
       descricao: 'Prazo para envio de NF do mês',
       tipo: 'deadline'
     },
     {
       id: 6,
-      titulo: 'Treinamento RH',
+      titulo: '🎓 Treinamento RH',
       data: '2026-05-22',
       descricao: 'Atualização sobre LGPD',
       tipo: 'reuniao'
@@ -81,11 +76,11 @@ const AgendaEventos = () => {
 
   const getTipoIcon = (tipo) => {
     switch(tipo) {
-      case 'celebracao': return <PartyPopper size={16} />;
-      case 'deadline': return <AlertTriangle size={16} />;
-      case 'reuniao': return <Users size={16} />;
-      case 'financeiro': return <DollarSign size={16} />;
-      default: return <Pin size={16} />;
+      case 'celebracao': return '🎉';
+      case 'deadline': return '⚠️';
+      case 'reuniao': return '👥';
+      case 'financeiro': return '💰';
+      default: return '📌';
     }
   };
 
@@ -136,16 +131,9 @@ const AgendaEventos = () => {
   return (
     <div className="agenda-container">
       <div className="agenda-header">
-        <h2>
-          <Calendar size={24} style={{ display: 'inline', marginRight: '8px', verticalAlign: 'middle' }} />
-          Agenda de Eventos
-        </h2>
+        <h2>📅 Agenda de Eventos</h2>
         <button className="btn-add" onClick={() => setShowForm(!showForm)}>
-          {showForm ? (
-            <><X size={18} style={{ marginRight: '4px' }} /> Fechar</>
-          ) : (
-            <><Plus size={18} style={{ marginRight: '4px' }} /> Novo Evento</>
-          )}
+          {showForm ? '✖ Fechar' : '+ Novo Evento'}
         </button>
       </div>
 
@@ -174,15 +162,9 @@ const AgendaEventos = () => {
 
       <div className="calendario">
         <div className="calendario-nav">
-          <button onClick={mesAnterior}>
-            <ChevronLeft size={18} style={{ marginRight: '4px' }} />
-            {meses[mesAtual === 0 ? 11 : mesAtual - 1]}
-          </button>
+          <button onClick={mesAnterior}>◀ {meses[mesAtual === 0 ? 11 : mesAtual - 1]}</button>
           <h3>{meses[mesAtual]} {anoAtual}</h3>
-          <button onClick={mesProximo}>
-            {meses[mesAtual === 11 ? 0 : mesAtual + 1]}
-            <ChevronRight size={18} style={{ marginLeft: '4px' }} />
-          </button>
+          <button onClick={mesProximo}>{meses[mesAtual === 11 ? 0 : mesAtual + 1]} ▶</button>
         </div>
 
         <div className="calendario-semana">
@@ -224,10 +206,7 @@ const AgendaEventos = () => {
       </div>
 
       <div className="lista-eventos">
-        <h3>
-          <ListChecks size={20} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} />
-          Próximos Eventos
-        </h3>
+        <h3>📌 Próximos Eventos</h3>
         <div className="eventos-list">
           {eventos
             .sort((a, b) => a.data.localeCompare(b.data))
@@ -243,9 +222,7 @@ const AgendaEventos = () => {
                   </div>
                   <div className="evento-descricao">{evento.descricao}</div>
                 </div>
-                <button className="evento-delete" onClick={() => deletarEvento(evento.id)}>
-                  <Trash2 size={18} />
-                </button>
+                <button className="evento-delete" onClick={() => deletarEvento(evento.id)}>🗑️</button>
               </div>
             ))}
         </div>
@@ -254,4 +231,5 @@ const AgendaEventos = () => {
   );
 };
 
-export default AgendaEventos;
+export default AgendaEventos; - QUERO QUE O BOTÃO QUE FAZ O CADASTRO FACIAL SÓ APAREÇA NA PAGINA PRINCIPAL E NA PAGINA CADASTROFACIAL.JS que efetivamente faz o cadastro. - JA FOI INSTALADO - PS C:\Users\Nemo\Desktop\erp-system\estoque-front> cd C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd
+PS C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd> npm install lucide-react

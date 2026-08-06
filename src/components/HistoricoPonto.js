@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ClipboardList, RefreshCw, ArrowLeft, BarChart3 } from 'lucide-react';
 import api from '../api';
 import './HistoricoPonto.css';
 
@@ -39,7 +38,7 @@ const HistoricoPonto = () => {
   const formatarData = (dataHora) => {
     const data = new Date(dataHora);
     return data.toLocaleString('pt-BR');
-  };
+  }; - LEMBRE TBM DE AJUSTAR OS COMPONENTES DO FILTRO, no componente Gestao Salarial 
 
   if (loading) {
     return <div className="loading">Carregando registros de ponto...</div>;
@@ -47,10 +46,7 @@ const HistoricoPonto = () => {
 
   return (
     <div className="historico-container">
-      <h2>
-        <ClipboardList size={24} style={{ display: 'inline', marginRight: '8px', verticalAlign: 'middle' }} />
-        Histórico de Ponto Facial
-      </h2>
+      <h2>📋 Histórico de Ponto Facial</h2>
 
       <div className="filtros">
         <div className="filtro-group">
@@ -74,8 +70,7 @@ const HistoricoPonto = () => {
           Limpar Filtros
         </button>
         <button className="btn-atualizar" onClick={carregarRegistros}>
-          <RefreshCw size={18} style={{ marginRight: '6px', verticalAlign: 'middle' }} />
-          Atualizar
+          🔄 Atualizar
         </button>
       </div>
 
@@ -111,22 +106,16 @@ const HistoricoPonto = () => {
       </div>
 
       <div className="stats">
-        <p>
-          <BarChart3 size={18} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} />
-          Total de registros: <strong>{registrosFiltrados.length}</strong>
-        </p>
+        <p>📊 Total de registros: <strong>{registrosFiltrados.length}</strong></p>
       </div>
 
       <div className="back-button-container">
         <Link to="/">
-          <button className="back-button">
-            <ArrowLeft size={18} style={{ marginRight: '6px', verticalAlign: 'middle' }} />
-            Voltar ao Menu
-          </button>
+          <button className="back-button">← Voltar ao Menu</button>
         </Link>
       </div>
     </div>
   );
 };
 
-export default HistoricoPonto;
+export default HistoricoPonto; - TROCAR OS EMOJIS EM
