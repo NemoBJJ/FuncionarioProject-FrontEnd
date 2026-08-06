@@ -38,7 +38,7 @@ const HistoricoPonto = () => {
   const formatarData = (dataHora) => {
     const data = new Date(dataHora);
     return data.toLocaleString('pt-BR');
-  }; - LEMBRE TBM DE AJUSTAR OS COMPONENTES DO FILTRO, no componente Gestao Salarial 
+  }; 
 
   if (loading) {
     return <div className="loading">Carregando registros de ponto...</div>;
