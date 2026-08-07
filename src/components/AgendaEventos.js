@@ -1,46 +1,62 @@
 import React, { useState } from 'react';
 import './AgendaEventos.css';
+import {
+  Calendar,
+  PartyPopper,
+  BarChart,
+  Users,
+  CreditCard,
+  FileText,
+  GraduationCap,
+  AlertTriangle,
+  DollarSign,
+  Pin,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  Trash2,
+} from 'lucide-react';
 
 const AgendaEventos = () => {
   const [eventos, setEventos] = useState([
     {
       id: 1,
-      titulo: '🎉 Aniversário da Empresa',
+      titulo: 'Aniversário da Empresa',
       data: '2026-05-20',
       descricao: 'Comemoração dos 5 anos da GesteX',
       tipo: 'celebracao'
     },
     {
       id: 2,
-      titulo: '📊 Fechamento do Mês',
+      titulo: 'Fechamento do Mês',
       data: '2026-05-31',
       descricao: 'Prazo para envio de relatórios financeiros',
       tipo: 'deadline'
     },
     {
       id: 3,
-      titulo: '👥 Reunião de Equipe',
+      titulo: 'Reunião de Equipe',
       data: '2026-05-19',
       descricao: 'Alinhamento de metas do trimestre',
       tipo: 'reuniao'
     },
     {
       id: 4,
-      titulo: '💳 Pagamento de Funcionários',
+      titulo: 'Pagamento de Funcionários',
       data: '2026-06-05',
       descricao: 'Processamento da folha de pagamento',
       tipo: 'financeiro'
     },
     {
       id: 5,
-      titulo: '📝 Envio de Notas Fiscais',
+      titulo: 'Envio de Notas Fiscais',
       data: '2026-05-25',
       descricao: 'Prazo para envio de NF do mês',
       tipo: 'deadline'
     },
     {
       id: 6,
-      titulo: '🎓 Treinamento RH',
+      titulo: 'Treinamento RH',
       data: '2026-05-22',
       descricao: 'Atualização sobre LGPD',
       tipo: 'reuniao'
@@ -76,11 +92,11 @@ const AgendaEventos = () => {
 
   const getTipoIcon = (tipo) => {
     switch(tipo) {
-      case 'celebracao': return '🎉';
-      case 'deadline': return '⚠️';
-      case 'reuniao': return '👥';
-      case 'financeiro': return '💰';
-      default: return '📌';
+      case 'celebracao': return <PartyPopper size={14} className="icon-evento" />;
+      case 'deadline': return <AlertTriangle size={14} className="icon-evento" />;
+      case 'reuniao': return <Users size={14} className="icon-evento" />;
+      case 'financeiro': return <DollarSign size={14} className="icon-evento" />;
+      default: return <Pin size={14} className="icon-evento" />;
     }
   };
 
@@ -131,9 +147,19 @@ const AgendaEventos = () => {
   return (
     <div className="agenda-container">
       <div className="agenda-header">
-        <h2>📅 Agenda de Eventos</h2>
+        <h2>
+          <Calendar size={24} className="icon-header" />
+          Agenda de Eventos
+        </h2>
         <button className="btn-add" onClick={() => setShowForm(!showForm)}>
-          {showForm ? '✖ Fechar' : '+ Novo Evento'}
+          {showForm ? (
+            <>
+              <X size={18} className="icon-btn" />
+              Fechar
+            </>
+          ) : (
+            '+ Novo Evento'
+          )}
         </button>
       </div>
 
@@ -162,9 +188,15 @@ const AgendaEventos = () => {
 
       <div className="calendario">
         <div className="calendario-nav">
-          <button onClick={mesAnterior}>◀ {meses[mesAtual === 0 ? 11 : mesAtual - 1]}</button>
+          <button onClick={mesAnterior}>
+            <ChevronLeft size={18} className="icon-nav" />
+            {meses[mesAtual === 0 ? 11 : mesAtual - 1]}
+          </button>
           <h3>{meses[mesAtual]} {anoAtual}</h3>
-          <button onClick={mesProximo}>{meses[mesAtual === 11 ? 0 : mesAtual + 1]} ▶</button>
+          <button onClick={mesProximo}>
+            {meses[mesAtual === 11 ? 0 : mesAtual + 1]}
+            <ChevronRight size={18} className="icon-nav" />
+          </button>
         </div>
 
         <div className="calendario-semana">
@@ -206,7 +238,10 @@ const AgendaEventos = () => {
       </div>
 
       <div className="lista-eventos">
-        <h3>📌 Próximos Eventos</h3>
+        <h3>
+          <Pin size={18} className="icon-title" />
+          Próximos Eventos
+        </h3>
         <div className="eventos-list">
           {eventos
             .sort((a, b) => a.data.localeCompare(b.data))
@@ -222,7 +257,9 @@ const AgendaEventos = () => {
                   </div>
                   <div className="evento-descricao">{evento.descricao}</div>
                 </div>
-                <button className="evento-delete" onClick={() => deletarEvento(evento.id)}>🗑️</button>
+                <button className="evento-delete" onClick={() => deletarEvento(evento.id)}>
+                  <Trash2 size={18} className="icon-trash" />
+                </button>
               </div>
             ))}
         </div>
@@ -231,4 +268,4 @@ const AgendaEventos = () => {
   );
 };
 
-export default AgendaEventos; 
+export default AgendaEventos;

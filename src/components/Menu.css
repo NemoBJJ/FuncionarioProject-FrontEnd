@@ -1,6 +1,6 @@
 .menu-container {
   min-height: 100vh;
-  padding: 2rem 1.5rem;
+  padding: 1rem 1.5rem 2rem; /* reduzido o padding superior para subir o título */
   background: radial-gradient(circle at top left, rgba(40, 167, 69, 0.20), transparent 40%),
               radial-gradient(circle at bottom right, rgba(23, 162, 184, 0.15), transparent 35%),
               linear-gradient(135deg, #07111f 0%, #0f172a 45%, #111827 100%);
@@ -8,6 +8,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* REMOVIDO qualquer borda ou sombra que pudesse gerar linha branca */
+  border: none;
+  box-shadow: none;
 }
 
 .menu-header {
@@ -16,7 +19,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem; /* reduzido para aproximar o título dos cards */
 }
 
 .menu-title {
@@ -28,6 +31,7 @@
   background-clip: text;
   color: transparent;
   margin: 0;
+  padding-top: 0; /* garante que não haja espaço extra acima */
 }
 
 .camera-button {
@@ -77,7 +81,7 @@
   width: 100%;
   aspect-ratio: 1 / 1;
   min-width: 130px;
-  max-width: 200px;
+  max-width: 200px; /* mantido o tamanho original */
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 

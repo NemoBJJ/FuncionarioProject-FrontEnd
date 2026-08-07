@@ -2,6 +2,16 @@ import React, { useState, useEffect } from 'react';
 import ReconhecimentoFacial from './ReconhecimentoFacial';
 import api from '../api';
 import './CadastroFacial.css';
+import {
+  Smile,
+  CheckCircle,
+  XCircle,
+  RefreshCw,
+  Camera,
+  User,
+  Briefcase,
+  Loader2
+} from 'lucide-react';
 
 const CadastroFacial = () => {
   const [funcionarios, setFuncionarios] = useState([]);
@@ -37,32 +47,70 @@ const CadastroFacial = () => {
   };
 
   if (loading) {
-    return <div className="loading">Carregando funcionários...</div>;
+    return (
+      <div className="loading">
+        <Loader2 size={32} className="loading-spinner" />
+        Carregando funcionários...
+      </div>
+    );
   }
 
   return (
     <div className="cadastro-container">
-      <h2>😀 Cadastro Facial de Funcionários</h2>
+      <h2>
+        <Smile size={28} className="icon-header" />
+        Cadastro Facial de Funcionários
+      </h2>
       
       <div className="funcionarios-grid">
         {funcionarios.map(func => (
           <div key={func.id} className="funcionario-card">
             <div className="funcionario-avatar">
-              {func.faceDescriptor ? '😀✅' : '😐❌'}
+              {func.faceDescriptor ? (
+                <CheckCircle size={32} className="icon-cadastrado" />
+              ) : (
+                <XCircle size={32} className="icon-nao-cadastrado" />
+              )}
             </div>
-            <h3>{func.nome}</h3>
-            <p>{func.cargo || 'Cargo não definido'}</p>
+            <h3>
+              <User size={16} className="icon-user" />
+              {func.nome}
+            </h3>
+            <p>
+              <Briefcase size={14} className="icon-cargo" />
+              {func.cargo || 'Cargo não definido'}
+            </p>
             <p className="face-status">
               Status Face: 
               <span className={func.faceDescriptor ? 'status-cadastrado' : 'status-nao-cadastrado'}>
-                {func.faceDescriptor ? ' Cadastrada' : ' Não cadastrada'}
+                {func.faceDescriptor ? (
+                  <>
+                    <CheckCircle size={14} className="status-icon" />
+                    Cadastrada
+                  </>
+                ) : (
+                  <>
+                    <XCircle size={14} className="status-icon" />
+                    Não cadastrada
+                  </>
+                )}
               </span>
             </p>
             <button 
               className={func.faceDescriptor ? 'btn-recadastrar' : 'btn-cadastrar'}
               onClick={() => handleCadastrarFace(func)}
             >
-              {func.faceDescriptor ? '🔄 Recadastrar Face' : '📸 Cadastrar Face'}
+              {func.faceDescriptor ? (
+                <>
+                  <RefreshCw size={16} className="btn-icon" />
+                  Recadastrar Face
+                </>
+              ) : (
+                <>
+                  <Camera size={16} className="btn-icon" />
+                  Cadastrar Face
+                </>
+              )}
             </button>
           </div>
         ))}

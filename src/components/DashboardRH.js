@@ -11,6 +11,17 @@ import {
     ArcElement,
 } from 'chart.js';
 import { Bar, Doughnut } from 'react-chartjs-2';
+import {
+    ArrowLeft,
+    Building,
+    Users,
+    DollarSign,
+    Coins,
+    BarChart3,
+    PieChart,
+    Gift,
+    PartyPopper,
+} from 'lucide-react';
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend, ArcElement);
 
@@ -224,15 +235,23 @@ const DashboardRH = () => {
         <div className="dashboard-rh-container">
             <div className="dashboard-rh-header">
                 <Link to="/">
-                    <button className="back-button-dashboard-rh">← Voltar ao Menu</button>
+                    <button className="back-button-dashboard-rh">
+                        <ArrowLeft size={18} className="icon-back" />
+                        Voltar ao Menu
+                    </button>
                 </Link>
-                <h1>🏢 Dashboard RH</h1>
+                <h1>
+                    <Building size={28} className="icon-header" />
+                    Dashboard RH
+                </h1>
             </div>
 
             {/* Cards de métricas */}
             <div className="metrics-grid-rh">
                 <div className="metric-card-rh total-card">
-                    <div className="metric-icon-rh">👥</div>
+                    <div className="metric-icon-rh">
+                        <Users size={32} className="icon-metric" />
+                    </div>
                     <div className="metric-info-rh">
                         <span className="metric-label-rh">Total Funcionários</span>
                         <span className="metric-value-rh">{stats.totalFuncionarios}</span>
@@ -240,7 +259,9 @@ const DashboardRH = () => {
                 </div>
 
                 <div className="metric-card-rh salary-card">
-                    <div className="metric-icon-rh">💰</div>
+                    <div className="metric-icon-rh">
+                        <DollarSign size={32} className="icon-metric" />
+                    </div>
                     <div className="metric-info-rh">
                         <span className="metric-label-rh">Salário Médio</span>
                         <span className="metric-value-rh">{formatCurrency(stats.salarioMedio)}</span>
@@ -248,7 +269,9 @@ const DashboardRH = () => {
                 </div>
 
                 <div className="metric-card-rh payroll-card">
-                    <div className="metric-icon-rh">📊</div>
+                    <div className="metric-icon-rh">
+                        <Coins size={32} className="icon-metric" />
+                    </div>
                     <div className="metric-info-rh">
                         <span className="metric-label-rh">Folha Mensal</span>
                         <span className="metric-value-rh">{formatCurrency(stats.totalSalarios)}</span>
@@ -256,7 +279,9 @@ const DashboardRH = () => {
                 </div>
 
                 <div className="metric-card-rh dept-card">
-                    <div className="metric-icon-rh">🏢</div>
+                    <div className="metric-icon-rh">
+                        <Building size={32} className="icon-metric" />
+                    </div>
                     <div className="metric-info-rh">
                         <span className="metric-label-rh">Departamentos</span>
                         <span className="metric-value-rh">{stats.departamentos}</span>
@@ -267,7 +292,10 @@ const DashboardRH = () => {
             {/* Gráficos principais */}
             <div className="charts-row-rh">
                 <div className="chart-card-rh">
-                    <h3>📊 Funcionários por Cargo</h3>
+                    <h3>
+                        <BarChart3 size={20} className="icon-title" />
+                        Funcionários por Cargo
+                    </h3>
                     <div className="chart-wrapper-rh">
                         {cargosData.labels.length > 0 ? (
                             <Bar data={cargoChartData} options={chartOptions} />
@@ -278,7 +306,10 @@ const DashboardRH = () => {
                 </div>
 
                 <div className="chart-card-rh">
-                    <h3>💰 Total de Salários por Departamento</h3>
+                    <h3>
+                        <DollarSign size={20} className="icon-title" />
+                        Total de Salários por Departamento
+                    </h3>
                     <div className="chart-wrapper-rh">
                         {departamentosData.labels.length > 0 ? (
                             <Bar data={deptChartData} options={chartOptions} />
@@ -291,19 +322,27 @@ const DashboardRH = () => {
 
             <div className="charts-row-rh">
                 <div className="chart-card-rh donut-card">
-                    <h3>👫 Proporção por Gênero</h3>
+                    <h3>
+                        <PieChart size={20} className="icon-title" />
+                        Proporção por Gênero
+                    </h3>
                     <div className="donut-wrapper-rh">
                         <Doughnut data={genderData} options={genderOptions} />
                     </div>
                 </div>
 
                 <div className="chart-card-rh birthday-card">
-                    <h3>🎂 Próximos Aniversariantes</h3>
+                    <h3>
+                        <Gift size={20} className="icon-title" />
+                        Próximos Aniversariantes
+                    </h3>
                     <div className="birthday-list">
                         {aniversariantes.length > 0 ? (
                             aniversariantes.map((f, idx) => (
                                 <div key={f.id} className="birthday-item">
-                                    <div className="birthday-avatar">🎉</div>
+                                    <div className="birthday-avatar">
+                                        <PartyPopper size={24} className="icon-birthday" />
+                                    </div>
                                     <div className="birthday-info">
                                         <span className="birthday-name">{f.nome}</span>
                                         <span className="birthday-date">
@@ -337,6 +376,9 @@ const DashboardRH = () => {
                 }
 
                 .dashboard-rh-header h1 {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
                     font-size: 2rem;
                     font-weight: bold;
                     background: linear-gradient(135deg, #fbbf24, #f59e0b);
@@ -345,7 +387,37 @@ const DashboardRH = () => {
                     color: transparent;
                 }
 
+                .icon-back {
+                    color: #f8fafc;
+                    stroke-width: 2;
+                    margin-right: 0.3rem;
+                    vertical-align: middle;
+                }
+
+                .icon-header {
+                    color: #fbbf24;
+                    stroke-width: 2;
+                }
+
+                .icon-title {
+                    color: #fbbf24;
+                    stroke-width: 2;
+                    margin-right: 0.4rem;
+                    vertical-align: middle;
+                }
+
+                .icon-metric {
+                    stroke-width: 2;
+                }
+
+                .icon-birthday {
+                    color: #fbbf24;
+                    stroke-width: 2;
+                }
+
                 .back-button-dashboard-rh {
+                    display: inline-flex;
+                    align-items: center;
                     padding: 0.5rem 1.25rem;
                     font-size: 0.875rem;
                     font-weight: 600;
@@ -389,8 +461,19 @@ const DashboardRH = () => {
                 }
 
                 .metric-icon-rh {
-                    font-size: 2.5rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 3.5rem;
+                    height: 3.5rem;
+                    border-radius: 50%;
+                    background: rgba(255, 193, 7, 0.1);
                 }
+
+                .total-card .metric-icon-rh { color: #fbbf24; }
+                .salary-card .metric-icon-rh { color: #22c55e; }
+                .payroll-card .metric-icon-rh { color: #3b82f6; }
+                .dept-card .metric-icon-rh { color: #ec4899; }
 
                 .metric-info-rh {
                     display: flex;
@@ -432,6 +515,8 @@ const DashboardRH = () => {
                 }
 
                 .chart-card-rh h3 {
+                    display: flex;
+                    align-items: center;
                     color: #f8fafc;
                     font-size: 1.125rem;
                     margin-bottom: 1rem;
@@ -473,7 +558,13 @@ const DashboardRH = () => {
                 }
 
                 .birthday-avatar {
-                    font-size: 1.5rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 2.5rem;
+                    height: 2.5rem;
+                    border-radius: 50%;
+                    background: rgba(251, 191, 36, 0.15);
                 }
 
                 .birthday-info {

@@ -1,6 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api';
+import {
+    ArrowLeft,
+    Coins,
+    BarChart3,
+    Search,
+    List,
+    Info,
+    X,
+    Bus,
+    Banknote,
+    Utensils,
+    Heart,
+    FileText,
+    Building,
+    User,
+} from 'lucide-react';
 
 const GestaoSalarial = () => {
     const [funcionarios, setFuncionarios] = useState([]);
@@ -123,15 +139,24 @@ const GestaoSalarial = () => {
         <div className="gestao-container">
             <div className="gestao-header">
                 <Link to="/">
-                    <button className="back-button-gestao">← Voltar ao Menu</button>
+                    <button className="back-button-gestao">
+                        <ArrowLeft size={18} className="icon-back" />
+                        Voltar ao Menu
+                    </button>
                 </Link>
-                <h1>💰 Gestão Salarial</h1>
+                <h1>
+                    <Coins size={28} className="icon-header" />
+                    Gestão Salarial
+                </h1>
             </div>
 
             {/* Cards de Resumo por Departamento */}
             <div className="resumo-cards">
                 <div className="resumo-card">
-                    <h3>📊 Resumo por Departamento</h3>
+                    <h3>
+                        <BarChart3 size={20} className="icon-title" />
+                        Resumo por Departamento
+                    </h3>
                     <div className="resumo-lista">
                         {relatorioDepartamentos.slice(0, 6).map((item, idx) => (
                             <div key={idx} className="resumo-item">
@@ -143,9 +168,12 @@ const GestaoSalarial = () => {
                 </div>
             </div>
 
-            {/* Filtros */}
+            {/* Filtros - Centralizados */}
             <div className="filtros-card">
-                <h3>🔍 Filtros</h3>
+                <h3>
+                    <Search size={20} className="icon-title" />
+                    Filtros
+                </h3>
                 <div className="filtros-row">
                     <div className="filtro-group">
                         <label>Funcionário:</label>
@@ -167,9 +195,12 @@ const GestaoSalarial = () => {
                 </div>
             </div>
 
-            {/* Tabela de Funcionários - SEM SALÁRIO LÍQUIDO */}
+            {/* Tabela de Funcionários */}
             <div className="tabela-card">
-                <h3>📋 Funcionários</h3>
+                <h3>
+                    <List size={20} className="icon-title" />
+                    Funcionários
+                </h3>
                 <div className="tabela-wrapper">
                     <table className="tabela-gestao">
                         <thead>
@@ -197,7 +228,8 @@ const GestaoSalarial = () => {
                                             className="btn-detalhar"
                                             onClick={() => abrirModal(f)}
                                         >
-                                            📊 Detalhar
+                                            <Info size={16} className="icon-btn" />
+                                            Detalhar
                                         </button>
                                     </td>
                                 </tr>
@@ -212,20 +244,25 @@ const GestaoSalarial = () => {
                 </div>
             </div>
 
-            {/* Modal de Detalhamento Salarial - SEM SALÁRIO LÍQUIDO */}
+            {/* Modal de Detalhamento Salarial */}
             {modalAberto && funcionarioSelecionado && (
                 <div className="modal-overlay" onClick={fecharModal}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-header">
-                            <h3>📊 Detalhamento Salarial - {funcionarioSelecionado.nome}</h3>
-                            <button className="modal-fechar" onClick={fecharModal}>✕</button>
+                            <h3>
+                                <FileText size={20} className="icon-modal" />
+                                Detalhamento Salarial - {funcionarioSelecionado.nome}
+                            </h3>
+                            <button className="modal-fechar" onClick={fecharModal}>
+                                <X size={24} />
+                            </button>
                         </div>
                         <div className="modal-body">
                             <div className="info-funcionario">
-                                <div><strong>ID:</strong> {funcionarioSelecionado.id}</div>
-                                <div><strong>Cargo:</strong> {funcionarioSelecionado.cargo || '-'}</div>
-                                <div><strong>Departamento:</strong> {funcionarioSelecionado.departamento || '-'}</div>
-                                <div><strong>Data Admissão:</strong> {formatDate(funcionarioSelecionado.dataAdmissao)}</div>
+                                <div><User size={16} className="icon-info" /> <strong>ID:</strong> {funcionarioSelecionado.id}</div>
+                                <div><Building size={16} className="icon-info" /> <strong>Cargo:</strong> {funcionarioSelecionado.cargo || '-'}</div>
+                                <div><Building size={16} className="icon-info" /> <strong>Departamento:</strong> {funcionarioSelecionado.departamento || '-'}</div>
+                                <div><FileText size={16} className="icon-info" /> <strong>Data Admissão:</strong> {formatDate(funcionarioSelecionado.dataAdmissao)}</div>
                             </div>
                             
                             {(() => {
@@ -242,37 +279,37 @@ const GestaoSalarial = () => {
                                                 <span>Valor</span>
                                             </div>
                                             <div className="composicao-linha">
-                                                <span>💰 Salário Bruto</span>
+                                                <span><Coins size={16} className="icon-comp" /> Salário Bruto</span>
                                                 <span>100%</span>
                                                 <span className="valor-bruto">{formatCurrency(c.salarioBruto)}</span>
                                             </div>
                                             <div className="composicao-linha">
-                                                <span>🚌 Vale Transporte (VT)</span>
+                                                <span><Bus size={16} className="icon-comp" /> Vale Transporte (VT)</span>
                                                 <span>10%</span>
                                                 <span>{formatCurrency(c.vt)}</span>
                                             </div>
                                             <div className="composicao-linha">
-                                                <span>🏦 FGTS (8%)</span>
+                                                <span><Banknote size={16} className="icon-comp" /> FGTS (8%)</span>
                                                 <span>8%</span>
                                                 <span>{formatCurrency(c.fgts)}</span>
                                             </div>
                                             <div className="composicao-linha">
-                                                <span>🍽️ Vale Alimentação (VA)</span>
+                                                <span><Utensils size={16} className="icon-comp" /> Vale Alimentação (VA)</span>
                                                 <span>10%</span>
                                                 <span>{formatCurrency(c.va)}</span>
                                             </div>
                                             <div className="composicao-linha">
-                                                <span>🏥 Plano de Saúde</span>
+                                                <span><Heart size={16} className="icon-comp" /> Plano de Saúde</span>
                                                 <span>6%</span>
                                                 <span>{formatCurrency(c.planoSaude)}</span>
                                             </div>
                                             <div className="composicao-linha">
-                                                <span>📄 INSS</span>
+                                                <span><FileText size={16} className="icon-comp" /> INSS</span>
                                                 <span>7,5%</span>
                                                 <span>{formatCurrency(c.inss)}</span>
                                             </div>
                                             <div className="composicao-linha total-encargos">
-                                                <span>📊 Total de Encargos</span>
+                                                <span><BarChart3 size={16} className="icon-comp" /> Total de Encargos</span>
                                                 <span>{((c.totalEncargos / c.salarioBruto) * 100).toFixed(1)}%</span>
                                                 <span>{formatCurrency(c.totalEncargos)}</span>
                                             </div>
@@ -302,6 +339,9 @@ const GestaoSalarial = () => {
                 }
 
                 .gestao-header h1 {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
                     font-size: 2rem;
                     font-weight: bold;
                     background: linear-gradient(135deg, #fbbf24, #f59e0b);
@@ -310,7 +350,56 @@ const GestaoSalarial = () => {
                     color: transparent;
                 }
 
+                .icon-back {
+                    color: #f8fafc;
+                    stroke-width: 2;
+                    margin-right: 0.3rem;
+                    vertical-align: middle;
+                }
+
+                .icon-header {
+                    color: #fbbf24;
+                    stroke-width: 2;
+                }
+
+                .icon-title {
+                    color: #fbbf24;
+                    stroke-width: 2;
+                    margin-right: 0.4rem;
+                    vertical-align: middle;
+                }
+
+                .icon-btn {
+                    color: #60a5fa;
+                    stroke-width: 2;
+                    margin-right: 0.2rem;
+                    vertical-align: middle;
+                }
+
+                .icon-modal {
+                    color: #fbbf24;
+                    stroke-width: 2;
+                    margin-right: 0.5rem;
+                    vertical-align: middle;
+                }
+
+                .icon-info {
+                    color: #94a3b8;
+                    stroke-width: 2;
+                    margin-right: 0.3rem;
+                    vertical-align: middle;
+                }
+
+                .icon-comp {
+                    color: #94a3b8;
+                    stroke-width: 2;
+                    margin-right: 0.3rem;
+                    vertical-align: middle;
+                }
+
                 .back-button-gestao {
+                    display: inline-flex;
+                    align-items: center;
                     padding: 0.5rem 1.25rem;
                     font-size: 0.875rem;
                     font-weight: 600;
@@ -341,6 +430,8 @@ const GestaoSalarial = () => {
                 }
 
                 .resumo-card h3 {
+                    display: flex;
+                    align-items: center;
                     color: #f8fafc;
                     font-size: 1.125rem;
                     margin-bottom: 1rem;
@@ -384,20 +475,24 @@ const GestaoSalarial = () => {
                 }
 
                 .filtros-card h3 {
+                    display: flex;
+                    align-items: center;
                     color: #f8fafc;
                     font-size: 1.125rem;
                     margin-bottom: 1rem;
                 }
 
+                /* 👇 FILTROS CENTRALIZADOS 👇 */
                 .filtros-row {
                     display: flex;
+                    justify-content: center;
+                    align-items: flex-end;
                     gap: 1rem;
                     flex-wrap: wrap;
-                    align-items: flex-end;
                 }
 
                 .filtro-group {
-                    flex: 1;
+                    flex: 0 1 auto;
                     min-width: 180px;
                 }
 
@@ -408,7 +503,8 @@ const GestaoSalarial = () => {
                     margin-bottom: 0.25rem;
                 }
 
-                .filtro-group input, .filtro-group select {
+                .filtro-group input,
+                .filtro-group select {
                     width: 100%;
                     padding: 0.5rem;
                     background: rgba(30, 41, 59, 0.6);
@@ -427,6 +523,7 @@ const GestaoSalarial = () => {
                     cursor: pointer;
                     font-weight: 600;
                     height: 38px;
+                    flex-shrink: 0;
                 }
 
                 .btn-limpar:hover {
@@ -442,6 +539,8 @@ const GestaoSalarial = () => {
                 }
 
                 .tabela-card h3 {
+                    display: flex;
+                    align-items: center;
                     color: #f8fafc;
                     font-size: 1.125rem;
                     margin-bottom: 1rem;
@@ -481,6 +580,8 @@ const GestaoSalarial = () => {
                 }
 
                 .btn-detalhar {
+                    display: inline-flex;
+                    align-items: center;
                     padding: 0.25rem 0.75rem;
                     background: rgba(59, 130, 246, 0.2);
                     border: 1px solid rgba(59, 130, 246, 0.4);
@@ -536,6 +637,8 @@ const GestaoSalarial = () => {
                 }
 
                 .modal-header h3 {
+                    display: flex;
+                    align-items: center;
                     color: #fbbf24;
                     font-size: 1.125rem;
                     margin: 0;
@@ -545,8 +648,9 @@ const GestaoSalarial = () => {
                     background: none;
                     border: none;
                     color: #94a3b8;
-                    font-size: 1.25rem;
                     cursor: pointer;
+                    display: flex;
+                    align-items: center;
                 }
 
                 .modal-fechar:hover {
@@ -596,6 +700,7 @@ const GestaoSalarial = () => {
                     background: rgba(30, 41, 59, 0.3);
                     border-radius: 0.5rem;
                     font-size: 0.875rem;
+                    align-items: center;
                 }
 
                 .composicao-linha.header {
@@ -605,6 +710,8 @@ const GestaoSalarial = () => {
                 }
 
                 .composicao-linha span:first-child {
+                    display: flex;
+                    align-items: center;
                     color: #cbd5e1;
                 }
 
@@ -647,6 +754,7 @@ const GestaoSalarial = () => {
                     }
                     .filtros-row {
                         flex-direction: column;
+                        align-items: stretch;
                     }
                     .btn-limpar {
                         width: 100%;
@@ -664,4 +772,4 @@ const GestaoSalarial = () => {
     );
 };
 
-export default GestaoSalarial; 
+export default GestaoSalarial;
