@@ -1,5 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { 
+  Database, 
+  BarChart3, 
+  DollarSign, 
+  Search, 
+  List, 
+  Users, 
+  Building, 
+  ArrowLeft, 
+  ChevronLeft, 
+  ChevronRight, 
+  X 
+} from 'lucide-react';
 import api from '../api';
 
 const DatabaseRH = () => {
@@ -161,16 +174,25 @@ const DatabaseRH = () => {
         <div className="database-rh-container">
             <div className="database-rh-header">
                 <Link to="/">
-                    <button className="back-button-rh">← Voltar ao Menu</button>
+                    <button className="back-button-rh">
+                        <ArrowLeft size={18} className="icon-back" />
+                        Voltar ao Menu
+                    </button>
                 </Link>
-                <h1>🗄️ Banco de Dados - RH</h1>
+                <h1>
+                    <Database size={28} className="icon-header" />
+                    Banco de Dados - RH
+                </h1>
                 <div className="total-count">Total: {totalElements} funcionários</div>
             </div>
 
             {/* SEÇÃO DE RELATÓRIOS INLINE - CLICÁVEIS */}
             <div className="reports-row">
                 <div className="report-card clickable" onClick={() => setModalAberto(true)}>
-                    <h3>📊 Funcionários por Cargo</h3>
+                    <h3>
+                        <BarChart3 size={20} className="icon-title" />
+                        Funcionários por Cargo
+                    </h3>
                     <div className="report-list">
                         {relatorioCargos.slice(0, 8).map((item, idx) => (
                             <div 
@@ -187,7 +209,10 @@ const DatabaseRH = () => {
                 </div>
                 
                 <div className="report-card clickable">
-                    <h3>💰 Folha Salarial por Departamento</h3>
+                    <h3>
+                        <DollarSign size={20} className="icon-title" />
+                        Folha Salarial por Departamento
+                    </h3>
                     <div className="report-list">
                         {relatorioDepartamentos.slice(0, 8).map((item, idx) => (
                             <div 
@@ -204,9 +229,12 @@ const DatabaseRH = () => {
                 </div>
             </div>
 
-            {/* FILTROS */}
+            {/* FILTROS - CENTRALIZADOS */}
             <div className="filters-card-rh">
-                <h3>🔍 Filtros de Busca</h3>
+                <h3>
+                    <Search size={20} className="icon-title" />
+                    Filtros de Busca
+                </h3>
                 <div className="filters-row">
                     <div className="filter-group">
                         <label>Buscar por ID:</label>
@@ -246,7 +274,10 @@ const DatabaseRH = () => {
 
             {/* TABELA DE FUNCIONÁRIOS */}
             <div className="table-card-rh">
-                <h3>📋 Lista de Funcionários</h3>
+                <h3>
+                    <List size={20} className="icon-title" />
+                    Lista de Funcionários
+                </h3>
                 <div className="table-wrapper-rh">
                     <table className="rh-table">
                         <thead>
@@ -294,13 +325,15 @@ const DatabaseRH = () => {
                 {totalPagesFiltered > 1 && (
                     <div className="pagination-rh">
                         <button onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0}>
-                            ◀ Anterior
+                            <ChevronLeft size={18} />
+                            Anterior
                         </button>
                         <span className="page-info">
                             Página {page + 1} de {totalPagesFiltered}
                         </span>
                         <button onClick={() => setPage(p => Math.min(totalPagesFiltered - 1, p + 1))} disabled={page === totalPagesFiltered - 1}>
-                            Próxima ▶
+                            Próxima
+                            <ChevronRight size={18} />
                         </button>
                     </div>
                 )}
@@ -311,8 +344,13 @@ const DatabaseRH = () => {
                 <div className="modal-overlay" onClick={fecharModal}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-header">
-                            <h3>{modalTitulo}</h3>
-                            <button className="modal-close" onClick={fecharModal}>✕</button>
+                            <h3>
+                                {modalTitulo.includes('Cargo') ? <Users size={20} className="icon-modal" /> : <Building size={20} className="icon-modal" />}
+                                {modalTitulo}
+                            </h3>
+                            <button className="modal-close" onClick={fecharModal}>
+                                <X size={24} />
+                            </button>
                         </div>
                         <div className="modal-body">
                             <table className="modal-table">
@@ -359,12 +397,41 @@ const DatabaseRH = () => {
                 }
 
                 .database-rh-header h1 {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
                     font-size: 2rem;
                     font-weight: bold;
                     background: linear-gradient(135deg, #fbbf24, #f59e0b);
                     -webkit-background-clip: text;
                     background-clip: text;
                     color: transparent;
+                }
+
+                .icon-header {
+                    color: #fbbf24;
+                    stroke-width: 2;
+                }
+
+                .icon-title {
+                    color: #fbbf24;
+                    stroke-width: 2;
+                    margin-right: 0.4rem;
+                    vertical-align: middle;
+                }
+
+                .icon-back {
+                    color: #f8fafc;
+                    stroke-width: 2;
+                    margin-right: 0.3rem;
+                    vertical-align: middle;
+                }
+
+                .icon-modal {
+                    color: #fbbf24;
+                    stroke-width: 2;
+                    margin-right: 0.5rem;
+                    vertical-align: middle;
                 }
 
                 .total-count {
@@ -376,6 +443,8 @@ const DatabaseRH = () => {
                 }
 
                 .back-button-rh {
+                    display: inline-flex;
+                    align-items: center;
                     padding: 0.5rem 1.25rem;
                     font-size: 0.875rem;
                     font-weight: 600;
@@ -409,6 +478,8 @@ const DatabaseRH = () => {
                 }
 
                 .report-card h3 {
+                    display: flex;
+                    align-items: center;
                     color: #f8fafc;
                     font-size: 1.125rem;
                     margin-bottom: 1rem;
@@ -462,20 +533,24 @@ const DatabaseRH = () => {
                 }
 
                 .filters-card-rh h3 {
+                    display: flex;
+                    align-items: center;
                     color: #f8fafc;
                     font-size: 1.125rem;
                     margin-bottom: 1rem;
                 }
 
+                /* 👇 FILTROS CENTRALIZADOS 👇 */
                 .filters-row {
                     display: flex;
+                    justify-content: center;
+                    align-items: flex-end;
                     gap: 1rem;
                     flex-wrap: wrap;
-                    align-items: flex-end;
                 }
 
                 .filter-group {
-                    flex: 1;
+                    flex: 0 1 auto;
                     min-width: 150px;
                 }
 
@@ -486,7 +561,8 @@ const DatabaseRH = () => {
                     margin-bottom: 0.25rem;
                 }
 
-                .filter-group input, .filter-group select {
+                .filter-group input,
+                .filter-group select {
                     width: 100%;
                     padding: 0.5rem;
                     background: rgba(30, 41, 59, 0.6);
@@ -496,7 +572,8 @@ const DatabaseRH = () => {
                     font-size: 0.875rem;
                 }
 
-                .filter-group input:focus, .filter-group select:focus {
+                .filter-group input:focus,
+                .filter-group select:focus {
                     outline: none;
                     border-color: #fbbf24;
                 }
@@ -510,6 +587,7 @@ const DatabaseRH = () => {
                     cursor: pointer;
                     font-weight: 600;
                     height: 38px;
+                    flex-shrink: 0;
                 }
 
                 .btn-clear-filters:hover {
@@ -525,6 +603,8 @@ const DatabaseRH = () => {
                 }
 
                 .table-card-rh h3 {
+                    display: flex;
+                    align-items: center;
                     color: #f8fafc;
                     font-size: 1.125rem;
                     margin-bottom: 1rem;
@@ -617,6 +697,9 @@ const DatabaseRH = () => {
                 }
 
                 .pagination-rh button {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.3rem;
                     padding: 0.5rem 1rem;
                     font-size: 0.875rem;
                     font-weight: 600;
@@ -684,6 +767,8 @@ const DatabaseRH = () => {
                 }
 
                 .modal-header h3 {
+                    display: flex;
+                    align-items: center;
                     color: #fbbf24;
                     font-size: 1.25rem;
                     margin: 0;
@@ -693,9 +778,10 @@ const DatabaseRH = () => {
                     background: none;
                     border: none;
                     color: #94a3b8;
-                    font-size: 1.5rem;
                     cursor: pointer;
                     transition: color 0.2s;
+                    display: flex;
+                    align-items: center;
                 }
 
                 .modal-close:hover {
@@ -751,12 +837,17 @@ const DatabaseRH = () => {
                     }
                     .filters-row {
                         flex-direction: column;
+                        align-items: stretch;
                     }
                     .btn-clear-filters {
                         width: 100%;
                     }
                     .modal-content {
                         width: 95%;
+                    }
+                    .pagination-rh button {
+                        font-size: 0.75rem;
+                        padding: 0.3rem 0.6rem;
                     }
                 }
             `}</style>
