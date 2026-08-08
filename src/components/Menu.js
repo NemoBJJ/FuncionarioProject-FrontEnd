@@ -13,60 +13,76 @@ import './Menu.css';
 
 const Menu = () => {
   return (
-    <div className="menu-container">
-      <h1 className="menu-title">Recursos Humanos</h1>
+    <div className="rh-home">
+      <div className="rh-hero">
+        <span className="rh-badge">GesteX</span>
+        <h1>RECURSOS HUMANOS</h1>
+        <p>Gestão de funcionários, folha, ponto e muito mais.</p>
+      </div>
 
-      <div className="menu-grid">
-
-        <Link to="/database" className="menu-item">
-          <div className="menu-icon">
-            <Database size={42} strokeWidth={2} />
+      <div className="rh-cards">
+        <Link to="/database" className="rh-card">
+          <div className="card-icon">
+            <Database size={48} strokeWidth={2} />
           </div>
-          <span>Banco de Dados</span>
+          <h2>Banco de Dados</h2>
+          <p>Consulta e gestão de todos os funcionários.</p>
+          <span>Acessar →</span>
         </Link>
 
-        <Link to="/dashboard-rh" className="menu-item">
-          <div className="menu-icon">
-            <ChartColumn size={42} strokeWidth={2} />
+        <Link to="/dashboard-rh" className="rh-card">
+          <div className="card-icon">
+            <ChartColumn size={48} strokeWidth={2} />
           </div>
-          <span>Dashboard RH</span>
+          <h2>Dashboard RH</h2>
+          <p>Indicadores, gráficos e resumo da equipe.</p>
+          <span>Acessar →</span>
         </Link>
 
-        <Link to="/gestao-salarial" className="menu-item">
-          <div className="menu-icon">
-            <Wallet size={42} strokeWidth={2} />
+        <Link to="/gestao-salarial" className="rh-card">
+          <div className="card-icon">
+            <Wallet size={48} strokeWidth={2} />
           </div>
-          <span>Gestão Salarial</span>
+          <h2>Gestão Salarial</h2>
+          <p>Folha de pagamento, encargos e composição.</p>
+          <span>Acessar →</span>
         </Link>
 
-        <Link to="/gerenciar-funcionarios" className="menu-item">
-          <div className="menu-icon">
-            <Users size={42} strokeWidth={2} />
+        <Link to="/gerenciar-funcionarios" className="rh-card">
+          <div className="card-icon">
+            <Users size={48} strokeWidth={2} />
           </div>
-          <span>Gerenciar Funcionários</span>
+          <h2>Gerenciar Funcionários</h2>
+          <p>CRUD completo de colaboradores.</p>
+          <span>Acessar →</span>
         </Link>
 
-        <Link to="/cadastro-facial" className="menu-item">
-          <div className="menu-icon">
-            <ScanFace size={42} strokeWidth={2} />
+        <Link to="/cadastro-facial" className="rh-card">
+          <div className="card-icon">
+            <ScanFace size={48} strokeWidth={2} />
           </div>
-          <span>Cadastro Facial</span>
+          <h2>Cadastro Facial</h2>
+          <p>Registro biométrico para controle de ponto.</p>
+          <span>Acessar →</span>
         </Link>
 
-        <Link to="/historico-ponto" className="menu-item">
-          <div className="menu-icon">
-            <ClipboardList size={42} strokeWidth={2} />
+        <Link to="/historico-ponto" className="rh-card">
+          <div className="card-icon">
+            <ClipboardList size={48} strokeWidth={2} />
           </div>
-          <span>Histórico de Ponto</span>
+          <h2>Histórico de Ponto</h2>
+          <p>Consulta de registros de entrada e saída.</p>
+          <span>Acessar →</span>
         </Link>
 
-        <Link to="/agenda" className="menu-item">
-          <div className="menu-icon">
-            <CalendarRange size={42} strokeWidth={2} />
+        <Link to="/agenda" className="rh-card">
+          <div className="card-icon">
+            <CalendarRange size={48} strokeWidth={2} />
           </div>
-          <span>Agenda do RH</span>
+          <h2>Agenda do RH</h2>
+          <p>Eventos, aniversários e compromissos.</p>
+          <span>Acessar →</span>
         </Link>
-
       </div>
     </div>
   );
