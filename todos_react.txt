@@ -1,0 +1,4697 @@
+﻿===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\api.js =====
+import axios from 'axios';
+
+const isDevelopment =
+  window.location.hostname === 'localhost' ||
+  window.location.hostname === '127.0.0.1';
+
+const BASE_URL = isDevelopment
+  ? 'http://localhost:8082/api'
+  : 'https://employee-container.neemindev.com/api';
+
+const api = axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+export default api;
+
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\App.js =====
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Menu from './components/Menu';
+import DatabaseRH from './components/DatabaseRH';
+import DashboardRH from './components/DashboardRH';
+import GestaoSalarial from './components/GestaoSalarial';
+import GerenciarFuncionarios from './components/GerenciarFuncionarios';
+import ReconhecimentoFacial from './components/ReconhecimentoFacial';
+import CadastroFacial from './components/CadastroFacial';
+import HistoricoPonto from './components/HistoricoPonto';
+import AgendaEventos from './components/AgendaEventos';
+import './App.css';
+
+function App() {
+  const [showFaceModal, setShowFaceModal] = useState(false);
+
+  return (
+    <Router>
+      <div className="app-container">
+        <button 
+          className="face-float-button"
+          onClick={() => setShowFaceModal(true)}
+          title="Reconhecimento Facial para Ponto"
+        >
+          ðŸ“¸
+        </button>
+
+        <Routes>
+          <Route path="/" element={<Menu />} />
+          <Route path="/database" element={<DatabaseRH />} />
+          <Route path="/dashboard-rh" element={<DashboardRH />} />
+          <Route path="/gestao-salarial" element={<GestaoSalarial />} />
+          <Route path="/gerenciar-funcionarios" element={<GerenciarFuncionarios />} />
+          <Route path="/cadastro-facial" element={<CadastroFacial />} />
+          <Route path="/historico-ponto" element={<HistoricoPonto />} />
+          <Route path="/agenda" element={<AgendaEventos />} />
+        </Routes>
+
+        {showFaceModal && (
+          <ReconhecimentoFacial 
+            onClose={() => setShowFaceModal(false)}
+            onSucesso={(dados) => {
+              console.log('Ponto registrado:', dados);
+              setShowFaceModal(false);
+            }}
+          />
+        )}
+      </div>
+    </Router>
+  );
+}
+
+export default App;
+
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\index.js =====
+import React from 'react';
+import ReactDOM from 'react-dom/client'; // Note a mudanÃ§a aqui
+import './index.css';
+import App from './App'; // Certifique-se de que o componente App estÃ¡ correto
+
+// Atualize para React 18
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\routes.js =====
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Transactions from './components/Transactions';
+import Dashboard from './components/Dashboard';
+import Statistics from './components/Statistics'; // Adicionado aqui tambÃ©m
+
+const AppRoutes = () => {
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/transactions" element={<Transactions />} />
+                <Route path="/statistics" element={<Statistics />} /> {/* Certifique-se de incluir Statistics */}
+                <Route path="/dashboard" element={<Dashboard />} />
+            </Routes>
+        </Router>
+    );
+};
+
+export default AppRoutes;
+
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\AgendaEventos.js =====
+import React, { useState } from 'react';
+import './AgendaEventos.css';
+import {
+  Calendar,
+  PartyPopper,
+  BarChart,
+  Users,
+  CreditCard,
+  FileText,
+  GraduationCap,
+  AlertTriangle,
+  DollarSign,
+  Pin,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  Trash2,
+} from 'lucide-react';
+
+const AgendaEventos = () => {
+  const [eventos, setEventos] = useState([
+    {
+      id: 1,
+      titulo: 'AniversÃ¡rio da Empresa',
+      data: '2026-05-20',
+      descricao: 'ComemoraÃ§Ã£o dos 5 anos da GesteX',
+      tipo: 'celebracao'
+    },
+    {
+      id: 2,
+      titulo: 'Fechamento do MÃªs',
+      data: '2026-05-31',
+      descricao: 'Prazo para envio de relatÃ³rios financeiros',
+      tipo: 'deadline'
+    },
+    {
+      id: 3,
+      titulo: 'ReuniÃ£o de Equipe',
+      data: '2026-05-19',
+      descricao: 'Alinhamento de metas do trimestre',
+      tipo: 'reuniao'
+    },
+    {
+      id: 4,
+      titulo: 'Pagamento de FuncionÃ¡rios',
+      data: '2026-06-05',
+      descricao: 'Processamento da folha de pagamento',
+      tipo: 'financeiro'
+    },
+    {
+      id: 5,
+      titulo: 'Envio de Notas Fiscais',
+      data: '2026-05-25',
+      descricao: 'Prazo para envio de NF do mÃªs',
+      tipo: 'deadline'
+    },
+    {
+      id: 6,
+      titulo: 'Treinamento RH',
+      data: '2026-05-22',
+      descricao: 'AtualizaÃ§Ã£o sobre LGPD',
+      tipo: 'reuniao'
+    }
+  ]);
+
+  const [novaData, setNovaData] = useState('');
+  const [novoTitulo, setNovoTitulo] = useState('');
+  const [novaDescricao, setNovaDescricao] = useState('');
+  const [showForm, setShowForm] = useState(false);
+  const [mesAtual, setMesAtual] = useState(new Date().getMonth());
+  const [anoAtual, setAnoAtual] = useState(new Date().getFullYear());
+
+  const adicionarEvento = () => {
+    if (!novaData || !novoTitulo) return;
+    const novoEvento = {
+      id: Date.now(),
+      titulo: novoTitulo,
+      data: novaData,
+      descricao: novaDescricao || 'Sem descriÃ§Ã£o',
+      tipo: 'personalizado'
+    };
+    setEventos([...eventos, novoEvento]);
+    setNovaData('');
+    setNovoTitulo('');
+    setNovaDescricao('');
+    setShowForm(false);
+  };
+
+  const deletarEvento = (id) => {
+    setEventos(eventos.filter(e => e.id !== id));
+  };
+
+  const getTipoIcon = (tipo) => {
+    switch(tipo) {
+      case 'celebracao': return <PartyPopper size={14} className="icon-evento" />;
+      case 'deadline': return <AlertTriangle size={14} className="icon-evento" />;
+      case 'reuniao': return <Users size={14} className="icon-evento" />;
+      case 'financeiro': return <DollarSign size={14} className="icon-evento" />;
+      default: return <Pin size={14} className="icon-evento" />;
+    }
+  };
+
+  const getTipoCor = (tipo) => {
+    switch(tipo) {
+      case 'celebracao': return '#28a745';
+      case 'deadline': return '#dc3545';
+      case 'reuniao': return '#17a2b8';
+      case 'financeiro': return '#ffc107';
+      default: return '#6c757d';
+    }
+  };
+
+  const diasNoMes = new Date(anoAtual, mesAtual + 1, 0).getDate();
+  const primeiroDiaSemana = new Date(anoAtual, mesAtual, 1).getDay();
+  const botoesSemana = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
+  
+  const eventosPorData = {};
+  eventos.forEach(evento => {
+    if (!eventosPorData[evento.data]) {
+      eventosPorData[evento.data] = [];
+    }
+    eventosPorData[evento.data].push(evento);
+  });
+
+  const mesAnterior = () => {
+    if (mesAtual === 0) {
+      setMesAtual(11);
+      setAnoAtual(anoAtual - 1);
+    } else {
+      setMesAtual(mesAtual - 1);
+    }
+  };
+
+  const mesProximo = () => {
+    if (mesAtual === 11) {
+      setMesAtual(0);
+      setAnoAtual(anoAtual + 1);
+    } else {
+      setMesAtual(mesAtual + 1);
+    }
+  };
+
+  const meses = ['Janeiro', 'Fevereiro', 'MarÃ§o', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+
+  const hoje = new Date().toISOString().split('T')[0];
+
+  return (
+    <div className="agenda-container">
+      <div className="agenda-header">
+        <h2>
+          <Calendar size={24} className="icon-header" />
+          Agenda de Eventos
+        </h2>
+        <button className="btn-add" onClick={() => setShowForm(!showForm)}>
+          {showForm ? (
+            <>
+              <X size={18} className="icon-btn" />
+              Fechar
+            </>
+          ) : (
+            '+ Novo Evento'
+          )}
+        </button>
+      </div>
+
+      {showForm && (
+        <div className="evento-form">
+          <input
+            type="text"
+            placeholder="TÃ­tulo do evento"
+            value={novoTitulo}
+            onChange={(e) => setNovoTitulo(e.target.value)}
+          />
+          <input
+            type="date"
+            value={novaData}
+            onChange={(e) => setNovaData(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="DescriÃ§Ã£o (opcional)"
+            value={novaDescricao}
+            onChange={(e) => setNovaDescricao(e.target.value)}
+          />
+          <button onClick={adicionarEvento}>Adicionar Evento</button>
+        </div>
+      )}
+
+      <div className="calendario">
+        <div className="calendario-nav">
+          <button onClick={mesAnterior}>
+            <ChevronLeft size={18} className="icon-nav" />
+            {meses[mesAtual === 0 ? 11 : mesAtual - 1]}
+          </button>
+          <h3>{meses[mesAtual]} {anoAtual}</h3>
+          <button onClick={mesProximo}>
+            {meses[mesAtual === 11 ? 0 : mesAtual + 1]}
+            <ChevronRight size={18} className="icon-nav" />
+          </button>
+        </div>
+
+        <div className="calendario-semana">
+          {botoesSemana.map((dia, idx) => (
+            <div key={idx} className="semana-dia">{dia}</div>
+          ))}
+        </div>
+
+        <div className="calendario-dias">
+          {Array(primeiroDiaSemana).fill(null).map((_, idx) => (
+            <div key={`empty-${idx}`} className="dia vazio"></div>
+          ))}
+          {Array(diasNoMes).fill(null).map((_, idx) => {
+            const dia = idx + 1;
+            const dataStr = `${anoAtual}-${String(mesAtual + 1).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
+            const eventosDia = eventosPorData[dataStr] || [];
+            const isHoje = dataStr === hoje;
+            
+            return (
+              <div key={dia} className={`dia ${isHoje ? 'hoje' : ''} ${eventosDia.length > 0 ? 'com-evento' : ''}`}>
+                <span className="dia-numero">{dia}</span>
+                {eventosDia.slice(0, 2).map(evento => (
+                  <div 
+                    key={evento.id} 
+                    className="evento-mini" 
+                    style={{ backgroundColor: getTipoCor(evento.tipo) }}
+                    title={evento.descricao}
+                  >
+                    {getTipoIcon(evento.tipo)} {evento.titulo.length > 15 ? evento.titulo.substring(0, 12) + '...' : evento.titulo}
+                  </div>
+                ))}
+                {eventosDia.length > 2 && (
+                  <div className="evento-mini mais">+{eventosDia.length - 2}</div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="lista-eventos">
+        <h3>
+          <Pin size={18} className="icon-title" />
+          PrÃ³ximos Eventos
+        </h3>
+        <div className="eventos-list">
+          {eventos
+            .sort((a, b) => a.data.localeCompare(b.data))
+            .slice(0, 5)
+            .map(evento => (
+              <div key={evento.id} className="evento-card" style={{ borderLeftColor: getTipoCor(evento.tipo) }}>
+                <div className="evento-info">
+                  <div className="evento-data">
+                    <strong>{evento.data.split('-').reverse().join('/')}</strong>
+                  </div>
+                  <div className="evento-titulo">
+                    {getTipoIcon(evento.tipo)} {evento.titulo}
+                  </div>
+                  <div className="evento-descricao">{evento.descricao}</div>
+                </div>
+                <button className="evento-delete" onClick={() => deletarEvento(evento.id)}>
+                  <Trash2 size={18} className="icon-trash" />
+                </button>
+              </div>
+            ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AgendaEventos;
+
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\BancodeDados.js =====
+import React, { useEffect, useState } from 'react'; 
+import './BancodeDados.css';
+
+// URL base do backend local
+const API_BASE_URL = 'http://localhost:8082';
+
+const BancodeDados = () => {
+    const [dados, setDados] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [erro, setErro] = useState(null);
+
+    useEffect(() => {
+        fetch(`${API_BASE_URL}/api/funcionarios`)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`Erro na requisiÃ§Ã£o: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((data) => {
+                setDados(data.content);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error('Erro ao carregar os dados:', error);
+                setErro(error.message);
+                setLoading(false);
+            });
+    }, []);
+
+    if (loading) {
+        return <div className="loading">Carregando os dados...</div>;
+    }
+
+    if (erro) {
+        return <div className="error">Erro ao carregar os dados: {erro}</div>;
+    }
+
+    return (
+        <div className="database-container">
+            <h1 className="database-title">Banco de Dados de FuncionÃ¡rios</h1>
+            <table className="database-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Cargo</th>
+                        <th>SalÃ¡rio</th>
+                        <th>Departamento</th>
+                        <th>Data de AdmissÃ£o</th>
+                        <th>Cidade</th>
+                        <th>Estado</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {dados.map((funcionario) => (
+                        <tr key={funcionario.id}>
+                            <td>{funcionario.id}</td>
+                            <td>{funcionario.nome}</td>
+                            <td>{funcionario.cargo}</td>
+                            <td>R$ {funcionario.salario.toFixed(2)}</td>
+                            <td>{funcionario.departamento}</td>
+                            <td>{funcionario.dataAdmissao}</td>
+                            <td>{funcionario.cidade}</td>
+                            <td>{funcionario.estado}</td>
+                            <td>{funcionario.statusEmprego}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
+export default BancodeDados;
+
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\CadastroFacial.js =====
+import React, { useState, useEffect } from 'react';
+import ReconhecimentoFacial from './ReconhecimentoFacial';
+import api from '../api';
+import './CadastroFacial.css';
+import {
+  Smile,
+  CheckCircle,
+  XCircle,
+  RefreshCw,
+  Camera,
+  User,
+  Briefcase,
+  Loader2
+} from 'lucide-react';
+
+const CadastroFacial = () => {
+  const [funcionarios, setFuncionarios] = useState([]);
+  const [selectedFuncionario, setSelectedFuncionario] = useState(null);
+  const [showFaceModal, setShowFaceModal] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    carregarFuncionarios();
+  }, []);
+
+  const carregarFuncionarios = async () => {
+    try {
+      const response = await api.get('/funcionarios');
+      setFuncionarios(response.data.content || []);
+    } catch (error) {
+      console.error('Erro ao carregar funcionÃ¡rios:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCadastrarFace = (funcionario) => {
+    setSelectedFuncionario(funcionario);
+    setShowFaceModal(true);
+  };
+
+  const handleFaceCadastrada = () => {
+    alert(`âœ… Face cadastrada para ${selectedFuncionario.nome} com sucesso!`);
+    setShowFaceModal(false);
+    setSelectedFuncionario(null);
+    carregarFuncionarios();
+  };
+
+  if (loading) {
+    return (
+      <div className="loading">
+        <Loader2 size={32} className="loading-spinner" />
+        Carregando funcionÃ¡rios...
+      </div>
+    );
+  }
+
+  return (
+    <div className="cadastro-container">
+      <h2>
+        <Smile size={28} className="icon-header" />
+        Cadastro Facial de FuncionÃ¡rios
+      </h2>
+      
+      <div className="funcionarios-grid">
+        {funcionarios.map(func => (
+          <div key={func.id} className="funcionario-card">
+            <div className="funcionario-avatar">
+              {func.faceDescriptor ? (
+                <CheckCircle size={32} className="icon-cadastrado" />
+              ) : (
+                <XCircle size={32} className="icon-nao-cadastrado" />
+              )}
+            </div>
+            <h3>
+              <User size={16} className="icon-user" />
+              {func.nome}
+            </h3>
+            <p>
+              <Briefcase size={14} className="icon-cargo" />
+              {func.cargo || 'Cargo nÃ£o definido'}
+            </p>
+            <p className="face-status">
+              Status Face: 
+              <span className={func.faceDescriptor ? 'status-cadastrado' : 'status-nao-cadastrado'}>
+                {func.faceDescriptor ? (
+                  <>
+                    <CheckCircle size={14} className="status-icon" />
+                    Cadastrada
+                  </>
+                ) : (
+                  <>
+                    <XCircle size={14} className="status-icon" />
+                    NÃ£o cadastrada
+                  </>
+                )}
+              </span>
+            </p>
+            <button 
+              className={func.faceDescriptor ? 'btn-recadastrar' : 'btn-cadastrar'}
+              onClick={() => handleCadastrarFace(func)}
+            >
+              {func.faceDescriptor ? (
+                <>
+                  <RefreshCw size={16} className="btn-icon" />
+                  Recadastrar Face
+                </>
+              ) : (
+                <>
+                  <Camera size={16} className="btn-icon" />
+                  Cadastrar Face
+                </>
+              )}
+            </button>
+          </div>
+        ))}
+      </div>
+
+      {showFaceModal && selectedFuncionario && (
+        <ReconhecimentoFacial
+          funcionarioId={selectedFuncionario.id}
+          onClose={() => setShowFaceModal(false)}
+          onSucesso={handleFaceCadastrada}
+        />
+      )}
+    </div>
+  );
+};
+
+export default CadastroFacial;
+
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\Charts.js =====
+import React, { useEffect, useState } from 'react';
+import {
+    Chart as ChartJS,
+    BarElement,
+    CategoryScale,
+    LinearScale,
+    Tooltip,
+    Legend,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+
+ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
+
+const Charts = () => {
+    const [chartData, setChartData] = useState(null);
+
+    useEffect(() => {
+        const mockData = [
+            { month: '2024-01', type: 'RECEITA', total: 46253.66 },
+            { month: '2024-01', type: 'DESPESA', total: 40098.33 },
+            { month: '2024-02', type: 'RECEITA', total: 41271.2 },
+            { month: '2024-02', type: 'DESPESA', total: 39153.05 },
+            { month: '2024-03', type: 'RECEITA', total: 56421.33 },
+            { month: '2024-03', type: 'DESPESA', total: 49657 },
+            { month: '2024-04', type: 'RECEITA', total: 63993.89 },
+            { month: '2024-04', type: 'DESPESA', total: 38183.55 },
+            { month: '2024-05', type: 'RECEITA', total: 63682.74 },
+            { month: '2024-05', type: 'DESPESA', total: 59412.71 },
+            { month: '2024-06', type: 'RECEITA', total: 63087.86 },
+            { month: '2024-06', type: 'DESPESA', total: 43966.68 },
+            { month: '2024-07', type: 'RECEITA', total: 35646.52 },
+            { month: '2024-07', type: 'DESPESA', total: 58460.26 },
+            { month: '2024-08', type: 'RECEITA', total: 49864.72 },
+            { month: '2024-08', type: 'DESPESA', total: 52514.67 },
+            { month: '2024-09', type: 'RECEITA', total: 47372.66 },
+            { month: '2024-09', type: 'DESPESA', total: 39586.16 },
+            { month: '2024-10', type: 'RECEITA', total: 47766.66 },
+            { month: '2024-10', type: 'DESPESA', total: 66905.28 },
+            { month: '2024-11', type: 'RECEITA', total: 50941.87 },
+            { month: '2024-11', type: 'DESPESA', total: 58949.38 },
+            { month: '2024-12', type: 'RECEITA', total: 69260.05 },
+            { month: '2024-12', type: 'DESPESA', total: 67735.18 },
+        ];
+
+        // Captura todos os meses presentes nos dados
+        const months = [...new Set(mockData.map((d) => d.month))];
+
+        // Calcula receitas e despesas por mÃªs
+        const revenues = months.map((month) =>
+            mockData
+                .filter((d) => d.month === month && d.type === 'RECEITA')
+                .reduce((acc, curr) => acc + curr.total, 0)
+        );
+        const expenses = months.map((month) =>
+            mockData
+                .filter((d) => d.month === month && d.type === 'DESPESA')
+                .reduce((acc, curr) => acc + curr.total, 0)
+        );
+
+        // Atualiza o estado do grÃ¡fico
+        setChartData({
+            labels: months,
+            datasets: [
+                {
+                    label: 'Receitas',
+                    data: revenues,
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                },
+                {
+                    label: 'Despesas',
+                    data: expenses,
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                },
+            ],
+        });
+    }, []);
+
+    return (
+        <div style={{ width: '80%', margin: '0 auto', height: '500px' }}>
+            <h2>Receitas e Despesas - 2024</h2>
+            {chartData ? (
+                <Bar
+                    data={chartData}
+                    options={{
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Meses',
+                                },
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Valores (R$)',
+                                },
+                            },
+                        },
+                    }}
+                />
+            ) : (
+                <p>Carregando dados ou nenhum dado disponÃ­vel.</p>
+            )}
+        </div>
+    );
+};
+
+export default Charts;
+
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\CRUDTransactions.js =====
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import api from '../api';
+import './CRUDTransactions.css';
+
+const CRUDTransactions = () => {
+    const [transactions, setTransactions] = useState([]);
+    const [selectedTransactionId, setSelectedTransactionId] = useState('');
+    const [newTransaction, setNewTransaction] = useState({
+        description: '',
+        amount: '',
+        date: '',
+        type: '',
+        transactionCategory: '',
+    });
+
+    useEffect(() => {
+        const fetchTransactions = async () => {
+            try {
+                const response = await api.get('/transactions');
+                setTransactions(response.data);
+            } catch (error) {
+                console.error('Erro ao buscar transaÃ§Ãµes:', error);
+            }
+        };
+        fetchTransactions();
+    }, []);
+
+    const handleAddTransaction = async () => {
+        try {
+            const response = await api.post('/transactions', newTransaction);
+            setTransactions([...transactions, response.data]);
+            resetForm();
+        } catch (error) {
+            console.error('Erro ao adicionar transaÃ§Ã£o:', error);
+        }
+    };
+
+    const handleUpdateTransaction = async () => {
+        if (!selectedTransactionId) {
+            alert('Informe um ID vÃ¡lido para atualizar.');
+            return;
+        }
+
+        try {
+            const response = await api.put(`/transactions/${selectedTransactionId}`, newTransaction);
+            setTransactions(
+                transactions.map((t) =>
+                    t.id === parseInt(selectedTransactionId) ? response.data : t
+                )
+            );
+            resetForm();
+            setSelectedTransactionId('');
+        } catch (error) {
+            console.error('Erro ao atualizar transaÃ§Ã£o:', error);
+        }
+    };
+
+    const handleDeleteTransaction = async (id) => {
+        try {
+            await api.delete(`/transactions/${id}`);
+            setTransactions(transactions.filter((t) => t.id !== id));
+        } catch (error) {
+            console.error('Erro ao excluir transaÃ§Ã£o:', error);
+        }
+    };
+
+    const handleFetchTransactionById = async () => {
+        if (!selectedTransactionId) {
+            alert('Informe um ID vÃ¡lido para buscar.');
+            return;
+        }
+
+        try {
+            const response = await api.get(`/transactions/${selectedTransactionId}`);
+            setNewTransaction({
+                description: response.data.description,
+                amount: response.data.amount,
+                date: response.data.date,
+                type: response.data.type,
+                transactionCategory: response.data.transactionCategory,
+            });
+        } catch (error) {
+            console.error('Erro ao buscar transaÃ§Ã£o:', error);
+        }
+    };
+
+    const resetForm = () => {
+        setNewTransaction({
+            description: '',
+            amount: '',
+            date: '',
+            type: '',
+            transactionCategory: '',
+        });
+    };
+
+    return (
+        <div className="crud-container">
+            <h1 className="crud-title">Gerenciar TransaÃ§Ãµes</h1>
+
+            <div className="crud-section">
+                <h3>Adicionar ou Atualizar TransaÃ§Ã£o</h3>
+                <input
+                    type="text"
+                    placeholder="DescriÃ§Ã£o"
+                    value={newTransaction.description}
+                    onChange={(e) => setNewTransaction({ ...newTransaction, description: e.target.value })}
+                />
+                <input
+                    type="number"
+                    placeholder="Valor"
+                    value={newTransaction.amount}
+                    onChange={(e) => setNewTransaction({ ...newTransaction, amount: e.target.value })}
+                />
+                <input
+                    type="date"
+                    value={newTransaction.date}
+                    onChange={(e) => setNewTransaction({ ...newTransaction, date: e.target.value })}
+                />
+                <select
+                    value={newTransaction.type}
+                    onChange={(e) => setNewTransaction({ ...newTransaction, type: e.target.value })}
+                >
+                    <option value="">Selecione o tipo</option>
+                    <option value="RECEITA">Receita</option>
+                    <option value="DESPESA">Despesa</option>
+                </select>
+                <input
+                    type="text"
+                    placeholder="Categoria"
+                    value={newTransaction.transactionCategory}
+                    onChange={(e) =>
+                        setNewTransaction({ ...newTransaction, transactionCategory: e.target.value })
+                    }
+                />
+                <button onClick={handleAddTransaction}>Adicionar</button>
+                <button onClick={handleUpdateTransaction}>Atualizar</button>
+            </div>
+
+            <div className="crud-section">
+                <h3>Buscar TransaÃ§Ã£o por ID</h3>
+                <input
+                    type="text"
+                    placeholder="Informe o ID"
+                    value={selectedTransactionId}
+                    onChange={(e) => setSelectedTransactionId(e.target.value)}
+                />
+                <button onClick={handleFetchTransactionById}>Buscar</button>
+            </div>
+
+            <div className="transactions-list crud-section">
+                <h3>Lista de TransaÃ§Ãµes</h3>
+                <ul>
+                    {transactions.map((t) => (
+                        <li key={t.id}>
+                            ID: {t.id} - {t.description} - R$
+                            {t.amount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                            <button onClick={() => handleDeleteTransaction(t.id)}>Excluir</button>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+
+            <div className="back-to-menu">
+                <Link to="/">
+                    <button className="back-button">Voltar ao Menu</button>
+                </Link>
+            </div>
+        </div>
+    );
+};
+
+export default CRUDTransactions;
+
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\Dashboard.js =====
+import React, { useEffect, useState } from 'react';
+import api from '../api';
+
+const Dashboard = () => {
+    const [dados, setDados] = useState({});
+
+    useEffect(() => {
+        api.get('/dashboard')
+            .then((response) => setDados(response.data))
+            .catch((error) => console.error('Erro ao carregar dados do dashboard', error));
+    }, []);
+
+    return (
+        <div>
+            <h1>Dashboard de FuncionÃ¡rios</h1>
+            <pre>{JSON.stringify(dados, null, 2)}</pre>
+        </div>
+    );
+};
+
+export default Dashboard;
+
+
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\DashboardRH.js =====
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import api from '../api';
+import {
+    Chart as ChartJS,
+    BarElement,
+    CategoryScale,
+    LinearScale,
+    Tooltip,
+    Legend,
+    ArcElement,
+} from 'chart.js';
+import { Bar, Doughnut } from 'react-chartjs-2';
+import {
+    ArrowLeft,
+    Building,
+    Users,
+    DollarSign,
+    Coins,
+    BarChart3,
+    PieChart,
+    Gift,
+    PartyPopper,
+} from 'lucide-react';
+
+ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend, ArcElement);
+
+const DashboardRH = () => {
+    const [funcionarios, setFuncionarios] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [stats, setStats] = useState({
+        totalFuncionarios: 0,
+        salarioMedio: 0,
+        totalSalarios: 0,
+        homens: 0,
+        mulheres: 0,
+        departamentos: 0,
+        cargos: 0,
+    });
+    const [cargosData, setCargosData] = useState({ labels: [], counts: [] });
+    const [departamentosData, setDepartamentosData] = useState({ labels: [], salaries: [] });
+    const [aniversariantes, setAniversariantes] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await api.get('/funcionarios?size=100');
+                const data = response.data.content || [];
+                setFuncionarios(data);
+
+                // EstatÃ­sticas bÃ¡sicas
+                const total = data.length;
+                const salarios = data.map(f => f.salario || 0);
+                const totalSalarios = salarios.reduce((acc, s) => acc + s, 0);
+                const salarioMedio = total > 0 ? totalSalarios / total : 0;
+                const homens = data.filter(f => f.sexo?.toUpperCase() === 'MASCULINO' || f.sexo === 'M').length;
+                const mulheres = data.filter(f => f.sexo?.toUpperCase() === 'FEMININO' || f.sexo === 'F').length;
+                const departamentosUnicos = new Set(data.map(f => f.departamento).filter(Boolean));
+                const cargosUnicos = new Set(data.map(f => f.cargo).filter(Boolean));
+
+                setStats({
+                    totalFuncionarios: total,
+                    salarioMedio: salarioMedio,
+                    totalSalarios: totalSalarios,
+                    homens: homens,
+                    mulheres: mulheres,
+                    departamentos: departamentosUnicos.size,
+                    cargos: cargosUnicos.size,
+                });
+
+                // Dados para grÃ¡fico de cargos (top 6)
+                const cargoCount = {};
+                data.forEach(f => {
+                    if (f.cargo) {
+                        cargoCount[f.cargo] = (cargoCount[f.cargo] || 0) + 1;
+                    }
+                });
+                const sortedCargos = Object.entries(cargoCount).sort((a, b) => b[1] - a[1]);
+                const topCargos = sortedCargos.slice(0, 6);
+                setCargosData({
+                    labels: topCargos.map(c => c[0]),
+                    counts: topCargos.map(c => c[1]),
+                });
+
+                // Dados para grÃ¡fico de salÃ¡rios por departamento (top 6)
+                const deptSalario = {};
+                data.forEach(f => {
+                    if (f.departamento && f.salario) {
+                        deptSalario[f.departamento] = (deptSalario[f.departamento] || 0) + f.salario;
+                    }
+                });
+                const sortedDepts = Object.entries(deptSalario).sort((a, b) => b[1] - a[1]);
+                const topDepts = sortedDepts.slice(0, 6);
+                setDepartamentosData({
+                    labels: topDepts.map(d => d[0]),
+                    salaries: topDepts.map(d => d[1]),
+                });
+
+                // Aniversariantes do mÃªs atual e prÃ³ximos
+                const hoje = new Date();
+                const mesAtual = hoje.getMonth();
+                const aniversariantesList = data
+                    .filter(f => {
+                        if (!f.dataNascimento) return false;
+                        const dataNasc = new Date(f.dataNascimento);
+                        const mesNasc = dataNasc.getMonth();
+                        const diffMeses = (mesNasc - mesAtual + 12) % 12;
+                        return diffMeses <= 2;
+                    })
+                    .sort((a, b) => {
+                        const mesA = new Date(a.dataNascimento).getMonth();
+                        const mesB = new Date(b.dataNascimento).getMonth();
+                        return mesA - mesB;
+                    })
+                    .slice(0, 5);
+                setAniversariantes(aniversariantesList);
+
+            } catch (error) {
+                console.error('Erro ao carregar dados do dashboard RH:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
+
+    const formatCurrency = (value) => {
+        return new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+        }).format(value || 0);
+    };
+
+    const formatDate = (date) => {
+        if (!date) return '-';
+        return new Date(date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+    };
+
+    // GrÃ¡fico de Cargos
+    const cargoChartData = {
+        labels: cargosData.labels,
+        datasets: [
+            {
+                label: 'FuncionÃ¡rios',
+                data: cargosData.counts,
+                backgroundColor: 'rgba(34, 197, 94, 0.7)',
+                borderColor: '#22c55e',
+                borderWidth: 1,
+                borderRadius: 8,
+            },
+        ],
+    };
+
+    // GrÃ¡fico de SalÃ¡rios por Departamento
+    const deptChartData = {
+        labels: departamentosData.labels,
+        datasets: [
+            {
+                label: 'Total de SalÃ¡rios (R$)',
+                data: departamentosData.salaries,
+                backgroundColor: 'rgba(251, 191, 36, 0.7)',
+                borderColor: '#fbbf24',
+                borderWidth: 1,
+                borderRadius: 8,
+            },
+        ],
+    };
+
+    // GrÃ¡fico de pizza (Homens x Mulheres)
+    const genderData = {
+        labels: ['Homens', 'Mulheres', 'NÃ£o informado'],
+        datasets: [
+            {
+                data: [stats.homens, stats.mulheres, stats.totalFuncionarios - stats.homens - stats.mulheres],
+                backgroundColor: ['#3b82f6', '#ec4899', '#64748b'],
+                borderColor: ['#1e40af', '#9d174d', '#475569'],
+                borderWidth: 2,
+            },
+        ],
+    };
+
+    const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'top',
+                labels: { color: '#cbd5e1', font: { size: 11 } },
+            },
+            tooltip: {
+                callbacks: {
+                    label: (context) => {
+                        let value = context.raw || 0;
+                        if (context.dataset.label?.includes('SalÃ¡rio')) {
+                            return `${context.dataset.label}: ${formatCurrency(value)}`;
+                        }
+                        return `${context.dataset.label}: ${value}`;
+                    },
+                },
+            },
+        },
+        scales: {
+            y: {
+                ticks: { color: '#94a3b8' },
+                grid: { color: 'rgba(148, 163, 184, 0.1)' },
+                beginAtZero: true,
+            },
+            x: {
+                ticks: { color: '#94a3b8', rotation: 45, maxRotation: 45 },
+                grid: { color: 'rgba(148, 163, 184, 0.1)' },
+            },
+        },
+    };
+
+    const genderOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: { color: '#f8fafc', font: { size: 11 } },
+            },
+        },
+    };
+
+    if (loading) {
+        return (
+            <div className="dashboard-rh-loading">
+                <p>Carregando dashboard RH...</p>
+            </div>
+        );
+    }
+
+    return (
+        <div className="dashboard-rh-container">
+            <div className="dashboard-rh-header">
+                <Link to="/">
+                    <button className="back-button-dashboard-rh">
+                        <ArrowLeft size={18} className="icon-back" />
+                        Voltar ao Menu
+                    </button>
+                </Link>
+                <h1>
+                    <Building size={28} className="icon-header" />
+                    Dashboard RH
+                </h1>
+            </div>
+
+            {/* Cards de mÃ©tricas */}
+            <div className="metrics-grid-rh">
+                <div className="metric-card-rh total-card">
+                    <div className="metric-icon-rh">
+                        <Users size={32} className="icon-metric" />
+                    </div>
+                    <div className="metric-info-rh">
+                        <span className="metric-label-rh">Total FuncionÃ¡rios</span>
+                        <span className="metric-value-rh">{stats.totalFuncionarios}</span>
+                    </div>
+                </div>
+
+                <div className="metric-card-rh salary-card">
+                    <div className="metric-icon-rh">
+                        <DollarSign size={32} className="icon-metric" />
+                    </div>
+                    <div className="metric-info-rh">
+                        <span className="metric-label-rh">SalÃ¡rio MÃ©dio</span>
+                        <span className="metric-value-rh">{formatCurrency(stats.salarioMedio)}</span>
+                    </div>
+                </div>
+
+                <div className="metric-card-rh payroll-card">
+                    <div className="metric-icon-rh">
+                        <Coins size={32} className="icon-metric" />
+                    </div>
+                    <div className="metric-info-rh">
+                        <span className="metric-label-rh">Folha Mensal</span>
+                        <span className="metric-value-rh">{formatCurrency(stats.totalSalarios)}</span>
+                    </div>
+                </div>
+
+                <div className="metric-card-rh dept-card">
+                    <div className="metric-icon-rh">
+                        <Building size={32} className="icon-metric" />
+                    </div>
+                    <div className="metric-info-rh">
+                        <span className="metric-label-rh">Departamentos</span>
+                        <span className="metric-value-rh">{stats.departamentos}</span>
+                    </div>
+                </div>
+            </div>
+
+            {/* GrÃ¡ficos principais */}
+            <div className="charts-row-rh">
+                <div className="chart-card-rh">
+                    <h3>
+                        <BarChart3 size={20} className="icon-title" />
+                        FuncionÃ¡rios por Cargo
+                    </h3>
+                    <div className="chart-wrapper-rh">
+                        {cargosData.labels.length > 0 ? (
+                            <Bar data={cargoChartData} options={chartOptions} />
+                        ) : (
+                            <div className="no-data-rh">Sem dados para exibir</div>
+                        )}
+                    </div>
+                </div>
+
+                <div className="chart-card-rh">
+                    <h3>
+                        <DollarSign size={20} className="icon-title" />
+                        Total de SalÃ¡rios por Departamento
+                    </h3>
+                    <div className="chart-wrapper-rh">
+                        {departamentosData.labels.length > 0 ? (
+                            <Bar data={deptChartData} options={chartOptions} />
+                        ) : (
+                            <div className="no-data-rh">Sem dados para exibir</div>
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            <div className="charts-row-rh">
+                <div className="chart-card-rh donut-card">
+                    <h3>
+                        <PieChart size={20} className="icon-title" />
+                        ProporÃ§Ã£o por GÃªnero
+                    </h3>
+                    <div className="donut-wrapper-rh">
+                        <Doughnut data={genderData} options={genderOptions} />
+                    </div>
+                </div>
+
+                <div className="chart-card-rh birthday-card">
+                    <h3>
+                        <Gift size={20} className="icon-title" />
+                        PrÃ³ximos Aniversariantes
+                    </h3>
+                    <div className="birthday-list">
+                        {aniversariantes.length > 0 ? (
+                            aniversariantes.map((f, idx) => (
+                                <div key={f.id} className="birthday-item">
+                                    <div className="birthday-avatar">
+                                        <PartyPopper size={24} className="icon-birthday" />
+                                    </div>
+                                    <div className="birthday-info">
+                                        <span className="birthday-name">{f.nome}</span>
+                                        <span className="birthday-date">
+                                            {f.dataNascimento ? new Date(f.dataNascimento).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' }) : '-'}
+                                        </span>
+                                    </div>
+                                    <div className="birthday-cargo">{f.cargo || '-'}</div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="no-data-rh">Nenhum aniversariante nos prÃ³ximos meses</div>
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            <style jsx="true">{`
+                .dashboard-rh-container {
+                    min-height: 100vh;
+                    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+                    padding: 2rem;
+                }
+
+                .dashboard-rh-header {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    margin-bottom: 2rem;
+                    flex-wrap: wrap;
+                    gap: 1rem;
+                }
+
+                .dashboard-rh-header h1 {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    font-size: 2rem;
+                    font-weight: bold;
+                    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    color: transparent;
+                }
+
+                .icon-back {
+                    color: #f8fafc;
+                    stroke-width: 2;
+                    margin-right: 0.3rem;
+                    vertical-align: middle;
+                }
+
+                .icon-header {
+                    color: #fbbf24;
+                    stroke-width: 2;
+                }
+
+                .icon-title {
+                    color: #fbbf24;
+                    stroke-width: 2;
+                    margin-right: 0.4rem;
+                    vertical-align: middle;
+                }
+
+                .icon-metric {
+                    stroke-width: 2;
+                }
+
+                .icon-birthday {
+                    color: #fbbf24;
+                    stroke-width: 2;
+                }
+
+                .back-button-dashboard-rh {
+                    display: inline-flex;
+                    align-items: center;
+                    padding: 0.5rem 1.25rem;
+                    font-size: 0.875rem;
+                    font-weight: 600;
+                    color: #f8fafc;
+                    background: rgba(100, 116, 139, 0.3);
+                    border: 1px solid rgba(255, 193, 7, 0.5);
+                    border-radius: 9999px;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                }
+
+                .back-button-dashboard-rh:hover {
+                    background: rgba(255, 193, 7, 0.2);
+                    border-color: #fbbf24;
+                    transform: translateX(-4px);
+                }
+
+                /* Cards de mÃ©tricas */
+                .metrics-grid-rh {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                    gap: 1.5rem;
+                    margin-bottom: 2rem;
+                }
+
+                .metric-card-rh {
+                    background: rgba(15, 23, 42, 0.8);
+                    backdrop-filter: blur(10px);
+                    border-radius: 1.5rem;
+                    padding: 1.5rem;
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    border: 1px solid rgba(255, 193, 7, 0.2);
+                    transition: transform 0.2s ease, border-color 0.2s ease;
+                }
+
+                .metric-card-rh:hover {
+                    transform: translateY(-4px);
+                    border-color: rgba(255, 193, 7, 0.5);
+                }
+
+                .metric-icon-rh {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 3.5rem;
+                    height: 3.5rem;
+                    border-radius: 50%;
+                    background: rgba(255, 193, 7, 0.1);
+                }
+
+                .total-card .metric-icon-rh { color: #fbbf24; }
+                .salary-card .metric-icon-rh { color: #22c55e; }
+                .payroll-card .metric-icon-rh { color: #3b82f6; }
+                .dept-card .metric-icon-rh { color: #ec4899; }
+
+                .metric-info-rh {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .metric-label-rh {
+                    font-size: 0.875rem;
+                    color: #94a3b8;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                }
+
+                .metric-value-rh {
+                    font-size: 1.75rem;
+                    font-weight: bold;
+                    color: #f8fafc;
+                }
+
+                .total-card .metric-value-rh { color: #fbbf24; }
+                .salary-card .metric-value-rh { color: #22c55e; }
+                .payroll-card .metric-value-rh { color: #3b82f6; }
+                .dept-card .metric-value-rh { color: #ec4899; }
+
+                /* GrÃ¡ficos */
+                .charts-row-rh {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+                    gap: 1.5rem;
+                    margin-bottom: 1.5rem;
+                }
+
+                .chart-card-rh {
+                    background: rgba(15, 23, 42, 0.8);
+                    backdrop-filter: blur(10px);
+                    border-radius: 1.5rem;
+                    padding: 1.5rem;
+                    border: 1px solid rgba(255, 193, 7, 0.2);
+                }
+
+                .chart-card-rh h3 {
+                    display: flex;
+                    align-items: center;
+                    color: #f8fafc;
+                    font-size: 1.125rem;
+                    margin-bottom: 1rem;
+                    border-left: 4px solid #fbbf24;
+                    padding-left: 0.75rem;
+                }
+
+                .chart-wrapper-rh {
+                    height: 300px;
+                }
+
+                .donut-wrapper-rh {
+                    height: 250px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                /* Aniversariantes */
+                .birthday-list {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.75rem;
+                }
+
+                .birthday-item {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    padding: 0.75rem;
+                    background: rgba(30, 41, 59, 0.4);
+                    border-radius: 0.75rem;
+                    transition: all 0.2s ease;
+                }
+
+                .birthday-item:hover {
+                    background: rgba(30, 41, 59, 0.6);
+                    transform: translateX(4px);
+                }
+
+                .birthday-avatar {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 2.5rem;
+                    height: 2.5rem;
+                    border-radius: 50%;
+                    background: rgba(251, 191, 36, 0.15);
+                }
+
+                .birthday-info {
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .birthday-name {
+                    font-weight: 600;
+                    color: #f8fafc;
+                }
+
+                .birthday-date {
+                    font-size: 0.75rem;
+                    color: #94a3b8;
+                }
+
+                .birthday-cargo {
+                    font-size: 0.75rem;
+                    color: #fbbf24;
+                }
+
+                .no-data-rh {
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: #94a3b8;
+                    font-size: 0.875rem;
+                }
+
+                .dashboard-rh-loading {
+                    min-height: 100vh;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+                    color: #f8fafc;
+                }
+
+                @media (max-width: 768px) {
+                    .dashboard-rh-container {
+                        padding: 1rem;
+                    }
+                    .dashboard-rh-header {
+                        flex-direction: column;
+                        align-items: flex-start;
+                    }
+                    .charts-row-rh {
+                        grid-template-columns: 1fr;
+                    }
+                    .chart-wrapper-rh {
+                        height: 250px;
+                    }
+                }
+            `}</style>
+        </div>
+    );
+};
+
+export default DashboardRH;
+
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\DatabaseRH.js =====
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { 
+  Database, 
+  BarChart3, 
+  DollarSign, 
+  Search, 
+  List, 
+  Users, 
+  Building, 
+  ArrowLeft, 
+  ChevronLeft, 
+  ChevronRight, 
+  X 
+} from 'lucide-react';
+import api from '../api';
+
+const DatabaseRH = () => {
+    const [funcionarios, setFuncionarios] = useState([]);
+    const [filteredFuncionarios, setFilteredFuncionarios] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [page, setPage] = useState(0);
+    const [totalElements, setTotalElements] = useState(0);
+    
+    // Filtros
+    const [searchNome, setSearchNome] = useState('');
+    const [searchId, setSearchId] = useState('');
+    const [filtroCargo, setFiltroCargo] = useState('');
+    const [filtroDepartamento, setFiltroDepartamento] = useState('');
+    const [cargos, setCargos] = useState([]);
+    const [departamentos, setDepartamentos] = useState([]);
+    
+    // RelatÃ³rios inline
+    const [relatorioCargos, setRelatorioCargos] = useState([]);
+    const [relatorioDepartamentos, setRelatorioDepartamentos] = useState([]);
+    
+    // Modais
+    const [modalAberto, setModalAberto] = useState(false);
+    const [modalTitulo, setModalTitulo] = useState('');
+    const [modalFuncionarios, setModalFuncionarios] = useState([]);
+
+    useEffect(() => {
+        fetchAllData();
+    }, []);
+
+    const fetchAllData = async () => {
+        setLoading(true);
+        try {
+            const response = await api.get('/funcionarios?size=1000');
+            const data = response.data.content || [];
+            setFuncionarios(data);
+            setFilteredFuncionarios(data);
+            setTotalElements(data.length);
+
+            const cargosUnicos = [...new Set(data.map(f => f.cargo).filter(Boolean))];
+            const deptsUnicos = [...new Set(data.map(f => f.departamento).filter(Boolean))];
+            setCargos(cargosUnicos.sort());
+            setDepartamentos(deptsUnicos.sort());
+
+            const cargoCount = {};
+            const deptSalary = {};
+            
+            data.forEach(f => {
+                if (f.cargo) cargoCount[f.cargo] = (cargoCount[f.cargo] || 0) + 1;
+                if (f.departamento && f.salario) {
+                    deptSalary[f.departamento] = (deptSalary[f.departamento] || 0) + f.salario;
+                }
+            });
+
+            setRelatorioCargos(Object.entries(cargoCount).map(([cargo, qtd]) => ({ cargo, qtd })));
+            setRelatorioDepartamentos(Object.entries(deptSalary).map(([depto, total]) => ({ depto, total })));
+
+        } catch (error) {
+            console.error('Erro ao carregar dados:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Aplicar filtros
+    useEffect(() => {
+        let filtered = [...funcionarios];
+        
+        if (searchId) {
+            filtered = filtered.filter(f => f.id.toString() === searchId);
+        }
+        
+        if (searchNome) {
+            filtered = filtered.filter(f => 
+                f.nome?.toLowerCase().includes(searchNome.toLowerCase())
+            );
+        }
+        
+        if (filtroCargo) {
+            filtered = filtered.filter(f => f.cargo === filtroCargo);
+        }
+        
+        if (filtroDepartamento) {
+            filtered = filtered.filter(f => f.departamento === filtroDepartamento);
+        }
+        
+        setFilteredFuncionarios(filtered);
+        setTotalElements(filtered.length);
+        setPage(0);
+    }, [searchNome, searchId, filtroCargo, filtroDepartamento, funcionarios]);
+
+    const limparFiltros = () => {
+        setSearchNome('');
+        setSearchId('');
+        setFiltroCargo('');
+        setFiltroDepartamento('');
+    };
+
+    const abrirModalPorCargo = (cargo) => {
+        const funcionariosCargo = funcionarios.filter(f => f.cargo === cargo);
+        setModalTitulo(`ðŸ‘¥ FuncionÃ¡rios - ${cargo}`);
+        setModalFuncionarios(funcionariosCargo);
+        setModalAberto(true);
+    };
+
+    const abrirModalPorDepartamento = (departamento) => {
+        const funcionariosDepto = funcionarios.filter(f => f.departamento === departamento);
+        setModalTitulo(`ðŸ¢ FuncionÃ¡rios - ${departamento}`);
+        setModalFuncionarios(funcionariosDepto);
+        setModalAberto(true);
+    };
+
+    const fecharModal = () => {
+        setModalAberto(false);
+        setModalFuncionarios([]);
+    };
+
+    const formatCurrency = (value) => {
+        if (!value) return 'R$ 0,00';
+        return new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        }).format(value);
+    };
+
+    const formatDate = (date) => {
+        if (!date) return '-';
+        return new Date(date).toLocaleDateString('pt-BR');
+    };
+
+    const getStatusBadge = (status) => {
+        if (status === 'ATIVO') return 'badge-ativo';
+        if (status === 'INATIVO') return 'badge-inativo';
+        if (status === 'FERIAS') return 'badge-ferias';
+        return 'badge-outro';
+    };
+
+    const getStatusText = (status) => {
+        if (status === 'ATIVO') return 'Ativo';
+        if (status === 'INATIVO') return 'Inativo';
+        if (status === 'FERIAS') return 'FÃ©rias';
+        return status || '-';
+    };
+
+    const itemsPerPage = 10;
+    const startIndex = page * itemsPerPage;
+    const paginatedFuncionarios = filteredFuncionarios.slice(startIndex, startIndex + itemsPerPage);
+    const totalPagesFiltered = Math.ceil(filteredFuncionarios.length / itemsPerPage);
+
+    if (loading && funcionarios.length === 0) {
+        return (
+            <div className="database-rh-loading">
+                <p>Carregando funcionÃ¡rios...</p>
+            </div>
+        );
+    }
+
+    return (
+        <div className="database-rh-container">
+            <div className="database-rh-header">
+                <Link to="/">
+                    <button className="back-button-rh">
+                        <ArrowLeft size={18} className="icon-back" />
+                        Voltar ao Menu
+                    </button>
+                </Link>
+                <h1>
+                    <Database size={28} className="icon-header" />
+                    Banco de Dados - RH
+                </h1>
+                <div className="total-count">Total: {totalElements} funcionÃ¡rios</div>
+            </div>
+
+            {/* SEÃ‡ÃƒO DE RELATÃ“RIOS INLINE - CLICÃVEIS */}
+            <div className="reports-row">
+                <div className="report-card clickable" onClick={() => setModalAberto(true)}>
+                    <h3>
+                        <BarChart3 size={20} className="icon-title" />
+                        FuncionÃ¡rios por Cargo
+                    </h3>
+                    <div className="report-list">
+                        {relatorioCargos.slice(0, 8).map((item, idx) => (
+                            <div 
+                                key={idx} 
+                                className="report-item clickable-item"
+                                onClick={(e) => { e.stopPropagation(); abrirModalPorCargo(item.cargo); }}
+                            >
+                                <span className="report-name">{item.cargo}</span>
+                                <span className="report-value">{item.qtd} funcionÃ¡rio(s) â†’</span>
+                            </div>
+                        ))}
+                        {relatorioCargos.length === 0 && <span className="no-data">Nenhum dado</span>}
+                    </div>
+                </div>
+                
+                <div className="report-card clickable">
+                    <h3>
+                        <DollarSign size={20} className="icon-title" />
+                        Folha Salarial por Departamento
+                    </h3>
+                    <div className="report-list">
+                        {relatorioDepartamentos.slice(0, 8).map((item, idx) => (
+                            <div 
+                                key={idx} 
+                                className="report-item clickable-item"
+                                onClick={() => abrirModalPorDepartamento(item.depto)}
+                            >
+                                <span className="report-name">{item.depto}</span>
+                                <span className="report-value">{formatCurrency(item.total)} â†’</span>
+                            </div>
+                        ))}
+                        {relatorioDepartamentos.length === 0 && <span className="no-data">Nenhum dado</span>}
+                    </div>
+                </div>
+            </div>
+
+            {/* FILTROS - CENTRALIZADOS */}
+            <div className="filters-card-rh">
+                <h3>
+                    <Search size={20} className="icon-title" />
+                    Filtros de Busca
+                </h3>
+                <div className="filters-row">
+                    <div className="filter-group">
+                        <label>Buscar por ID:</label>
+                        <input
+                            type="number"
+                            placeholder="Digite o ID..."
+                            value={searchId}
+                            onChange={(e) => setSearchId(e.target.value)}
+                        />
+                    </div>
+                    <div className="filter-group">
+                        <label>Buscar por Nome:</label>
+                        <input
+                            type="text"
+                            placeholder="Digite o nome..."
+                            value={searchNome}
+                            onChange={(e) => setSearchNome(e.target.value)}
+                        />
+                    </div>
+                    <div className="filter-group">
+                        <label>Cargo:</label>
+                        <select value={filtroCargo} onChange={(e) => setFiltroCargo(e.target.value)}>
+                            <option value="">Todos</option>
+                            {cargos.map(c => <option key={c} value={c}>{c}</option>)}
+                        </select>
+                    </div>
+                    <div className="filter-group">
+                        <label>Departamento:</label>
+                        <select value={filtroDepartamento} onChange={(e) => setFiltroDepartamento(e.target.value)}>
+                            <option value="">Todos</option>
+                            {departamentos.map(d => <option key={d} value={d}>{d}</option>)}
+                        </select>
+                    </div>
+                    <button className="btn-clear-filters" onClick={limparFiltros}>Limpar Filtros</button>
+                </div>
+            </div>
+
+            {/* TABELA DE FUNCIONÃRIOS */}
+            <div className="table-card-rh">
+                <h3>
+                    <List size={20} className="icon-title" />
+                    Lista de FuncionÃ¡rios
+                </h3>
+                <div className="table-wrapper-rh">
+                    <table className="rh-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Cargo</th>
+                                <th>SalÃ¡rio</th>
+                                <th>Departamento</th>
+                                <th>AdmissÃ£o</th>
+                                <th>Status</th>
+                                <th>Email</th>
+                                <th>Gestor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {paginatedFuncionarios.map((f) => (
+                                <tr key={f.id}>
+                                    <td>{f.id}</td>
+                                    <td><strong>{f.nome || '-'}</strong></td>
+                                    <td>{f.cargo || '-'}</td>
+                                    <td className={f.salario >= 10000 ? 'high-salary' : ''}>
+                                        {formatCurrency(f.salario)}
+                                    </td>
+                                    <td>{f.departamento || '-'}</td>
+                                    <td>{formatDate(f.dataAdmissao)}</td>
+                                    <td>
+                                        <span className={`badge ${getStatusBadge(f.statusEmprego)}`}>
+                                            {getStatusText(f.statusEmprego)}
+                                        </span>
+                                    </td>
+                                    <td className="email-cell">{f.email || '-'}</td>
+                                    <td>{f.gestorDireto || '-'}</td>
+                                </tr>
+                            ))}
+                            {paginatedFuncionarios.length === 0 && (
+                                <tr>
+                                    <td colSpan="9" className="no-data">Nenhum funcionÃ¡rio encontrado</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+
+                {totalPagesFiltered > 1 && (
+                    <div className="pagination-rh">
+                        <button onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0}>
+                            <ChevronLeft size={18} />
+                            Anterior
+                        </button>
+                        <span className="page-info">
+                            PÃ¡gina {page + 1} de {totalPagesFiltered}
+                        </span>
+                        <button onClick={() => setPage(p => Math.min(totalPagesFiltered - 1, p + 1))} disabled={page === totalPagesFiltered - 1}>
+                            PrÃ³xima
+                            <ChevronRight size={18} />
+                        </button>
+                    </div>
+                )}
+            </div>
+
+            {/* MODAL */}
+            {modalAberto && (
+                <div className="modal-overlay" onClick={fecharModal}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h3>
+                                {modalTitulo.includes('Cargo') ? <Users size={20} className="icon-modal" /> : <Building size={20} className="icon-modal" />}
+                                {modalTitulo}
+                            </h3>
+                            <button className="modal-close" onClick={fecharModal}>
+                                <X size={24} />
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <table className="modal-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nome</th>
+                                        <th>Cargo</th>
+                                        <th>SalÃ¡rio</th>
+                                        <th>Departamento</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {modalFuncionarios.map(f => (
+                                        <tr key={f.id}>
+                                            <td>{f.id}</td>
+                                            <td><strong>{f.nome || '-'}</strong></td>
+                                            <td>{f.cargo || '-'}</td>
+                                            <td>{formatCurrency(f.salario)}</td>
+                                            <td>{f.departamento || '-'}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <style jsx="true">{`
+                .database-rh-container {
+                    min-height: 100vh;
+                    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+                    padding: 2rem;
+                }
+
+                .database-rh-header {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    margin-bottom: 2rem;
+                    flex-wrap: wrap;
+                    gap: 1rem;
+                }
+
+                .database-rh-header h1 {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    font-size: 2rem;
+                    font-weight: bold;
+                    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    color: transparent;
+                }
+
+                .icon-header {
+                    color: #fbbf24;
+                    stroke-width: 2;
+                }
+
+                .icon-title {
+                    color: #fbbf24;
+                    stroke-width: 2;
+                    margin-right: 0.4rem;
+                    vertical-align: middle;
+                }
+
+                .icon-back {
+                    color: #f8fafc;
+                    stroke-width: 2;
+                    margin-right: 0.3rem;
+                    vertical-align: middle;
+                }
+
+                .icon-modal {
+                    color: #fbbf24;
+                    stroke-width: 2;
+                    margin-right: 0.5rem;
+                    vertical-align: middle;
+                }
+
+                .total-count {
+                    padding: 0.5rem 1rem;
+                    background: rgba(255, 193, 7, 0.15);
+                    border-radius: 2rem;
+                    font-size: 0.875rem;
+                    color: #fbbf24;
+                }
+
+                .back-button-rh {
+                    display: inline-flex;
+                    align-items: center;
+                    padding: 0.5rem 1.25rem;
+                    font-size: 0.875rem;
+                    font-weight: 600;
+                    color: #f8fafc;
+                    background: rgba(100, 116, 139, 0.3);
+                    border: 1px solid rgba(255, 193, 7, 0.5);
+                    border-radius: 9999px;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                }
+
+                .back-button-rh:hover {
+                    background: rgba(255, 193, 7, 0.2);
+                    border-color: #fbbf24;
+                    transform: translateX(-4px);
+                }
+
+                .reports-row {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 1.5rem;
+                    margin-bottom: 1.5rem;
+                }
+
+                .report-card {
+                    background: rgba(15, 23, 42, 0.8);
+                    backdrop-filter: blur(10px);
+                    border-radius: 1.5rem;
+                    padding: 1.5rem;
+                    border: 1px solid rgba(255, 193, 7, 0.2);
+                }
+
+                .report-card h3 {
+                    display: flex;
+                    align-items: center;
+                    color: #f8fafc;
+                    font-size: 1.125rem;
+                    margin-bottom: 1rem;
+                    border-left: 4px solid #fbbf24;
+                    padding-left: 0.75rem;
+                }
+
+                .report-list {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.5rem;
+                }
+
+                .report-item {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 0.5rem;
+                    background: rgba(30, 41, 59, 0.4);
+                    border-radius: 0.5rem;
+                }
+
+                .clickable-item {
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                }
+
+                .clickable-item:hover {
+                    background: rgba(251, 191, 36, 0.2);
+                    transform: translateX(4px);
+                }
+
+                .report-name {
+                    color: #94a3b8;
+                    font-size: 0.875rem;
+                }
+
+                .report-value {
+                    color: #fbbf24;
+                    font-weight: 600;
+                    font-size: 0.875rem;
+                }
+
+                .filters-card-rh {
+                    background: rgba(15, 23, 42, 0.8);
+                    backdrop-filter: blur(10px);
+                    border-radius: 1.5rem;
+                    padding: 1.5rem;
+                    margin-bottom: 1.5rem;
+                    border: 1px solid rgba(255, 193, 7, 0.2);
+                }
+
+                .filters-card-rh h3 {
+                    display: flex;
+                    align-items: center;
+                    color: #f8fafc;
+                    font-size: 1.125rem;
+                    margin-bottom: 1rem;
+                }
+
+                /* ðŸ‘‡ FILTROS CENTRALIZADOS ðŸ‘‡ */
+                .filters-row {
+                    display: flex;
+                    justify-content: center;
+                    align-items: flex-end;
+                    gap: 1rem;
+                    flex-wrap: wrap;
+                }
+
+                .filter-group {
+                    flex: 0 1 auto;
+                    min-width: 150px;
+                }
+
+                .filter-group label {
+                    display: block;
+                    font-size: 0.75rem;
+                    color: #94a3b8;
+                    margin-bottom: 0.25rem;
+                }
+
+                .filter-group input,
+                .filter-group select {
+                    width: 100%;
+                    padding: 0.5rem;
+                    background: rgba(30, 41, 59, 0.6);
+                    border: 1px solid rgba(255, 193, 7, 0.3);
+                    border-radius: 0.5rem;
+                    color: #f8fafc;
+                    font-size: 0.875rem;
+                }
+
+                .filter-group input:focus,
+                .filter-group select:focus {
+                    outline: none;
+                    border-color: #fbbf24;
+                }
+
+                .btn-clear-filters {
+                    padding: 0.5rem 1rem;
+                    background: rgba(239, 68, 68, 0.2);
+                    border: 1px solid rgba(239, 68, 68, 0.4);
+                    border-radius: 0.5rem;
+                    color: #ef4444;
+                    cursor: pointer;
+                    font-weight: 600;
+                    height: 38px;
+                    flex-shrink: 0;
+                }
+
+                .btn-clear-filters:hover {
+                    background: rgba(239, 68, 68, 0.4);
+                }
+
+                .table-card-rh {
+                    background: rgba(15, 23, 42, 0.8);
+                    backdrop-filter: blur(10px);
+                    border-radius: 1.5rem;
+                    padding: 1.5rem;
+                    border: 1px solid rgba(255, 193, 7, 0.2);
+                }
+
+                .table-card-rh h3 {
+                    display: flex;
+                    align-items: center;
+                    color: #f8fafc;
+                    font-size: 1.125rem;
+                    margin-bottom: 1rem;
+                }
+
+                .table-wrapper-rh {
+                    overflow-x: auto;
+                }
+
+                .rh-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+
+                .rh-table th,
+                .rh-table td {
+                    padding: 0.75rem 1rem;
+                    text-align: left;
+                    border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+                }
+
+                .rh-table th {
+                    color: #fbbf24;
+                    font-weight: 600;
+                    font-size: 0.875rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                }
+
+                .rh-table td {
+                    color: #f8fafc;
+                    font-size: 0.875rem;
+                }
+
+                .rh-table tr:hover td {
+                    background: rgba(255, 193, 7, 0.05);
+                }
+
+                .high-salary {
+                    color: #22c55e;
+                    font-weight: 600;
+                }
+
+                .email-cell {
+                    max-width: 200px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+
+                .badge {
+                    display: inline-block;
+                    padding: 0.25rem 0.75rem;
+                    border-radius: 9999px;
+                    font-size: 0.75rem;
+                    font-weight: 600;
+                }
+
+                .badge-ativo {
+                    background: rgba(34, 197, 94, 0.2);
+                    color: #22c55e;
+                    border: 1px solid rgba(34, 197, 94, 0.3);
+                }
+
+                .badge-inativo {
+                    background: rgba(239, 68, 68, 0.2);
+                    color: #ef4444;
+                    border: 1px solid rgba(239, 68, 68, 0.3);
+                }
+
+                .badge-ferias {
+                    background: rgba(245, 158, 11, 0.2);
+                    color: #fbbf24;
+                    border: 1px solid rgba(245, 158, 11, 0.3);
+                }
+
+                .badge-outro {
+                    background: rgba(100, 116, 139, 0.3);
+                    color: #94a3b8;
+                }
+
+                .pagination-rh {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 1rem;
+                    margin-top: 1.5rem;
+                    padding-top: 1rem;
+                    border-top: 1px solid rgba(148, 163, 184, 0.2);
+                }
+
+                .pagination-rh button {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.3rem;
+                    padding: 0.5rem 1rem;
+                    font-size: 0.875rem;
+                    font-weight: 600;
+                    color: #f8fafc;
+                    background: rgba(255, 193, 7, 0.15);
+                    border: 1px solid rgba(255, 193, 7, 0.4);
+                    border-radius: 0.5rem;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                }
+
+                .pagination-rh button:hover:not(:disabled) {
+                    background: rgba(255, 193, 7, 0.3);
+                    border-color: #fbbf24;
+                }
+
+                .pagination-rh button:disabled {
+                    opacity: 0.4;
+                    cursor: not-allowed;
+                }
+
+                .page-info {
+                    color: #94a3b8;
+                    font-size: 0.875rem;
+                }
+
+                .no-data {
+                    text-align: center;
+                    color: #94a3b8;
+                    padding: 2rem;
+                }
+
+                /* Modal */
+                .modal-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0, 0, 0, 0.8);
+                    backdrop-filter: blur(4px);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 1000;
+                }
+
+                .modal-content {
+                    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+                    border-radius: 1.5rem;
+                    width: 90%;
+                    max-width: 800px;
+                    max-height: 80vh;
+                    overflow: hidden;
+                    border: 1px solid rgba(255, 193, 7, 0.3);
+                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+                }
+
+                .modal-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 1rem 1.5rem;
+                    border-bottom: 1px solid rgba(255, 193, 7, 0.2);
+                }
+
+                .modal-header h3 {
+                    display: flex;
+                    align-items: center;
+                    color: #fbbf24;
+                    font-size: 1.25rem;
+                    margin: 0;
+                }
+
+                .modal-close {
+                    background: none;
+                    border: none;
+                    color: #94a3b8;
+                    cursor: pointer;
+                    transition: color 0.2s;
+                    display: flex;
+                    align-items: center;
+                }
+
+                .modal-close:hover {
+                    color: #ef4444;
+                }
+
+                .modal-body {
+                    padding: 1.5rem;
+                    overflow-y: auto;
+                    max-height: calc(80vh - 70px);
+                }
+
+                .modal-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+
+                .modal-table th,
+                .modal-table td {
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+                }
+
+                .modal-table th {
+                    color: #fbbf24;
+                    font-weight: 600;
+                }
+
+                .modal-table td {
+                    color: #f8fafc;
+                }
+
+                .database-rh-loading {
+                    min-height: 100vh;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+                    color: #f8fafc;
+                }
+
+                @media (max-width: 768px) {
+                    .database-rh-container {
+                        padding: 1rem;
+                    }
+                    .database-rh-header {
+                        flex-direction: column;
+                        align-items: flex-start;
+                    }
+                    .reports-row {
+                        grid-template-columns: 1fr;
+                    }
+                    .filters-row {
+                        flex-direction: column;
+                        align-items: stretch;
+                    }
+                    .btn-clear-filters {
+                        width: 100%;
+                    }
+                    .modal-content {
+                        width: 95%;
+                    }
+                    .pagination-rh button {
+                        font-size: 0.75rem;
+                        padding: 0.3rem 0.6rem;
+                    }
+                }
+            `}</style>
+        </div>
+    );
+};
+
+export default DatabaseRH;
+
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\Footer.js =====
+import React from 'react';
+
+const Footer = () => {
+    return (
+        <footer style={{ backgroundColor: '#222', color: '#fff', textAlign: 'center', padding: '1rem' }}>
+            <p>&copy; 2024 Sistema Financeiro. Todos os direitos reservados.</p>
+        </footer>
+    );
+};
+
+export default Footer;
+
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\Funcionarios.js =====
+import React, { useEffect, useState } from 'react';
+import api from '../api';
+import './Funcionarios.css';
+
+const Funcionarios = () => {
+    const [funcionarios, setFuncionarios] = useState([]);
+    const [page, setPage] = useState(0);
+
+    useEffect(() => {
+        api.get(`/funcionarios?page=${page}&size=10`)
+            .then((response) => setFuncionarios(response.data.content))
+            .catch((error) => console.error('Erro ao carregar funcionÃ¡rios', error));
+    }, [page]);
+
+    return (
+        <div className="funcionarios-container">
+            <h1 className="funcionarios-title">Lista de FuncionÃ¡rios</h1>
+            <ul className="funcionarios-list">
+                {funcionarios.map((func) => (
+                    <li key={func.id}>
+                        <span>{func.nome}</span>
+                        <span>{func.cargo}</span>
+                    </li>
+                ))}
+            </ul>
+            <div className="pagination-buttons">
+                <button onClick={() => setPage(page - 1)} disabled={page === 0}>
+                    PÃ¡gina Anterior
+                </button>
+                <button onClick={() => setPage(page + 1)}>
+                    PrÃ³xima PÃ¡gina
+                </button>
+            </div>
+        </div>
+    );
+};
+
+export default Funcionarios; - ..funcionarios-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.funcionarios-title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.funcionarios-list {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+}
+
+.funcionarios-list li {
+    background-color: #fff;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+}
+
+.pagination-buttons {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.pagination-buttons button {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.pagination-buttons button:hover {
+    background-color: #0056b3;
+}
+
+.pagination-buttons button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\FuncionariosReact.js =====
+
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\GerenciarFuncionarios.js =====
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { 
+  Settings, Plus, Search, Pen, Trash2, Save, X, 
+  ArrowLeft, Users 
+} from 'lucide-react';
+import api from '../api';
+
+const GerenciarFuncionarios = () => {
+    const [funcionarios, setFuncionarios] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [modalAberto, setModalAberto] = useState(false);
+    const [modalTitulo, setModalTitulo] = useState('');
+    const [editando, setEditando] = useState(false);
+    
+    const [formData, setFormData] = useState({
+        id: null,
+        nome: '',
+        cargo: '',
+        salario: '',
+        departamento: '',
+        dataAdmissao: '',
+        dataNascimento: '',
+        cidade: '',
+        estado: '',
+        statusEmprego: 'ATIVO',
+        email: '',
+        telefone: '',
+        nivelExperiencia: '',
+        sexo: '',
+        gestorDireto: '',
+        bonus: ''
+    });
+
+    const [buscaId, setBuscaId] = useState('');
+    const [funcionarioEncontrado, setFuncionarioEncontrado] = useState(null);
+
+    useEffect(() => {
+        carregarFuncionarios();
+    }, []);
+
+    const carregarFuncionarios = async () => {
+        setLoading(true);
+        try {
+            const response = await api.get('/funcionarios?size=100');
+            setFuncionarios(response.data.content || []);
+        } catch (error) {
+            console.error('Erro ao carregar funcionÃ¡rios:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const resetForm = () => {
+        setFormData({
+            id: null,
+            nome: '',
+            cargo: '',
+            salario: '',
+            departamento: '',
+            dataAdmissao: '',
+            dataNascimento: '',
+            cidade: '',
+            estado: '',
+            statusEmprego: 'ATIVO',
+            email: '',
+            telefone: '',
+            nivelExperiencia: '',
+            sexo: '',
+            gestorDireto: '',
+            bonus: ''
+        });
+        setEditando(false);
+        setModalAberto(false);
+        setFuncionarioEncontrado(null);
+        setBuscaId('');
+    };
+
+    const abrirModalAdicionar = () => {
+        resetForm();
+        setEditando(false);
+        setModalTitulo('Adicionar Novo FuncionÃ¡rio');
+        setModalAberto(true);
+    };
+
+    const abrirModalEditar = (funcionario) => {
+        setFormData({
+            id: funcionario.id,
+            nome: funcionario.nome || '',
+            cargo: funcionario.cargo || '',
+            salario: funcionario.salario || '',
+            departamento: funcionario.departamento || '',
+            dataAdmissao: funcionario.dataAdmissao || '',
+            dataNascimento: funcionario.dataNascimento || '',
+            cidade: funcionario.cidade || '',
+            estado: funcionario.estado || '',
+            statusEmprego: funcionario.statusEmprego || 'ATIVO',
+            email: funcionario.email || '',
+            telefone: funcionario.telefone || '',
+            nivelExperiencia: funcionario.nivelExperiencia || '',
+            sexo: funcionario.sexo || '',
+            gestorDireto: funcionario.gestorDireto || '',
+            bonus: funcionario.bonus || ''
+        });
+        setEditando(true);
+        setModalTitulo(`Editar FuncionÃ¡rio - ${funcionario.nome}`);
+        setModalAberto(true);
+    };
+
+    const buscarFuncionarioPorId = async () => {
+        if (!buscaId) {
+            alert('Digite um ID para buscar');
+            return;
+        }
+        try {
+            const response = await api.get(`/funcionarios/${buscaId}`);
+            setFuncionarioEncontrado(response.data);
+        } catch (error) {
+            console.error('Erro ao buscar funcionÃ¡rio:', error);
+            setFuncionarioEncontrado(null);
+            alert('FuncionÃ¡rio nÃ£o encontrado!');
+        }
+    };
+
+    const salvarFuncionario = async () => {
+        if (!formData.nome || !formData.cargo || !formData.salario) {
+            alert('Preencha Nome, Cargo e SalÃ¡rio!');
+            return;
+        }
+
+        try {
+            const payload = {
+                ...formData,
+                salario: parseFloat(formData.salario)
+            };
+
+            if (editando && formData.id) {
+                await api.put(`/funcionarios/${formData.id}`, payload);
+                alert('FuncionÃ¡rio atualizado com sucesso!');
+            } else {
+                await api.post('/funcionarios', payload);
+                alert('FuncionÃ¡rio adicionado com sucesso!');
+            }
+            resetForm();
+            carregarFuncionarios();
+        } catch (error) {
+            console.error('Erro ao salvar funcionÃ¡rio:', error);
+            alert('Erro ao salvar. Verifique os dados.');
+        }
+    };
+
+    const excluirFuncionario = async (id, nome) => {
+        if (window.confirm(`Tem certeza que deseja excluir ${nome}?`)) {
+            try {
+                await api.delete(`/funcionarios/${id}`);
+                alert('FuncionÃ¡rio excluÃ­do com sucesso!');
+                carregarFuncionarios();
+                if (funcionarioEncontrado?.id === id) {
+                    setFuncionarioEncontrado(null);
+                    setBuscaId('');
+                }
+            } catch (error) {
+                console.error('Erro ao excluir:', error);
+                alert('Erro ao excluir funcionÃ¡rio');
+            }
+        }
+    };
+
+    const formatCurrency = (value) => {
+        if (!value) return 'R$ 0,00';
+        return new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        }).format(value);
+    };
+
+    const formatDate = (date) => {
+        if (!date) return '-';
+        return new Date(date).toLocaleDateString('pt-BR');
+    };
+
+    if (loading) {
+        return (
+            <div className="crud-loading">
+                <p>Carregando...</p>
+            </div>
+        );
+    }
+
+    return (
+        <div className="crud-container">
+            <div className="crud-header">
+                <Link to="/">
+                    <button className="back-button-crud">
+                        <ArrowLeft size={18} style={{ marginRight: '6px', verticalAlign: 'middle' }} />
+                        Voltar ao Menu
+                    </button>
+                </Link>
+                <h1>
+                    <Settings size={28} style={{ display: 'inline', marginRight: '8px', verticalAlign: 'middle' }} />
+                    Gerenciar FuncionÃ¡rios
+                </h1>
+                <button className="btn-add-crud" onClick={abrirModalAdicionar}>
+                    <Plus size={18} style={{ marginRight: '6px', verticalAlign: 'middle' }} />
+                    Novo FuncionÃ¡rio
+                </button>
+            </div>
+
+            <div className="busca-card">
+                <h3>
+                    <Search size={20} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} />
+                    Buscar FuncionÃ¡rio por ID
+                </h3>
+                <div className="busca-row">
+                    <input
+                        type="number"
+                        placeholder="Digite o ID"
+                        value={buscaId}
+                        onChange={(e) => setBuscaId(e.target.value)}
+                    />
+                    <button className="btn-buscar" onClick={buscarFuncionarioPorId}>Buscar</button>
+                    <button className="btn-limpar-busca" onClick={() => { setBuscaId(''); setFuncionarioEncontrado(null); }}>Limpar</button>
+                </div>
+
+                {funcionarioEncontrado && (
+                    <div className="resultado-busca">
+                        <div className="resultado-header">
+                            <span>FuncionÃ¡rio encontrado!</span>
+                            <div className="resultado-acoes">
+                                <button className="btn-editar" onClick={() => abrirModalEditar(funcionarioEncontrado)}>
+                                    <Pen size={16} style={{ marginRight: '4px' }} /> Editar
+                                </button>
+                                <button className="btn-excluir" onClick={() => excluirFuncionario(funcionarioEncontrado.id, funcionarioEncontrado.nome)}>
+                                    <Trash2 size={16} style={{ marginRight: '4px' }} /> Excluir
+                                </button>
+                            </div>
+                        </div>
+                        <div className="resultado-info">
+                            <div><strong>ID:</strong> {funcionarioEncontrado.id}</div>
+                            <div><strong>Nome:</strong> {funcionarioEncontrado.nome}</div>
+                            <div><strong>Cargo:</strong> {funcionarioEncontrado.cargo}</div>
+                            <div><strong>SalÃ¡rio:</strong> {formatCurrency(funcionarioEncontrado.salario)}</div>
+                            <div><strong>Departamento:</strong> {funcionarioEncontrado.departamento}</div>
+                            <div><strong>Status:</strong> {funcionarioEncontrado.statusEmprego}</div>
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            <div className="lista-card">
+                <h3>
+                    <Users size={20} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} />
+                    Lista de FuncionÃ¡rios
+                </h3>
+                <div className="tabela-wrapper">
+                    <table className="crud-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Cargo</th>
+                                <th>SalÃ¡rio</th>
+                                <th>Departamento</th>
+                                <th>Status</th>
+                                <th>AÃ§Ãµes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {funcionarios.map((f) => (
+                                <tr key={f.id}>
+                                    <td>{f.id}</td>
+                                    <td><strong>{f.nome || '-'}</strong></td>
+                                    <td>{f.cargo || '-'}</td>
+                                    <td>{formatCurrency(f.salario)}</td>
+                                    <td>{f.departamento || '-'}</td>
+                                    <td>
+                                        <span className={`status-badge ${f.statusEmprego === 'ATIVO' ? 'status-ativo' : 'status-inativo'}`}>
+                                            {f.statusEmprego || '-'}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button className="btn-editar-mini" onClick={() => abrirModalEditar(f)}>
+                                            <Pen size={16} />
+                                        </button>
+                                        <button className="btn-excluir-mini" onClick={() => excluirFuncionario(f.id, f.nome)}>
+                                            <Trash2 size={16} />
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                            {funcionarios.length === 0 && (
+                                <tr>
+                                    <td colSpan="7" className="sem-dados">Nenhum funcionÃ¡rio cadastrado</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {modalAberto && (
+                <div className="modal-overlay" onClick={() => resetForm()}>
+                    <div className="modal-content modal-crud" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h3>{modalTitulo}</h3>
+                            <button className="modal-fechar" onClick={resetForm}>
+                                <X size={20} />
+                            </button>
+                        </div>
+                        <div className="modal-body modal-body-crud">
+                            <div className="form-grid">
+                                <div className="form-group">
+                                    <label>Nome *</label>
+                                    <input type="text" name="nome" value={formData.nome} onChange={handleInputChange} required />
+                                </div>
+                                <div className="form-group">
+                                    <label>Cargo *</label>
+                                    <input type="text" name="cargo" value={formData.cargo} onChange={handleInputChange} required />
+                                </div>
+                                <div className="form-group">
+                                    <label>SalÃ¡rio *</label>
+                                    <input type="number" step="0.01" name="salario" value={formData.salario} onChange={handleInputChange} required />
+                                </div>
+                                <div className="form-group">
+                                    <label>Departamento</label>
+                                    <input type="text" name="departamento" value={formData.departamento} onChange={handleInputChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label>Data de AdmissÃ£o</label>
+                                    <input type="date" name="dataAdmissao" value={formData.dataAdmissao} onChange={handleInputChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label>Data de Nascimento</label>
+                                    <input type="date" name="dataNascimento" value={formData.dataNascimento} onChange={handleInputChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label>Cidade</label>
+                                    <input type="text" name="cidade" value={formData.cidade} onChange={handleInputChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label>Estado</label>
+                                    <input type="text" name="estado" value={formData.estado} onChange={handleInputChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label>Status</label>
+                                    <select name="statusEmprego" value={formData.statusEmprego} onChange={handleInputChange}>
+                                        <option value="ATIVO">ATIVO</option>
+                                        <option value="INATIVO">INATIVO</option>
+                                        <option value="FERIAS">FÃ‰RIAS</option>
+                                    </select>
+                                </div>
+                                <div className="form-group">
+                                    <label>Email</label>
+                                    <input type="email" name="email" value={formData.email} onChange={handleInputChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label>Telefone</label>
+                                    <input type="text" name="telefone" value={formData.telefone} onChange={handleInputChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label>NÃ­vel de ExperiÃªncia</label>
+                                    <select name="nivelExperiencia" value={formData.nivelExperiencia} onChange={handleInputChange}>
+                                        <option value="">Selecione</option>
+                                        <option value="JUNIOR">JÃºnior</option>
+                                        <option value="PLENO">Pleno</option>
+                                        <option value="SENIOR">SÃªnior</option>
+                                        <option value="ESPECIALISTA">Especialista</option>
+                                    </select>
+                                </div>
+                                <div className="form-group">
+                                    <label>Sexo</label>
+                                    <select name="sexo" value={formData.sexo} onChange={handleInputChange}>
+                                        <option value="">Selecione</option>
+                                        <option value="MASCULINO">Masculino</option>
+                                        <option value="FEMININO">Feminino</option>
+                                        <option value="OUTRO">Outro</option>
+                                    </select>
+                                </div>
+                                <div className="form-group">
+                                    <label>Gestor Direto</label>
+                                    <input type="text" name="gestorDireto" value={formData.gestorDireto} onChange={handleInputChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label>BÃ´nus (%)</label>
+                                    <input type="number" step="0.01" name="bonus" value={formData.bonus} onChange={handleInputChange} />
+                                </div>
+                            </div>
+                            <div className="form-actions">
+                                <button className="btn-salvar" onClick={salvarFuncionario}>
+                                    <Save size={16} style={{ marginRight: '6px' }} /> Salvar
+                                </button>
+                                <button className="btn-cancelar" onClick={resetForm}>Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <style jsx="true">{`
+                .crud-container {
+                    min-height: 100vh;
+                    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+                    padding: 2rem;
+                }
+                .crud-header {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    margin-bottom: 2rem;
+                    flex-wrap: wrap;
+                    gap: 1rem;
+                }
+                .crud-header h1 {
+                    font-size: 2rem;
+                    font-weight: bold;
+                    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    color: transparent;
+                }
+                .back-button-crud, .btn-add-crud {
+                    padding: 0.5rem 1.25rem;
+                    font-size: 0.875rem;
+                    font-weight: 600;
+                    border-radius: 9999px;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    display: inline-flex;
+                    align-items: center;
+                }
+                .back-button-crud {
+                    color: #f8fafc;
+                    background: rgba(100, 116, 139, 0.3);
+                    border: 1px solid rgba(255, 193, 7, 0.5);
+                }
+                .back-button-crud:hover {
+                    background: rgba(255, 193, 7, 0.2);
+                    border-color: #fbbf24;
+                    transform: translateX(-4px);
+                }
+                .btn-add-crud {
+                    background: linear-gradient(135deg, #22c55e, #16a34a);
+                    border: none;
+                    color: white;
+                }
+                .btn-add-crud:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+                }
+                .busca-card, .lista-card {
+                    background: rgba(15, 23, 42, 0.8);
+                    backdrop-filter: blur(10px);
+                    border-radius: 1.5rem;
+                    padding: 1.5rem;
+                    margin-bottom: 1.5rem;
+                    border: 1px solid rgba(255, 193, 7, 0.2);
+                }
+                .busca-card h3, .lista-card h3 {
+                    color: #f8fafc;
+                    font-size: 1.125rem;
+                    margin-bottom: 1rem;
+                }
+                .busca-row {
+                    display: flex;
+                    gap: 1rem;
+                    flex-wrap: wrap;
+                }
+                .busca-row input {
+                    flex: 1;
+                    padding: 0.5rem;
+                    background: rgba(30, 41, 59, 0.6);
+                    border: 1px solid rgba(255, 193, 7, 0.3);
+                    border-radius: 0.5rem;
+                    color: #f8fafc;
+                }
+                .btn-buscar, .btn-limpar-busca {
+                    padding: 0.5rem 1rem;
+                    border-radius: 0.5rem;
+                    cursor: pointer;
+                    font-weight: 600;
+                }
+                .btn-buscar {
+                    background: linear-gradient(135deg, #3b82f6, #2563eb);
+                    border: none;
+                    color: white;
+                }
+                .btn-limpar-busca {
+                    background: rgba(100, 116, 139, 0.3);
+                    border: 1px solid rgba(255, 193, 7, 0.4);
+                    color: #f8fafc;
+                }
+                .resultado-busca {
+                    margin-top: 1rem;
+                    padding: 1rem;
+                    background: rgba(30, 41, 59, 0.4);
+                    border-radius: 0.75rem;
+                }
+                .resultado-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 0.75rem;
+                    color: #fbbf24;
+                    font-weight: bold;
+                }
+                .resultado-acoes {
+                    display: flex;
+                    gap: 0.5rem;
+                }
+                .resultado-acoes button {
+                    display: inline-flex;
+                    align-items: center;
+                    padding: 0.3rem 0.7rem;
+                    border-radius: 0.5rem;
+                    border: none;
+                    cursor: pointer;
+                    font-weight: 600;
+                    font-size: 0.8rem;
+                }
+                .btn-editar {
+                    background: rgba(59, 130, 246, 0.2);
+                    color: #60a5fa;
+                }
+                .btn-excluir {
+                    background: rgba(239, 68, 68, 0.2);
+                    color: #f87171;
+                }
+                .resultado-info {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                    gap: 0.5rem;
+                    font-size: 0.875rem;
+                    color: #cbd5e1;
+                }
+                .tabela-wrapper {
+                    overflow-x: auto;
+                }
+                .crud-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                .crud-table th, .crud-table td {
+                    padding: 0.75rem 1rem;
+                    text-align: left;
+                    border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+                }
+                .crud-table th {
+                    color: #fbbf24;
+                    font-weight: 600;
+                    font-size: 0.875rem;
+                }
+                .crud-table td {
+                    color: #f8fafc;
+                    font-size: 0.875rem;
+                }
+                .status-badge {
+                    display: inline-block;
+                    padding: 0.25rem 0.75rem;
+                    border-radius: 9999px;
+                    font-size: 0.75rem;
+                    font-weight: 600;
+                }
+                .status-ativo { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+                .status-inativo { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+                .btn-editar-mini, .btn-excluir-mini {
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    padding: 0.25rem;
+                    color: #94a3b8;
+                }
+                .btn-editar-mini { color: #60a5fa; }
+                .btn-excluir-mini { color: #f87171; }
+                .modal-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0, 0, 0, 0.8);
+                    backdrop-filter: blur(4px);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 1000;
+                }
+                .modal-crud {
+                    max-width: 800px;
+                    width: 90%;
+                    max-height: 85vh;
+                }
+                .modal-body-crud {
+                    max-height: calc(85vh - 70px);
+                    overflow-y: auto;
+                }
+                .form-grid {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 1rem;
+                }
+                .form-group {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.25rem;
+                }
+                .form-group label {
+                    font-size: 0.75rem;
+                    color: #94a3b8;
+                }
+                .form-group input, .form-group select {
+                    padding: 0.5rem;
+                    background: rgba(30, 41, 59, 0.6);
+                    border: 1px solid rgba(255, 193, 7, 0.3);
+                    border-radius: 0.5rem;
+                    color: #f8fafc;
+                }
+                .form-actions {
+                    display: flex;
+                    gap: 1rem;
+                    margin-top: 1.5rem;
+                    justify-content: flex-end;
+                }
+                .btn-salvar, .btn-cancelar {
+                    padding: 0.5rem 1.5rem;
+                    border-radius: 0.5rem;
+                    cursor: pointer;
+                    font-weight: 600;
+                    display: inline-flex;
+                    align-items: center;
+                }
+                .btn-salvar {
+                    background: linear-gradient(135deg, #22c55e, #16a34a);
+                    border: none;
+                    color: white;
+                }
+                .btn-cancelar {
+                    background: rgba(100, 116, 139, 0.3);
+                    border: 1px solid rgba(255, 193, 7, 0.4);
+                    color: #f8fafc;
+                }
+                .sem-dados {
+                    text-align: center;
+                    color: #94a3b8;
+                    padding: 2rem;
+                }
+                .crud-loading {
+                    min-height: 100vh;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+                    color: #f8fafc;
+                }
+                @media (max-width: 768px) {
+                    .crud-container { padding: 1rem; }
+                    .crud-header { flex-direction: column; align-items: flex-start; }
+                    .form-grid { grid-template-columns: 1fr; }
+                }
+            `}</style>
+        </div>
+    );
+};
+
+export default GerenciarFuncionarios;
+
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\GestaoSalarial.js =====
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import api from '../api';
+import {
+    ArrowLeft,
+    Coins,
+    BarChart3,
+    Search,
+    List,
+    Info,
+    X,
+    Bus,
+    Banknote,
+    Utensils,
+    Heart,
+    FileText,
+    Building,
+    User,
+} from 'lucide-react';
+
+const GestaoSalarial = () => {
+    const [funcionarios, setFuncionarios] = useState([]);
+    const [filteredFuncionarios, setFilteredFuncionarios] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [searchNome, setSearchNome] = useState('');
+    const [filtroDepartamento, setFiltroDepartamento] = useState('');
+    const [departamentos, setDepartamentos] = useState([]);
+    const [relatorioDepartamentos, setRelatorioDepartamentos] = useState([]);
+    const [modalAberto, setModalAberto] = useState(false);
+    const [funcionarioSelecionado, setFuncionarioSelecionado] = useState(null);
+
+    const calcularComposicaoSalarial = (salarioBruto) => {
+        if (!salarioBruto || salarioBruto <= 0) return null;
+        
+        const vt = salarioBruto * 0.10;
+        const fgts = salarioBruto * 0.08;
+        const va = salarioBruto * 0.10;
+        const planoSaude = salarioBruto * 0.06;
+        const inss = salarioBruto * 0.075;
+        
+        return {
+            salarioBruto,
+            vt,
+            fgts,
+            va,
+            planoSaude,
+            inss,
+            totalEncargos: vt + fgts + va + planoSaude + inss
+        };
+    };
+
+    useEffect(() => {
+        fetchAllData();
+    }, []);
+
+    const fetchAllData = async () => {
+        setLoading(true);
+        try {
+            const response = await api.get('/funcionarios?size=1000');
+            const data = response.data.content || [];
+            setFuncionarios(data);
+            setFilteredFuncionarios(data);
+
+            const deptsUnicos = [...new Set(data.map(f => f.departamento).filter(Boolean))];
+            setDepartamentos(deptsUnicos.sort());
+
+            const deptSalary = {};
+            data.forEach(f => {
+                if (f.departamento && f.salario) {
+                    deptSalary[f.departamento] = (deptSalary[f.departamento] || 0) + f.salario;
+                }
+            });
+            setRelatorioDepartamentos(Object.entries(deptSalary).map(([depto, total]) => ({ depto, total })));
+
+        } catch (error) {
+            console.error('Erro ao carregar dados:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const aplicarFiltros = () => {
+        let filtered = [...funcionarios];
+        
+        if (searchNome) {
+            filtered = filtered.filter(f => 
+                f.nome?.toLowerCase().includes(searchNome.toLowerCase())
+            );
+        }
+        
+        if (filtroDepartamento) {
+            filtered = filtered.filter(f => f.departamento === filtroDepartamento);
+        }
+        
+        setFilteredFuncionarios(filtered);
+    };
+
+    useEffect(() => {
+        aplicarFiltros();
+    }, [searchNome, filtroDepartamento]);
+
+    const limparFiltros = () => {
+        setSearchNome('');
+        setFiltroDepartamento('');
+    };
+
+    const abrirModal = (funcionario) => {
+        setFuncionarioSelecionado(funcionario);
+        setModalAberto(true);
+    };
+
+    const fecharModal = () => {
+        setModalAberto(false);
+        setFuncionarioSelecionado(null);
+    };
+
+    const formatCurrency = (value) => {
+        if (!value) return 'R$ 0,00';
+        return new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        }).format(value);
+    };
+
+    const formatDate = (date) => {
+        if (!date) return '-';
+        return new Date(date).toLocaleDateString('pt-BR');
+    };
+
+    if (loading) {
+        return (
+            <div className="gestao-loading">
+                <p>Carregando dados...</p>
+            </div>
+        );
+    }
+
+    return (
+        <div className="gestao-container">
+            <div className="gestao-header">
+                <Link to="/">
+                    <button className="back-button-gestao">
+                        <ArrowLeft size={18} className="icon-back" />
+                        Voltar ao Menu
+                    </button>
+                </Link>
+                <h1>
+                    <Coins size={28} className="icon-header" />
+                    GestÃ£o Salarial
+                </h1>
+            </div>
+
+            {/* Cards de Resumo por Departamento */}
+            <div className="resumo-cards">
+                <div className="resumo-card">
+                    <h3>
+                        <BarChart3 size={20} className="icon-title" />
+                        Resumo por Departamento
+                    </h3>
+                    <div className="resumo-lista">
+                        {relatorioDepartamentos.slice(0, 6).map((item, idx) => (
+                            <div key={idx} className="resumo-item">
+                                <span className="resumo-nome">{item.depto}</span>
+                                <span className="resumo-valor">{formatCurrency(item.total)}</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* Filtros - Centralizados */}
+            <div className="filtros-card">
+                <h3>
+                    <Search size={20} className="icon-title" />
+                    Filtros
+                </h3>
+                <div className="filtros-row">
+                    <div className="filtro-group">
+                        <label>FuncionÃ¡rio:</label>
+                        <input
+                            type="text"
+                            placeholder="Digite o nome..."
+                            value={searchNome}
+                            onChange={(e) => setSearchNome(e.target.value)}
+                        />
+                    </div>
+                    <div className="filtro-group">
+                        <label>Departamento:</label>
+                        <select value={filtroDepartamento} onChange={(e) => setFiltroDepartamento(e.target.value)}>
+                            <option value="">Todos</option>
+                            {departamentos.map(d => <option key={d} value={d}>{d}</option>)}
+                        </select>
+                    </div>
+                    <button className="btn-limpar" onClick={limparFiltros}>Limpar</button>
+                </div>
+            </div>
+
+            {/* Tabela de FuncionÃ¡rios */}
+            <div className="tabela-card">
+                <h3>
+                    <List size={20} className="icon-title" />
+                    FuncionÃ¡rios
+                </h3>
+                <div className="tabela-wrapper">
+                    <table className="tabela-gestao">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Cargo</th>
+                                <th>SalÃ¡rio Bruto</th>
+                                <th>Departamento</th>
+                                <th>AdmissÃ£o</th>
+                                <th>AÃ§Ãµes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredFuncionarios.map((f) => (
+                                <tr key={f.id}>
+                                    <td>{f.id}</td>
+                                    <td><strong>{f.nome || '-'}</strong></td>
+                                    <td>{f.cargo || '-'}</td>
+                                    <td>{formatCurrency(f.salario)}</td>
+                                    <td>{f.departamento || '-'}</td>
+                                    <td>{formatDate(f.dataAdmissao)}</td>
+                                    <td>
+                                        <button 
+                                            className="btn-detalhar"
+                                            onClick={() => abrirModal(f)}
+                                        >
+                                            <Info size={16} className="icon-btn" />
+                                            Detalhar
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                            {filteredFuncionarios.length === 0 && (
+                                <tr>
+                                    <td colSpan="7" className="sem-dados">Nenhum funcionÃ¡rio encontrado</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {/* Modal de Detalhamento Salarial */}
+            {modalAberto && funcionarioSelecionado && (
+                <div className="modal-overlay" onClick={fecharModal}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h3>
+                                <FileText size={20} className="icon-modal" />
+                                Detalhamento Salarial - {funcionarioSelecionado.nome}
+                            </h3>
+                            <button className="modal-fechar" onClick={fecharModal}>
+                                <X size={24} />
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="info-funcionario">
+                                <div><User size={16} className="icon-info" /> <strong>ID:</strong> {funcionarioSelecionado.id}</div>
+                                <div><Building size={16} className="icon-info" /> <strong>Cargo:</strong> {funcionarioSelecionado.cargo || '-'}</div>
+                                <div><Building size={16} className="icon-info" /> <strong>Departamento:</strong> {funcionarioSelecionado.departamento || '-'}</div>
+                                <div><FileText size={16} className="icon-info" /> <strong>Data AdmissÃ£o:</strong> {formatDate(funcionarioSelecionado.dataAdmissao)}</div>
+                            </div>
+                            
+                            {(() => {
+                                const c = calcularComposicaoSalarial(funcionarioSelecionado.salario);
+                                if (!c) return <p className="sem-dados">SalÃ¡rio nÃ£o disponÃ­vel</p>;
+                                
+                                return (
+                                    <div className="composicao">
+                                        <h4>ComposiÃ§Ã£o do SalÃ¡rio</h4>
+                                        <div className="composicao-grid">
+                                            <div className="composicao-linha header">
+                                                <span>Componente</span>
+                                                <span>Percentual</span>
+                                                <span>Valor</span>
+                                            </div>
+                                            <div className="composicao-linha">
+                                                <span><Coins size={16} className="icon-comp" /> SalÃ¡rio Bruto</span>
+                                                <span>100%</span>
+                                                <span className="valor-bruto">{formatCurrency(c.salarioBruto)}</span>
+                                            </div>
+                                            <div className="composicao-linha">
+                                                <span><Bus size={16} className="icon-comp" /> Vale Transporte (VT)</span>
+                                                <span>10%</span>
+                                                <span>{formatCurrency(c.vt)}</span>
+                                            </div>
+                                            <div className="composicao-linha">
+                                                <span><Banknote size={16} className="icon-comp" /> FGTS (8%)</span>
+                                                <span>8%</span>
+                                                <span>{formatCurrency(c.fgts)}</span>
+                                            </div>
+                                            <div className="composicao-linha">
+                                                <span><Utensils size={16} className="icon-comp" /> Vale AlimentaÃ§Ã£o (VA)</span>
+                                                <span>10%</span>
+                                                <span>{formatCurrency(c.va)}</span>
+                                            </div>
+                                            <div className="composicao-linha">
+                                                <span><Heart size={16} className="icon-comp" /> Plano de SaÃºde</span>
+                                                <span>6%</span>
+                                                <span>{formatCurrency(c.planoSaude)}</span>
+                                            </div>
+                                            <div className="composicao-linha">
+                                                <span><FileText size={16} className="icon-comp" /> INSS</span>
+                                                <span>7,5%</span>
+                                                <span>{formatCurrency(c.inss)}</span>
+                                            </div>
+                                            <div className="composicao-linha total-encargos">
+                                                <span><BarChart3 size={16} className="icon-comp" /> Total de Encargos</span>
+                                                <span>{((c.totalEncargos / c.salarioBruto) * 100).toFixed(1)}%</span>
+                                                <span>{formatCurrency(c.totalEncargos)}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })()}
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <style jsx="true">{`
+                .gestao-container {
+                    min-height: 100vh;
+                    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+                    padding: 2rem;
+                }
+
+                .gestao-header {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    margin-bottom: 2rem;
+                    flex-wrap: wrap;
+                    gap: 1rem;
+                }
+
+                .gestao-header h1 {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    font-size: 2rem;
+                    font-weight: bold;
+                    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    color: transparent;
+                }
+
+                .icon-back {
+                    color: #f8fafc;
+                    stroke-width: 2;
+                    margin-right: 0.3rem;
+                    vertical-align: middle;
+                }
+
+                .icon-header {
+                    color: #fbbf24;
+                    stroke-width: 2;
+                }
+
+                .icon-title {
+                    color: #fbbf24;
+                    stroke-width: 2;
+                    margin-right: 0.4rem;
+                    vertical-align: middle;
+                }
+
+                .icon-btn {
+                    color: #60a5fa;
+                    stroke-width: 2;
+                    margin-right: 0.2rem;
+                    vertical-align: middle;
+                }
+
+                .icon-modal {
+                    color: #fbbf24;
+                    stroke-width: 2;
+                    margin-right: 0.5rem;
+                    vertical-align: middle;
+                }
+
+                .icon-info {
+                    color: #94a3b8;
+                    stroke-width: 2;
+                    margin-right: 0.3rem;
+                    vertical-align: middle;
+                }
+
+                .icon-comp {
+                    color: #94a3b8;
+                    stroke-width: 2;
+                    margin-right: 0.3rem;
+                    vertical-align: middle;
+                }
+
+                .back-button-gestao {
+                    display: inline-flex;
+                    align-items: center;
+                    padding: 0.5rem 1.25rem;
+                    font-size: 0.875rem;
+                    font-weight: 600;
+                    color: #f8fafc;
+                    background: rgba(100, 116, 139, 0.3);
+                    border: 1px solid rgba(255, 193, 7, 0.5);
+                    border-radius: 9999px;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                }
+
+                .back-button-gestao:hover {
+                    background: rgba(255, 193, 7, 0.2);
+                    border-color: #fbbf24;
+                    transform: translateX(-4px);
+                }
+
+                .resumo-cards {
+                    margin-bottom: 1.5rem;
+                }
+
+                .resumo-card {
+                    background: rgba(15, 23, 42, 0.8);
+                    backdrop-filter: blur(10px);
+                    border-radius: 1.5rem;
+                    padding: 1.5rem;
+                    border: 1px solid rgba(255, 193, 7, 0.2);
+                }
+
+                .resumo-card h3 {
+                    display: flex;
+                    align-items: center;
+                    color: #f8fafc;
+                    font-size: 1.125rem;
+                    margin-bottom: 1rem;
+                    border-left: 4px solid #fbbf24;
+                    padding-left: 0.75rem;
+                }
+
+                .resumo-lista {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                    gap: 0.5rem;
+                }
+
+                .resumo-item {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 0.5rem;
+                    background: rgba(30, 41, 59, 0.4);
+                    border-radius: 0.5rem;
+                }
+
+                .resumo-nome {
+                    color: #94a3b8;
+                    font-size: 0.875rem;
+                }
+
+                .resumo-valor {
+                    color: #fbbf24;
+                    font-weight: 600;
+                    font-size: 0.875rem;
+                }
+
+                .filtros-card {
+                    background: rgba(15, 23, 42, 0.8);
+                    backdrop-filter: blur(10px);
+                    border-radius: 1.5rem;
+                    padding: 1.5rem;
+                    margin-bottom: 1.5rem;
+                    border: 1px solid rgba(255, 193, 7, 0.2);
+                }
+
+                .filtros-card h3 {
+                    display: flex;
+                    align-items: center;
+                    color: #f8fafc;
+                    font-size: 1.125rem;
+                    margin-bottom: 1rem;
+                }
+
+                /* ðŸ‘‡ FILTROS CENTRALIZADOS ðŸ‘‡ */
+                .filtros-row {
+                    display: flex;
+                    justify-content: center;
+                    align-items: flex-end;
+                    gap: 1rem;
+                    flex-wrap: wrap;
+                }
+
+                .filtro-group {
+                    flex: 0 1 auto;
+                    min-width: 180px;
+                }
+
+                .filtro-group label {
+                    display: block;
+                    font-size: 0.75rem;
+                    color: #94a3b8;
+                    margin-bottom: 0.25rem;
+                }
+
+                .filtro-group input,
+                .filtro-group select {
+                    width: 100%;
+                    padding: 0.5rem;
+                    background: rgba(30, 41, 59, 0.6);
+                    border: 1px solid rgba(255, 193, 7, 0.3);
+                    border-radius: 0.5rem;
+                    color: #f8fafc;
+                    font-size: 0.875rem;
+                }
+
+                .btn-limpar {
+                    padding: 0.5rem 1rem;
+                    background: rgba(239, 68, 68, 0.2);
+                    border: 1px solid rgba(239, 68, 68, 0.4);
+                    border-radius: 0.5rem;
+                    color: #ef4444;
+                    cursor: pointer;
+                    font-weight: 600;
+                    height: 38px;
+                    flex-shrink: 0;
+                }
+
+                .btn-limpar:hover {
+                    background: rgba(239, 68, 68, 0.4);
+                }
+
+                .tabela-card {
+                    background: rgba(15, 23, 42, 0.8);
+                    backdrop-filter: blur(10px);
+                    border-radius: 1.5rem;
+                    padding: 1.5rem;
+                    border: 1px solid rgba(255, 193, 7, 0.2);
+                }
+
+                .tabela-card h3 {
+                    display: flex;
+                    align-items: center;
+                    color: #f8fafc;
+                    font-size: 1.125rem;
+                    margin-bottom: 1rem;
+                }
+
+                .tabela-wrapper {
+                    overflow-x: auto;
+                }
+
+                .tabela-gestao {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+
+                .tabela-gestao th,
+                .tabela-gestao td {
+                    padding: 0.75rem 1rem;
+                    text-align: left;
+                    border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+                }
+
+                .tabela-gestao th {
+                    color: #fbbf24;
+                    font-weight: 600;
+                    font-size: 0.875rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                }
+
+                .tabela-gestao td {
+                    color: #f8fafc;
+                    font-size: 0.875rem;
+                }
+
+                .tabela-gestao tr:hover td {
+                    background: rgba(255, 193, 7, 0.05);
+                }
+
+                .btn-detalhar {
+                    display: inline-flex;
+                    align-items: center;
+                    padding: 0.25rem 0.75rem;
+                    background: rgba(59, 130, 246, 0.2);
+                    border: 1px solid rgba(59, 130, 246, 0.4);
+                    border-radius: 0.5rem;
+                    color: #60a5fa;
+                    cursor: pointer;
+                    font-size: 0.75rem;
+                    transition: all 0.2s ease;
+                }
+
+                .btn-detalhar:hover {
+                    background: rgba(59, 130, 246, 0.4);
+                    transform: scale(1.02);
+                }
+
+                .sem-dados {
+                    text-align: center;
+                    color: #94a3b8;
+                    padding: 2rem;
+                }
+
+                .modal-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0, 0, 0, 0.8);
+                    backdrop-filter: blur(4px);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 1000;
+                }
+
+                .modal-content {
+                    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+                    border-radius: 1.5rem;
+                    width: 90%;
+                    max-width: 550px;
+                    max-height: 80vh;
+                    overflow: hidden;
+                    border: 1px solid rgba(255, 193, 7, 0.3);
+                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+                }
+
+                .modal-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 1rem 1.5rem;
+                    border-bottom: 1px solid rgba(255, 193, 7, 0.2);
+                }
+
+                .modal-header h3 {
+                    display: flex;
+                    align-items: center;
+                    color: #fbbf24;
+                    font-size: 1.125rem;
+                    margin: 0;
+                }
+
+                .modal-fechar {
+                    background: none;
+                    border: none;
+                    color: #94a3b8;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                }
+
+                .modal-fechar:hover {
+                    color: #ef4444;
+                }
+
+                .modal-body {
+                    padding: 1.5rem;
+                    overflow-y: auto;
+                    max-height: calc(80vh - 70px);
+                }
+
+                .info-funcionario {
+                    background: rgba(30, 41, 59, 0.4);
+                    border-radius: 0.75rem;
+                    padding: 1rem;
+                    margin-bottom: 1.5rem;
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 0.5rem;
+                    font-size: 0.875rem;
+                    color: #cbd5e1;
+                }
+
+                .info-funcionario strong {
+                    color: #fbbf24;
+                }
+
+                .composicao h4 {
+                    color: #f8fafc;
+                    font-size: 1rem;
+                    margin-bottom: 1rem;
+                    border-left: 4px solid #22c55e;
+                    padding-left: 0.75rem;
+                }
+
+                .composicao-grid {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.5rem;
+                }
+
+                .composicao-linha {
+                    display: grid;
+                    grid-template-columns: 1fr 70px 110px;
+                    padding: 0.6rem 0.75rem;
+                    background: rgba(30, 41, 59, 0.3);
+                    border-radius: 0.5rem;
+                    font-size: 0.875rem;
+                    align-items: center;
+                }
+
+                .composicao-linha.header {
+                    background: rgba(251, 191, 36, 0.15);
+                    color: #fbbf24;
+                    font-weight: 600;
+                }
+
+                .composicao-linha span:first-child {
+                    display: flex;
+                    align-items: center;
+                    color: #cbd5e1;
+                }
+
+                .composicao-linha span:nth-child(2) {
+                    text-align: center;
+                    color: #94a3b8;
+                }
+
+                .composicao-linha span:last-child {
+                    text-align: right;
+                    font-weight: 600;
+                }
+
+                .valor-bruto {
+                    color: #fbbf24;
+                }
+
+                .total-encargos {
+                    background: rgba(239, 68, 68, 0.15);
+                    border-top: 1px solid rgba(239, 68, 68, 0.3);
+                    margin-top: 0.25rem;
+                }
+
+                .gestao-loading {
+                    min-height: 100vh;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+                    color: #f8fafc;
+                }
+
+                @media (max-width: 768px) {
+                    .gestao-container {
+                        padding: 1rem;
+                    }
+                    .gestao-header {
+                        flex-direction: column;
+                        align-items: flex-start;
+                    }
+                    .filtros-row {
+                        flex-direction: column;
+                        align-items: stretch;
+                    }
+                    .btn-limpar {
+                        width: 100%;
+                    }
+                    .info-funcionario {
+                        grid-template-columns: 1fr;
+                    }
+                    .composicao-linha {
+                        grid-template-columns: 1fr 55px 90px;
+                        font-size: 0.7rem;
+                    }
+                }
+            `}</style>
+        </div>
+    );
+};
+
+export default GestaoSalarial;
+
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\Header.js =====
+import React from 'react';
+
+const Header = () => {
+    return (
+        <header style={{ backgroundColor: '#333', color: '#fff', padding: '10px', textAlign: 'center' }}>
+            <h1>Financeiro Frontend</h1>
+        </header>
+    );
+};
+
+export default Header;
+
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\HistoricoPonto.js =====
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import {
+  ClipboardList,
+  RefreshCw,
+  ChartColumn,
+  ArrowLeft
+} from 'lucide-react';
+import api from '../api';
+import './HistoricoPonto.css';
+
+const HistoricoPonto = () => {
+  const [registros, setRegistros] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filtroNome, setFiltroNome] = useState('');
+  const [filtroData, setFiltroData] = useState('');
+
+  useEffect(() => {
+    carregarRegistros();
+  }, []);
+
+  const carregarRegistros = async () => {
+    try {
+      const response = await api.get('/funcionarios/ponto/historico');
+      setRegistros(response.data);
+    } catch (error) {
+      console.error('Erro ao carregar registros:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const registrosFiltrados = registros.filter(reg => {
+    let match = true;
+
+    if (
+      filtroNome &&
+      !reg.funcionarioNome.toLowerCase().includes(filtroNome.toLowerCase())
+    ) {
+      match = false;
+    }
+
+    if (
+      filtroData &&
+      !reg.dataHora.startsWith(filtroData)
+    ) {
+      match = false;
+    }
+
+    return match;
+  });
+
+  const formatarData = (dataHora) => {
+    const data = new Date(dataHora);
+    return data.toLocaleString('pt-BR');
+  };
+
+  if (loading) {
+    return (
+      <div className="loading">
+        Carregando registros de ponto...
+      </div>
+    );
+  }
+
+  return (
+    <div className="historico-container">
+
+      <h2
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px'
+        }}
+      >
+        <ClipboardList size={30} />
+        HistÃ³rico de Ponto Facial
+      </h2>
+
+      <div className="filtros">
+
+        <div className="filtro-group">
+          <label>FuncionÃ¡rio:</label>
+
+          <input
+            type="text"
+            placeholder="Digite o nome"
+            value={filtroNome}
+            onChange={(e) => setFiltroNome(e.target.value)}
+          />
+        </div>
+
+        <div className="filtro-group">
+          <label>Data:</label>
+
+          <input
+            type="date"
+            value={filtroData}
+            onChange={(e) => setFiltroData(e.target.value)}
+          />
+        </div>
+
+        <button
+          className="btn-limpar"
+          onClick={() => {
+            setFiltroNome('');
+            setFiltroData('');
+          }}
+        >
+          Limpar Filtros
+        </button>
+
+        <button
+          className="btn-atualizar"
+          onClick={carregarRegistros}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px'
+          }}
+        >
+          <RefreshCw size={18} />
+          Atualizar
+        </button>
+
+      </div>
+
+      <div className="tabela-container">
+        <table>
+
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>FuncionÃ¡rio</th>
+              <th>Data/Hora</th>
+              <th>Tipo</th>
+              <th>Similaridade</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            {registrosFiltrados.length === 0 ? (
+
+              <tr className="nenhum-registro">
+                <td colSpan="5">
+                  Nenhum registro de ponto encontrado
+                </td>
+              </tr>
+
+            ) : (
+
+              registrosFiltrados.map((reg) => (
+
+                <tr key={reg.id}>
+                  <td>{reg.id}</td>
+
+                  <td>
+                    <strong>{reg.funcionarioNome}</strong>
+                  </td>
+
+                  <td>{formatarData(reg.dataHora)}</td>
+
+                  <td className="tipo-entrada">
+                    {reg.tipo}
+                  </td>
+
+                  <td>
+                    {(reg.similaridade * 100).toFixed(1)}%
+                  </td>
+
+                </tr>
+
+              ))
+
+            )}
+
+          </tbody>
+
+        </table>
+      </div>
+
+      <div
+        className="stats"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px'
+        }}
+      >
+        <ChartColumn size={20} />
+        <p>
+          Total de registros:
+          <strong> {registrosFiltrados.length}</strong>
+        </p>
+      </div>
+
+      <div className="back-button-container">
+
+        <Link to="/">
+          <button
+            className="back-button"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}
+          >
+            <ArrowLeft size={18} />
+            Voltar ao Menu
+          </button>
+        </Link>
+
+      </div>
+
+    </div>
+  );
+};
+
+export default HistoricoPonto;
+
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\Menu.js =====
+import React from 'react';
+import { Link } from 'react-router-dom';
+import {
+  Database,
+  ChartColumn,
+  Wallet,
+  Users,
+  ScanFace,
+  ClipboardList,
+  CalendarRange
+} from 'lucide-react';
+import './Menu.css';
+
+const Menu = () => {
+  return (
+    <div className="rh-home">
+      <div className="rh-hero">
+        <span className="rh-badge">GesteX</span>
+        <h1>RECURSOS HUMANOS</h1>
+        <p></p>
+      </div>
+
+      <div className="rh-cards">
+        <Link to="/database" className="rh-card">
+          <div className="card-icon">
+            <Database size={48} strokeWidth={2} />
+          </div>
+          <h2>Banco de Dados</h2>
+          <p></p>
+          <span>Acessar â†’</span>
+        </Link>
+
+        <Link to="/dashboard-rh" className="rh-card">
+          <div className="card-icon">
+            <ChartColumn size={48} strokeWidth={2} />
+          </div>
+          <h2>Indicadores RH</h2>
+          <p></p>
+          <span>Acessar â†’</span>
+        </Link>
+
+        <Link to="/gestao-salarial" className="rh-card">
+          <div className="card-icon">
+            <Wallet size={48} strokeWidth={2} />
+          </div>
+          <h2>GestÃ£o Salarial</h2>
+          <p></p>
+          <span>Acessar â†’</span>
+        </Link>
+
+        <Link to="/gerenciar-funcionarios" className="rh-card">
+          <div className="card-icon">
+            <Users size={48} strokeWidth={2} />
+          </div>
+          <h2>Gerenciar FuncionÃ¡rios</h2>
+          <p></p>
+          <span>Acessar â†’</span>
+        </Link>
+
+        <Link to="/cadastro-facial" className="rh-card">
+          <div className="card-icon">
+            <ScanFace size={48} strokeWidth={2} />
+          </div>
+          <h2>Cadastro Facial</h2>
+          <p></p>
+          <span>Acessar â†’</span>
+        </Link>
+
+        <Link to="/historico-ponto" className="rh-card">
+          <div className="card-icon">
+            <ClipboardList size={48} strokeWidth={2} />
+          </div>
+          <h2>HistÃ³rico de Ponto</h2>
+          <p></p>
+          <span>Acessar â†’</span>
+        </Link>
+
+        <Link to="/agenda" className="rh-card">
+          <div className="card-icon">
+            <CalendarRange size={48} strokeWidth={2} />
+          </div>
+          <h2>Agenda do RH</h2>
+          <p></p>
+          <span>Acessar â†’</span>
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export default Menu;
+
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\Navbar.js =====
+import React from 'react';
+
+const Navbar = () => {
+    return (
+        <nav style={styles.navbar}>
+            <ul style={styles.navList}>
+                <li style={styles.navItem}><a href="/" style={styles.navLink}>Dashboard</a></li>
+                <li style={styles.navItem}><a href="/transactions" style={styles.navLink}>TransaÃ§Ãµes</a></li>
+                <li style={styles.navItem}><a href="/settings" style={styles.navLink}>ConfiguraÃ§Ãµes</a></li>
+            </ul>
+        </nav>
+    );
+};
+
+const styles = {
+    navbar: {
+        backgroundColor: '#333',
+        padding: '10px 20px',
+    },
+    navList: {
+        listStyle: 'none',
+        display: 'flex',
+        justifyContent: 'space-around',
+        margin: 0,
+        padding: 0,
+    },
+    navItem: {
+        fontSize: '18px',
+    },
+    navLink: {
+        color: '#fff',
+        textDecoration: 'none',
+        padding: '8px 16px',
+        borderRadius: '4px',
+        transition: 'background-color 0.3s',
+    },
+    navLinkHover: {
+        backgroundColor: '#555',
+    },
+};
+
+export default Navbar;
+
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\ReconhecimentoFacial.js =====
+import React, { useRef, useState, useEffect } from 'react';
+import * as faceapi from 'face-api.js';
+import {
+  ScanFace,
+  X,
+  Camera,
+  Hand
+} from 'lucide-react';
+import api from '../api';
+import './ReconhecimentoFacial.css';
+
+const ReconhecimentoFacial = ({ funcionarioId, onClose, onSucesso }) => {
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+
+  const [loading, setLoading] = useState(true);
+  const [status, setStatus] = useState('Inicializando cÃ¢mera...');
+  const [modelosCarregados, setModelosCarregados] = useState(false);
+
+  useEffect(() => {
+    const carregarModelos = async () => {
+      setStatus('Carregando modelos de detecÃ§Ã£o facial...');
+      const MODEL_URL = '/models';
+
+      try {
+        await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
+        await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
+        await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
+
+        setModelosCarregados(true);
+        setStatus('Modelos carregados. Iniciando cÃ¢mera...');
+        iniciarCamera();
+      } catch (err) {
+        console.error('Erro ao carregar modelos:', err);
+        setStatus(
+          'Erro ao carregar modelos faciais. Verifique a pasta /models.'
+        );
+      }
+    };
+
+    carregarModelos();
+  }, []);
+
+  const iniciarCamera = async () => {
+    try {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const videoDevices = devices.filter(
+        (device) => device.kind === 'videoinput'
+      );
+
+      console.log(
+        'CÃ¢meras disponÃ­veis:',
+        videoDevices.map((d) => d.label)
+      );
+
+      let cameraId = null;
+
+      const iriunCam = videoDevices.find(
+        (d) =>
+          d.label.toLowerCase().includes('iriun') ||
+          d.label.toLowerCase().includes('mobile') ||
+          d.label.toLowerCase().includes('phone')
+      );
+
+      if (iriunCam) {
+        console.log('Usando cÃ¢mera Iriun:', iriunCam.label);
+        cameraId = iriunCam.deviceId;
+      } else {
+        console.log('Iriun nÃ£o encontrado. Usando cÃ¢mera padrÃ£o.');
+
+        if (videoDevices.length > 0) {
+          cameraId = videoDevices[videoDevices.length - 1].deviceId;
+        }
+      }
+
+      const constraints = cameraId
+        ? {
+            video: {
+              deviceId: {
+                exact: cameraId
+              }
+            }
+          }
+        : {
+            video: true
+          };
+
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        setStatus('CÃ¢mera ativa. Posicione o rosto na tela.');
+      }
+
+      setLoading(false);
+    } catch (err) {
+      console.error('Erro ao acessar cÃ¢mera:', err);
+
+      setStatus(
+        'Erro ao acessar a cÃ¢mera. Verifique as permissÃµes e se o Iriun estÃ¡ conectado.'
+      );
+    }
+  };
+
+  const capturarFace = async () => {
+    if (!videoRef.current || !modelosCarregados) return;
+
+    setStatus('Detectando rosto...');
+
+    try {
+      const detections = await faceapi
+        .detectSingleFace(
+          videoRef.current,
+          new faceapi.TinyFaceDetectorOptions()
+        )
+        .withFaceLandmarks()
+        .withFaceDescriptor();
+
+      if (detections) {
+        setStatus('Rosto detectado! Enviando...');
+
+        const descriptor = Array.from(detections.descriptor);
+
+        if (funcionarioId) {
+          try {
+            await api.post(`/funcionarios/${funcionarioId}/face`, {
+              descriptor
+            });
+
+            setStatus('Face cadastrada com sucesso!');
+
+            setTimeout(() => {
+              if (onSucesso) onSucesso();
+              if (onClose) onClose();
+            }, 1500);
+          } catch (err) {
+            console.error(err);
+            setStatus('Erro ao cadastrar face. Tente novamente.');
+          }
+        } else {
+          try {
+            const response = await api.post(
+              '/funcionarios/reconhecer',
+              {
+                descriptor
+              }
+            );
+
+            setStatus(
+              `OlÃ¡ ${response.data.nome}! Ponto registrado com sucesso!`
+            );
+
+            setTimeout(() => {
+              if (onSucesso) onSucesso(response.data);
+              if (onClose) onClose();
+            }, 2000);
+          } catch (err) {
+            console.error(err);
+            setStatus(
+              'Face nÃ£o reconhecida. Tente novamente ou procure o RH.'
+            );
+          }
+        }
+      } else {
+        setStatus('Nenhum rosto detectado. Posicione-se melhor.');
+      }
+    } catch (err) {
+      console.error('Erro na detecÃ§Ã£o facial:', err);
+      setStatus('Erro na detecÃ§Ã£o. Tente novamente.');
+    }
+  };
+
+  return (
+    <div className="face-modal">
+      <div className="face-content">
+
+        <div className="face-header">
+          <h3
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px'
+            }}
+          >
+            <ScanFace size={28} />
+            Reconhecimento Facial
+          </h3>
+
+          <button
+            className="close-btn"
+            onClick={onClose}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        <div className="face-body">
+
+          <div className="video-container">
+            <video
+              ref={videoRef}
+              autoPlay
+              muted
+              playsInline
+              style={{
+                width: '100%',
+                borderRadius: '8px'
+              }}
+            />
+
+            <canvas
+              ref={canvasRef}
+              style={{
+                display: 'none'
+              }}
+            />
+          </div>
+
+          <div className="status-area">
+
+            <p className="status">{status}</p>
+
+            {modelosCarregados && (
+              <button
+                className="btn-capture"
+                onClick={capturarFace}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px'
+                }}
+              >
+                {funcionarioId ? (
+                  <>
+                    <Camera size={20} />
+                    Cadastrar Face
+                  </>
+                ) : (
+                  <>
+                    <Hand size={20} />
+                    Bater Ponto
+                  </>
+                )}
+              </button>
+            )}
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ReconhecimentoFacial;
+
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\components\Statistics.js =====
+import React, { useEffect, useState } from 'react';
+import api from '../api';
+import './Statistics.css';
+
+const Statistics = () => {
+    const [statistics, setStatistics] = useState(null);
+
+    useEffect(() => {
+        const fetchStatistics = async () => {
+            try {
+                const response = await api.get('/dashboard/statistics'); // Rota correta para estatÃ­sticas
+                setStatistics(response.data);
+            } catch (error) {
+                console.error('Erro ao buscar estatÃ­sticas:', error);
+            }
+        };
+        fetchStatistics();
+    }, []);
+
+    if (!statistics) {
+        return <p>Carregando estatÃ­sticas...</p>;
+    }
+
+    return (
+        <div className="statistics-container">
+            <h2>EstatÃ­sticas Financeiras</h2>
+            <div className="statistics-grid">
+                {/* Total de Receitas e Despesas */}
+                <div className="stat-item receita">
+                    <h3>Total de Receitas</h3>
+                    <p>R$ {statistics.totalReceitas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                </div>
+                <div className="stat-item despesa">
+                    <h3>Total de Despesas</h3>
+                    <p>R$ {statistics.totalDespesas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                </div>
+
+                {/* MÃ©dias Mensais */}
+                <div className="stat-item receita">
+                    <h3>MÃ©dia Mensal de Receitas</h3>
+                    <p>R$ {statistics.mediaReceitasMensal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                </div>
+                <div className="stat-item despesa">
+                    <h3>MÃ©dia Mensal de Despesas</h3>
+                    <p>R$ {statistics.mediaDespesasMensal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                </div>
+
+                {/* Mediana */}
+                <div className="stat-item receita">
+                    <h3>Mediana das Receitas</h3>
+                    <p>R$ {statistics.medianaReceitas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                </div>
+                <div className="stat-item despesa">
+                    <h3>Mediana das Despesas</h3>
+                    <p>R$ {statistics.medianaDespesas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                </div>
+
+                {/* Moda */}
+                <div className="stat-item receita">
+                    <h3>Moda das Receitas</h3>
+                    <p>R$ {statistics.modaReceitas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                </div>
+                <div className="stat-item despesa">
+                    <h3>Moda das Despesas</h3>
+                    <p>R$ {statistics.modaDespesas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                </div>
+
+                {/* Desvio PadrÃ£o */}
+                <div className="stat-item receita">
+                    <h3>Desvio PadrÃ£o das Receitas</h3>
+                    <p>R$ {statistics.desvioPadraoReceitas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                </div>
+                <div className="stat-item despesa">
+                    <h3>Desvio PadrÃ£o das Despesas</h3>
+                    <p>R$ {statistics.desvioPadraoDespesas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                </div>
+            </div>
+
+            {/* BotÃ£o de Voltar */}
+            <div className="back-to-menu">
+                <a href="/">
+                    <button className="back-button">Voltar ao Menu</button>
+                </a>
+            </div>
+        </div>
+    );
+};
+
+export default Statistics;
+
+===== C:\Users\Nemo\Desktop\erp-system\FuncionarioProject-FrontEnd\src\services\api.js =====
+import axios from 'axios';
+
+const api = axios.create({
+    baseURL: 'http://44.211.42.105:8082/api', // SubstituÃ­mos pela URL do backend na AWS
+});
+
+export default api;
+
