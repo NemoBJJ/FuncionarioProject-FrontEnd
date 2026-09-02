@@ -5,7 +5,8 @@ import {
   X,
   Camera,
   Hand,
-  Video
+  Video,
+  SwitchCamera
 } from 'lucide-react';
 import api from '../api';
 import './ReconhecimentoFacial.css';
@@ -20,6 +21,12 @@ const ReconhecimentoFacial = ({ funcionarioId, onClose, onSucesso }) => {
 
   const [cameras, setCameras] = useState([]);
   const [cameraSelecionada, setCameraSelecionada] = useState('');
+
+  // Controle específico para celular
+  const [cameraMobile, setCameraMobile] = useState('user');
+
+  const isMobile =
+    /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
   useEffect(() => {
     carregarModelos();
@@ -57,17 +64,22 @@ const ReconhecimentoFacial = ({ funcionarioId, onClose, onSucesso }) => {
   const carregarCameras = async () => {
     try {
       /*
-       * Primeiro solicitamos permissão para acessar a câmera.
-       * Isso faz o navegador liberar os nomes dos dispositivos.
+       * Primeiro solicita permissão.
+       * Depois disso o navegador consegue enumerar
+       * corretamente os dispositivos disponíveis.
        */
-      const permissaoStream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: false
-      });
+      const permissaoStream =
+        await navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: false
+        });
 
-      permissaoStream.getTracks().forEach((track) => track.stop());
+      permissaoStream
+        .getTracks()
+        .forEach((track) => track.stop());
 
-      const devices = await navigator.mediaDevices.enumerateDevices();
+      const devices =
+        await navigator.mediaDevices.enumerateDevices();
 
       const videoDevices = devices.filter(
         (device) => device.kind === 'videoinput'
@@ -83,12 +95,24 @@ const ReconhecimentoFacial = ({ funcionarioId, onClose, onSucesso }) => {
 
       setCameras(videoDevices);
 
+      /*
+       * CELULAR:
+       * abre explicitamente a câmera frontal.
+       *
+       * DESKTOP:
+       * abre a primeira câmera enumerada.
+       */
+      if (isMobile) {
+        await iniciarCameraMobile('user');
+        return;
+      }
+
       if (videoDevices.length > 0) {
         const primeiraCamera = videoDevices[0].deviceId;
 
         setCameraSelecionada(primeiraCamera);
 
-        await iniciarCamera(primeiraCamera);
+        await iniciarCameraDesktop(primeiraCamera);
       } else {
         setStatus('Nenhuma câmera encontrada.');
         setLoading(false);
@@ -116,7 +140,11 @@ const ReconhecimentoFacial = ({ funcionarioId, onClose, onSucesso }) => {
     }
   };
 
-  const iniciarCamera = async (deviceId) => {
+  /*
+   * DESKTOP / NOTEBOOK
+   * Seleção por deviceId.
+   */
+  const iniciarCameraDesktop = async (deviceId) => {
     if (!deviceId) {
       return;
     }
@@ -127,37 +155,23 @@ const ReconhecimentoFacial = ({ funcionarioId, onClose, onSucesso }) => {
 
       pararCamera();
 
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          deviceId: {
-            exact: deviceId
+      const stream =
+        await navigator.mediaDevices.getUserMedia({
+          video: {
+            deviceId: {
+              exact: deviceId
+            },
+            width: {
+              ideal: 1280
+            },
+            height: {
+              ideal: 720
+            }
           },
-          width: {
-            ideal: 1280
-          },
-          height: {
-            ideal: 720
-          }
-        },
-        audio: false
-      });
+          audio: false
+        });
 
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-
-        try {
-          await videoRef.current.play();
-        } catch (playError) {
-          console.warn(
-            'O navegador ainda não iniciou o vídeo automaticamente:',
-            playError
-          );
-        }
-
-        setStatus(
-          'Câmera ativa. Posicione o rosto na tela.'
-        );
-      }
+      await conectarStreamAoVideo(stream);
 
       setLoading(false);
     } catch (err) {
@@ -171,12 +185,130 @@ const ReconhecimentoFacial = ({ funcionarioId, onClose, onSucesso }) => {
     }
   };
 
-  const trocarCamera = async (event) => {
+  /*
+   * CELULAR
+   *
+   * user        = câmera frontal
+   * environment = câmera traseira
+   */
+  const iniciarCameraMobile = async (facingMode) => {
+    try {
+      setLoading(true);
+
+      setStatus(
+        facingMode === 'user'
+          ? 'Abrindo câmera frontal...'
+          : 'Abrindo câmera traseira...'
+      );
+
+      pararCamera();
+
+      let stream;
+
+      try {
+        /*
+         * Primeiro tenta exigir exatamente a câmera desejada.
+         */
+        stream =
+          await navigator.mediaDevices.getUserMedia({
+            video: {
+              facingMode: {
+                exact: facingMode
+              },
+              width: {
+                ideal: 1280
+              },
+              height: {
+                ideal: 720
+              }
+            },
+            audio: false
+          });
+      } catch (exactError) {
+        console.warn(
+          'facingMode exact não disponível. Tentando modo ideal.',
+          exactError
+        );
+
+        /*
+         * Alguns navegadores móveis não aceitam exact.
+         * Nesse caso usamos ideal.
+         */
+        stream =
+          await navigator.mediaDevices.getUserMedia({
+            video: {
+              facingMode: {
+                ideal: facingMode
+              },
+              width: {
+                ideal: 1280
+              },
+              height: {
+                ideal: 720
+              }
+            },
+            audio: false
+          });
+      }
+
+      await conectarStreamAoVideo(stream);
+
+      setCameraMobile(facingMode);
+
+      setLoading(false);
+    } catch (err) {
+      console.error(
+        'Erro ao acessar câmera do celular:',
+        err
+      );
+
+      setStatus(
+        'Erro ao abrir esta câmera. Verifique as permissões do navegador.'
+      );
+
+      setLoading(false);
+    }
+  };
+
+  /*
+   * Função comum usada tanto pelo desktop quanto pelo celular.
+   */
+  const conectarStreamAoVideo = async (stream) => {
+    if (!videoRef.current) {
+      stream.getTracks().forEach((track) => track.stop());
+      return;
+    }
+
+    videoRef.current.srcObject = stream;
+
+    try {
+      await videoRef.current.play();
+    } catch (playError) {
+      console.warn(
+        'O navegador ainda não iniciou o vídeo automaticamente:',
+        playError
+      );
+    }
+
+    setStatus(
+      'Câmera ativa. Posicione o rosto na tela.'
+    );
+  };
+
+  const trocarCameraDesktop = async (event) => {
     const deviceId = event.target.value;
 
     setCameraSelecionada(deviceId);
 
-    await iniciarCamera(deviceId);
+    await iniciarCameraDesktop(deviceId);
+  };
+
+  const trocarCameraMobile = async (event) => {
+    const facingMode = event.target.value;
+
+    setCameraMobile(facingMode);
+
+    await iniciarCameraMobile(facingMode);
   };
 
   const capturarFace = async () => {
@@ -214,6 +346,9 @@ const ReconhecimentoFacial = ({ funcionarioId, onClose, onSucesso }) => {
         detections.descriptor
       );
 
+      /*
+       * CADASTRO FACIAL
+       */
       if (funcionarioId) {
         try {
           await api.post(
@@ -252,6 +387,9 @@ const ReconhecimentoFacial = ({ funcionarioId, onClose, onSucesso }) => {
         return;
       }
 
+      /*
+       * RECONHECIMENTO / PONTO
+       */
       try {
         const response = await api.post(
           '/funcionarios/reconhecer',
@@ -336,7 +474,52 @@ const ReconhecimentoFacial = ({ funcionarioId, onClose, onSucesso }) => {
 
         <div className="face-body">
 
-          {cameras.length > 0 && (
+          {/* CELULAR */}
+          {isMobile && (
+            <div
+              style={{
+                marginBottom: '15px'
+              }}
+            >
+              <label
+                htmlFor="camera-mobile-select"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '6px',
+                  fontWeight: '600'
+                }}
+              >
+                <SwitchCamera size={18} />
+                Escolha a câmera
+              </label>
+
+              <select
+                id="camera-mobile-select"
+                value={cameraMobile}
+                onChange={trocarCameraMobile}
+                style={{
+                  width: '100%',
+                  padding: '10px',
+                  borderRadius: '8px',
+                  border: '1px solid #ccc',
+                  fontSize: '14px'
+                }}
+              >
+                <option value="user">
+                  Câmera frontal
+                </option>
+
+                <option value="environment">
+                  Câmera traseira
+                </option>
+              </select>
+            </div>
+          )}
+
+          {/* DESKTOP / NOTEBOOK */}
+          {!isMobile && cameras.length > 0 && (
             <div
               style={{
                 marginBottom: '15px'
@@ -359,7 +542,7 @@ const ReconhecimentoFacial = ({ funcionarioId, onClose, onSucesso }) => {
               <select
                 id="camera-select"
                 value={cameraSelecionada}
-                onChange={trocarCamera}
+                onChange={trocarCameraDesktop}
                 style={{
                   width: '100%',
                   padding: '10px',
@@ -434,16 +617,12 @@ const ReconhecimentoFacial = ({ funcionarioId, onClose, onSucesso }) => {
                 >
                   {funcionarioId ? (
                     <>
-                      <Camera
-                        size={20}
-                      />
+                      <Camera size={20} />
                       Cadastrar Face
                     </>
                   ) : (
                     <>
-                      <Hand
-                        size={20}
-                      />
+                      <Hand size={20} />
                       Bater Ponto
                     </>
                   )}
