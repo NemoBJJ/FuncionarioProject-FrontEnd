@@ -35,7 +35,9 @@ const HistoricoPonto = () => {
 
     if (
       filtroNome &&
-      !reg.funcionarioNome.toLowerCase().includes(filtroNome.toLowerCase())
+      !reg.funcionarioNome
+        .toLowerCase()
+        .includes(filtroNome.toLowerCase())
     ) {
       match = false;
     }
@@ -51,8 +53,24 @@ const HistoricoPonto = () => {
   });
 
   const formatarData = (dataHora) => {
-    const data = new Date(dataHora);
-    return data.toLocaleString('pt-BR');
+    if (!dataHora) {
+      return '-';
+    }
+
+    const possuiTimezone =
+      dataHora.endsWith('Z') ||
+      /[+-]\d{2}:\d{2}$/.test(dataHora);
+
+    const dataCorrigida = possuiTimezone
+      ? dataHora
+      : `${dataHora}Z`;
+
+    const data = new Date(dataCorrigida);
+
+    return data.toLocaleString('pt-BR', {
+      dateStyle: 'short',
+      timeStyle: 'medium'
+    });
   };
 
   if (loading) {
@@ -156,10 +174,14 @@ const HistoricoPonto = () => {
                   <td>{reg.id}</td>
 
                   <td>
-                    <strong>{reg.funcionarioNome}</strong>
+                    <strong>
+                      {reg.funcionarioNome}
+                    </strong>
                   </td>
 
-                  <td>{formatarData(reg.dataHora)}</td>
+                  <td>
+                    {formatarData(reg.dataHora)}
+                  </td>
 
                   <td className="tipo-entrada">
                     {reg.tipo}
@@ -189,9 +211,13 @@ const HistoricoPonto = () => {
         }}
       >
         <ChartColumn size={20} />
+
         <p>
           Total de registros:
-          <strong> {registrosFiltrados.length}</strong>
+          <strong>
+            {' '}
+            {registrosFiltrados.length}
+          </strong>
         </p>
       </div>
 
