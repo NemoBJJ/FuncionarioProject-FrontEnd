@@ -4,7 +4,8 @@ import {
   ScanFace,
   X,
   Camera,
-  Hand
+  Hand,
+  Video
 } from 'lucide-react';
 import api from '../api';
 import './ReconhecimentoFacial.css';
@@ -17,79 +18,145 @@ const ReconhecimentoFacial = ({ funcionarioId, onClose, onSucesso }) => {
   const [status, setStatus] = useState('Inicializando câmera...');
   const [modelosCarregados, setModelosCarregados] = useState(false);
 
+  const [cameras, setCameras] = useState([]);
+  const [cameraSelecionada, setCameraSelecionada] = useState('');
+
   useEffect(() => {
-    const carregarModelos = async () => {
-      setStatus('Carregando modelos de detecção facial...');
-      const MODEL_URL = '/models';
-
-      try {
-        await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
-        await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
-        await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
-
-        setModelosCarregados(true);
-        setStatus('Modelos carregados. Iniciando câmera...');
-        iniciarCamera();
-      } catch (err) {
-        console.error('Erro ao carregar modelos:', err);
-        setStatus(
-          'Erro ao carregar modelos faciais. Verifique a pasta /models.'
-        );
-      }
-    };
-
     carregarModelos();
+
+    return () => {
+      pararCamera();
+    };
   }, []);
 
-  const iniciarCamera = async () => {
+  const carregarModelos = async () => {
+    setStatus('Carregando modelos de detecção facial...');
+
+    const MODEL_URL = '/models';
+
     try {
+      await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
+      await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
+      await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
+
+      setModelosCarregados(true);
+      setStatus('Modelos carregados. Procurando câmeras...');
+
+      await carregarCameras();
+    } catch (err) {
+      console.error('Erro ao carregar modelos:', err);
+
+      setStatus(
+        'Erro ao carregar modelos faciais. Verifique a pasta /models.'
+      );
+
+      setLoading(false);
+    }
+  };
+
+  const carregarCameras = async () => {
+    try {
+      /*
+       * Primeiro solicitamos permissão para acessar a câmera.
+       * Isso faz o navegador liberar os nomes dos dispositivos.
+       */
+      const permissaoStream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: false
+      });
+
+      permissaoStream.getTracks().forEach((track) => track.stop());
+
       const devices = await navigator.mediaDevices.enumerateDevices();
+
       const videoDevices = devices.filter(
         (device) => device.kind === 'videoinput'
       );
 
       console.log(
         'Câmeras disponíveis:',
-        videoDevices.map((d) => d.label)
+        videoDevices.map((camera) => ({
+          label: camera.label,
+          deviceId: camera.deviceId
+        }))
       );
 
-      let cameraId = null;
+      setCameras(videoDevices);
 
-      const iriunCam = videoDevices.find(
-        (d) =>
-          d.label.toLowerCase().includes('iriun') ||
-          d.label.toLowerCase().includes('mobile') ||
-          d.label.toLowerCase().includes('phone')
-      );
+      if (videoDevices.length > 0) {
+        const primeiraCamera = videoDevices[0].deviceId;
 
-      if (iriunCam) {
-        console.log('Usando câmera Iriun:', iriunCam.label);
-        cameraId = iriunCam.deviceId;
+        setCameraSelecionada(primeiraCamera);
+
+        await iniciarCamera(primeiraCamera);
       } else {
-        console.log('Iriun não encontrado. Usando câmera padrão.');
-
-        if (videoDevices.length > 0) {
-          cameraId = videoDevices[videoDevices.length - 1].deviceId;
-        }
+        setStatus('Nenhuma câmera encontrada.');
+        setLoading(false);
       }
+    } catch (err) {
+      console.error('Erro ao carregar câmeras:', err);
 
-      const constraints = cameraId
-        ? {
-            video: {
-              deviceId: {
-                exact: cameraId
-              }
-            }
+      setStatus(
+        'Erro ao acessar as câmeras. Verifique as permissões do navegador.'
+      );
+
+      setLoading(false);
+    }
+  };
+
+  const pararCamera = () => {
+    if (videoRef.current && videoRef.current.srcObject) {
+      const stream = videoRef.current.srcObject;
+
+      stream.getTracks().forEach((track) => {
+        track.stop();
+      });
+
+      videoRef.current.srcObject = null;
+    }
+  };
+
+  const iniciarCamera = async (deviceId) => {
+    if (!deviceId) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setStatus('Iniciando câmera...');
+
+      pararCamera();
+
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          deviceId: {
+            exact: deviceId
+          },
+          width: {
+            ideal: 1280
+          },
+          height: {
+            ideal: 720
           }
-        : {
-            video: true
-          };
-
-      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        },
+        audio: false
+      });
 
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        setStatus('Câmera ativa. Posicione o rosto na tela.');
+
+        try {
+          await videoRef.current.play();
+        } catch (playError) {
+          console.warn(
+            'O navegador ainda não iniciou o vídeo automaticamente:',
+            playError
+          );
+        }
+
+        setStatus(
+          'Câmera ativa. Posicione o rosto na tela.'
+        );
       }
 
       setLoading(false);
@@ -97,13 +164,30 @@ const ReconhecimentoFacial = ({ funcionarioId, onClose, onSucesso }) => {
       console.error('Erro ao acessar câmera:', err);
 
       setStatus(
-        'Erro ao acessar a câmera. Verifique as permissões e se o Iriun está conectado.'
+        'Erro ao abrir a câmera selecionada. Escolha outra câmera.'
       );
+
+      setLoading(false);
     }
   };
 
+  const trocarCamera = async (event) => {
+    const deviceId = event.target.value;
+
+    setCameraSelecionada(deviceId);
+
+    await iniciarCamera(deviceId);
+  };
+
   const capturarFace = async () => {
-    if (!videoRef.current || !modelosCarregados) return;
+    if (!videoRef.current || !modelosCarregados) {
+      return;
+    }
+
+    if (videoRef.current.readyState < 2) {
+      setStatus('A câmera ainda está carregando.');
+      return;
+    }
 
     setStatus('Detectando rosto...');
 
@@ -116,57 +200,108 @@ const ReconhecimentoFacial = ({ funcionarioId, onClose, onSucesso }) => {
         .withFaceLandmarks()
         .withFaceDescriptor();
 
-      if (detections) {
-        setStatus('Rosto detectado! Enviando...');
+      if (!detections) {
+        setStatus(
+          'Nenhum rosto detectado. Posicione-se melhor na câmera.'
+        );
 
-        const descriptor = Array.from(detections.descriptor);
+        return;
+      }
 
-        if (funcionarioId) {
-          try {
-            await api.post(`/funcionarios/${funcionarioId}/face`, {
+      setStatus('Rosto detectado! Enviando...');
+
+      const descriptor = Array.from(
+        detections.descriptor
+      );
+
+      if (funcionarioId) {
+        try {
+          await api.post(
+            `/funcionarios/${funcionarioId}/face`,
+            {
               descriptor
-            });
+            }
+          );
 
-            setStatus('Face cadastrada com sucesso!');
+          setStatus(
+            'Face cadastrada com sucesso!'
+          );
 
-            setTimeout(() => {
-              if (onSucesso) onSucesso();
-              if (onClose) onClose();
-            }, 1500);
-          } catch (err) {
-            console.error(err);
-            setStatus('Erro ao cadastrar face. Tente novamente.');
-          }
-        } else {
-          try {
-            const response = await api.post(
-              '/funcionarios/reconhecer',
-              {
-                descriptor
-              }
-            );
+          setTimeout(() => {
+            pararCamera();
 
-            setStatus(
-              `Olá ${response.data.nome}! Ponto registrado com sucesso!`
-            );
+            if (onSucesso) {
+              onSucesso();
+            }
 
-            setTimeout(() => {
-              if (onSucesso) onSucesso(response.data);
-              if (onClose) onClose();
-            }, 2000);
-          } catch (err) {
-            console.error(err);
-            setStatus(
-              'Face não reconhecida. Tente novamente ou procure o RH.'
-            );
-          }
+            if (onClose) {
+              onClose();
+            }
+          }, 1500);
+        } catch (err) {
+          console.error(
+            'Erro ao cadastrar face:',
+            err
+          );
+
+          setStatus(
+            'Erro ao cadastrar face. Tente novamente.'
+          );
         }
-      } else {
-        setStatus('Nenhum rosto detectado. Posicione-se melhor.');
+
+        return;
+      }
+
+      try {
+        const response = await api.post(
+          '/funcionarios/reconhecer',
+          {
+            descriptor
+          }
+        );
+
+        setStatus(
+          `Olá ${response.data.nome}! Ponto registrado com sucesso!`
+        );
+
+        setTimeout(() => {
+          pararCamera();
+
+          if (onSucesso) {
+            onSucesso(response.data);
+          }
+
+          if (onClose) {
+            onClose();
+          }
+        }, 2000);
+      } catch (err) {
+        console.error(
+          'Erro ao reconhecer face:',
+          err
+        );
+
+        setStatus(
+          'Face não reconhecida. Tente novamente ou procure o RH.'
+        );
       }
     } catch (err) {
-      console.error('Erro na detecção facial:', err);
-      setStatus('Erro na detecção. Tente novamente.');
+      console.error(
+        'Erro na detecção facial:',
+        err
+      );
+
+      setStatus(
+        'Erro na detecção. Tente novamente.'
+      );
+    }
+  };
+
+  const fecharModal = () => {
+    pararCamera();
+
+    if (onClose) {
+      onClose();
     }
   };
 
@@ -188,7 +323,7 @@ const ReconhecimentoFacial = ({ funcionarioId, onClose, onSucesso }) => {
 
           <button
             className="close-btn"
-            onClick={onClose}
+            onClick={fecharModal}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -201,6 +336,60 @@ const ReconhecimentoFacial = ({ funcionarioId, onClose, onSucesso }) => {
 
         <div className="face-body">
 
+          {cameras.length > 0 && (
+            <div
+              style={{
+                marginBottom: '15px'
+              }}
+            >
+              <label
+                htmlFor="camera-select"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '6px',
+                  fontWeight: '600'
+                }}
+              >
+                <Video size={18} />
+                Escolha a câmera
+              </label>
+
+              <select
+                id="camera-select"
+                value={cameraSelecionada}
+                onChange={trocarCamera}
+                style={{
+                  width: '100%',
+                  padding: '10px',
+                  borderRadius: '8px',
+                  border: '1px solid #ccc',
+                  fontSize: '14px'
+                }}
+              >
+                {cameras.map(
+                  (camera, index) => (
+                    <option
+                      key={
+                        camera.deviceId ||
+                        index
+                      }
+                      value={
+                        camera.deviceId
+                      }
+                    >
+                      {camera.label ||
+                        `Câmera ${
+                          index + 1
+                        }`}
+                    </option>
+                  )
+                )}
+              </select>
+            </div>
+          )}
+
           <div className="video-container">
             <video
               ref={videoRef}
@@ -209,7 +398,8 @@ const ReconhecimentoFacial = ({ funcionarioId, onClose, onSucesso }) => {
               playsInline
               style={{
                 width: '100%',
-                borderRadius: '8px'
+                borderRadius: '8px',
+                backgroundColor: '#000'
               }}
             />
 
@@ -223,32 +413,42 @@ const ReconhecimentoFacial = ({ funcionarioId, onClose, onSucesso }) => {
 
           <div className="status-area">
 
-            <p className="status">{status}</p>
+            <p className="status">
+              {status}
+            </p>
 
-            {modelosCarregados && (
-              <button
-                className="btn-capture"
-                onClick={capturarFace}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px'
-                }}
-              >
-                {funcionarioId ? (
-                  <>
-                    <Camera size={20} />
-                    Cadastrar Face
-                  </>
-                ) : (
-                  <>
-                    <Hand size={20} />
-                    Bater Ponto
-                  </>
-                )}
-              </button>
-            )}
+            {modelosCarregados &&
+              !loading && (
+                <button
+                  className="btn-capture"
+                  onClick={capturarFace}
+                  style={{
+                    display:
+                      'inline-flex',
+                    alignItems:
+                      'center',
+                    justifyContent:
+                      'center',
+                    gap: '8px'
+                  }}
+                >
+                  {funcionarioId ? (
+                    <>
+                      <Camera
+                        size={20}
+                      />
+                      Cadastrar Face
+                    </>
+                  ) : (
+                    <>
+                      <Hand
+                        size={20}
+                      />
+                      Bater Ponto
+                    </>
+                  )}
+                </button>
+              )}
 
           </div>
 
